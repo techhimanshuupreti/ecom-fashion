@@ -14,11 +14,18 @@ This project demonstrates the implementation of security using Spring Boot 3.0 a
 * Refresh token
 
 ## Technologies
-* Spring Boot 3.0
-* Spring Security
-* JSON Web Tokens (JWT)
+* Spring Framework 6.0.7
+* Spring Boot 3.0.5
+* Spring Security 6.0.2
+* Spring Web 6.0.2
+* Spring WebMvc 6.0.7
+* Spring Data JPA 3.0.4
+* JSON Web Tokens (JWT) 0.11.5
 * BCrypt
 * Maven
+* Apache Tomcat Server (Embedded) 10.1.7
+* Hibernate Core 6.1.7.Final
+* Spring Doc (Open API) 2.1.0
 
 ## Getting Started
 To get started with this project, you will need to have the following installed on your local machine:
