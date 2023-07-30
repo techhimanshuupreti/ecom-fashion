@@ -20,7 +20,7 @@ public enum Role {
             ADMIN_READ,
             ADMIN_UPDATE,
             ADMIN_DELETE,
-            ADMIN_CREATED,
+            ADMIN_CREATE,
             MANAGER_CREATE,
             MANAGER_DELETE,
             MANAGER_UPDATE,
