@@ -1,6 +1,6 @@
 package com.devil.ecomfashion.modules.token.entity;
 
-import com.devil.ecomfashion.modules.token.TokenType;
+import com.devil.ecomfashion.modules.token.constants.TokenType;
 import com.devil.ecomfashion.modules.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.devil.ecomfashion.config;
 
-import com.devil.ecomfashion.modules.token.TokenRepository;
+import com.devil.ecomfashion.modules.token.respository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

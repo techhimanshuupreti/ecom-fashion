@@ -10,4 +10,5 @@ public class EcommerceWepApp {
 		SpringApplication.run(EcommerceWepApp.class, args);
 	}
 
+
 }

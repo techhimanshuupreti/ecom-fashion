@@ -8,7 +8,7 @@ public enum Permission {
 
     ADMIN_READ("admin:read"),
     ADMIN_UPDATE("admin:update"),
-    ADMIN_CREATED("admin:create"),
+    ADMIN_CREATE("admin:create"),
     ADMIN_DELETE("admin:delete"),
 
     MANAGER_UPDATE("management:update"),

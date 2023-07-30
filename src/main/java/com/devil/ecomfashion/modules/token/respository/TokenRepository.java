@@ -1,4 +1,4 @@
-package com.devil.ecomfashion.modules.token;
+package com.devil.ecomfashion.modules.token.respository;
 
 import com.devil.ecomfashion.modules.token.entity.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
