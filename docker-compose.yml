@@ -1,0 +1,30 @@
+#services:
+#  db:
+#    image: mysql:5.7
+#    container_name: mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: my_secret_password
+#      MYSQL_DATABASE: jwt_security
+#      MYSQL_USER: root
+#      MYSQL_PASSWORD: upreti
+#    ports:
+#      - "6033:3306"
+#    volumes:
+#      - ./data/db:/var/lib/mysql
+#
+# db:
+#    image: mysql:8
+#    volumes:
+#      - db_data:/var/lib/mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: mysecretpassword
+#volumes:
+#  db_data:
+#
+#networks:
+#  postgres:
+#    driver: bridge
+#
+#volumes:
+#  postgres:
+#  pgadmin:
