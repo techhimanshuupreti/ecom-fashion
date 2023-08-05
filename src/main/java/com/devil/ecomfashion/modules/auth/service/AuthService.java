@@ -39,11 +39,11 @@ public class AuthService {
 
     private final AuthenticationManager authenticationManager;
 
-    public AuthResponse register(UserDTO userDTO) {
+    public AuthResponse  register(UserDTO userDTO) {
 
         List<User> isUserExist = userRepository.findByEmail(userDTO.getEmail());
 
-        if(ObjectUtils.allNotNull(isUserExist) || !isUserExist.isEmpty()){
+        if(ObjectUtils.allNotNull(isUserExist) && !isUserExist.isEmpty()){
             throw new DuplicateRequestException("user already");
         }
 
