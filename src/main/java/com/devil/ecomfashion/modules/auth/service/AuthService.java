@@ -2,6 +2,7 @@ package com.devil.ecomfashion.modules.auth.service;
 
 
 import com.devil.ecomfashion.config.JwtService;
+import com.devil.ecomfashion.exceptions.ConflictException;
 import com.devil.ecomfashion.modules.auth.dto.AuthDTO;
 import com.devil.ecomfashion.modules.auth.model.AuthResponse;
 import com.devil.ecomfashion.modules.token.constants.TokenType;
@@ -11,6 +12,7 @@ import com.devil.ecomfashion.modules.user.UserDTO;
 import com.devil.ecomfashion.modules.user.entity.User;
 import com.devil.ecomfashion.modules.user.respository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.jdi.request.DuplicateRequestException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +41,12 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(UserDTO userDTO) {
+
+        Optional<User> isUserExist = userRepository.findUserByEmail(userDTO.getEmail());
+
+        if(isUserExist.isPresent()){
+            throw new DuplicateRequestException("user already");
+        }
 
         User user = User.builder()
                 .firstName(userDTO.getFirstName())
