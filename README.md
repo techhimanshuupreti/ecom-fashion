@@ -37,7 +37,7 @@ To get started with this project, you will need to have the following installed 
 To build and run the project, follow these steps:
 
 * Clone the repository: `git clone https://github.com/techhimanshuupreti/ecom-fashion.git`
-* Navigate to the project directory: cd spring-boot-security-jwt
+* Navigate to the project directory: cd ecom-fashion
 * Add database "jwt_security" to mysql
 * Build the project: mvn clean install
 * Run the project: mvn spring-boot:run
