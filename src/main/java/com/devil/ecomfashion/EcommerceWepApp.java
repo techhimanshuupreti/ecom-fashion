@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class EcommerceWepApp {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EcommerceWepApp.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(EcommerceWepApp.class, args);
+    }
 
 
 }

@@ -37,15 +37,15 @@ public class AuthService {
 
     private final AuthenticationManager authenticationManager;
 
-    public AuthResponse register(UserDTO userDTO){
+    public AuthResponse register(UserDTO userDTO) {
 
         User user = User.builder()
-                        .firstName(userDTO.getFirstName())
-                        .lastName(userDTO.getLastName())
-                        .email(userDTO.getEmail())
-                        .password(passwordEncoder.encode(userDTO.getPassword()))
-                        .role(userDTO.getRole())
-                        .build();
+                .firstName(userDTO.getFirstName())
+                .lastName(userDTO.getLastName())
+                .email(userDTO.getEmail())
+                .password(passwordEncoder.encode(userDTO.getPassword()))
+                .role(userDTO.getRole())
+                .build();
 
         User savedUser = userRepository.save(user);
 
@@ -53,14 +53,14 @@ public class AuthService {
 
         String refreshToken = jwtService.generateRefreshToken(user);
 
-        saveUserToken(user,jwtToken);
+        saveUserToken(user, jwtToken);
 
         return AuthResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken).build();
     }
 
-    private void saveUserToken(User user, String jwtToken){
+    private void saveUserToken(User user, String jwtToken) {
         Token token = Token.builder()
                 .user(user)
                 .token(jwtToken)
@@ -72,7 +72,7 @@ public class AuthService {
         tokenRepository.save(token);
     }
 
-    public AuthResponse authenticate(AuthDTO authDTO){
+    public AuthResponse authenticate(AuthDTO authDTO) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -87,7 +87,7 @@ public class AuthService {
         String refreshToken = jwtService.generateRefreshToken(user);
 
         revokeAllUserTokens(user);
-        saveUserToken(user,jwtToken);
+        saveUserToken(user, jwtToken);
 
         return AuthResponse.builder()
                 .accessToken(jwtToken)
@@ -95,7 +95,7 @@ public class AuthService {
                 .build();
     }
 
-    private void revokeAllUserTokens(User user){
+    private void revokeAllUserTokens(User user) {
         List<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
 
         if (validUserTokens.isEmpty()) {
@@ -119,7 +119,7 @@ public class AuthService {
 
         final String userEmail;
 
-        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+        if (authHeader == null || ! authHeader.startsWith("Bearer ")) {
             return;
         }
 
@@ -130,16 +130,16 @@ public class AuthService {
         if (userEmail != null) {
             User user = this.userRepository.findUserByEmail(userEmail).orElseThrow();
 
-            if(jwtService.isTokenValid(refreshToken,user)){
-                String accessToken = jwtService.generateToken(user);;
+            if (jwtService.isTokenValid(refreshToken, user)) {
+                String accessToken = jwtService.generateToken(user);
                 revokeAllUserTokens(user);
-                saveUserToken(user,accessToken);
+                saveUserToken(user, accessToken);
                 AuthResponse authResponse = AuthResponse.builder()
-                                                        .accessToken(accessToken)
-                                                        .refreshToken(refreshToken)
-                                                        .build();
+                        .accessToken(accessToken)
+                        .refreshToken(refreshToken)
+                        .build();
 
-                new ObjectMapper().writeValue(response.getOutputStream(),authResponse);
+                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
     }

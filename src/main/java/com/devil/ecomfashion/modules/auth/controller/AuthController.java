@@ -19,17 +19,17 @@ import java.io.IOException;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    
+
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody UserDTO userDTO){
+    public ResponseEntity<AuthResponse> register(@RequestBody UserDTO userDTO) {
 
         return ResponseEntity.ok(authService.register(userDTO));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthDTO authDTO){
+    public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthDTO authDTO) {
 
         return ResponseEntity.ok(authService.authenticate(authDTO));
     }
@@ -37,7 +37,7 @@ public class AuthController {
     @PostMapping("/refresh-token")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        authService.refreshToken(request,response);
+        authService.refreshToken(request, response);
     }
 
 }
