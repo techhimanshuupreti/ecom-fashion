@@ -14,26 +14,24 @@ import static com.devil.ecomfashion.modules.user.constants.Permission.*;
 @RequiredArgsConstructor
 public enum Role {
 
-    USER(Collections.emptySet()),
+    USER(Set.of(
+                USER_CREATE,
+                USER_UPDATE,
+                USER_DELETE,
+                USER_READ
+    )),
 
     ADMIN(Set.of(
             ADMIN_READ,
             ADMIN_UPDATE,
             ADMIN_DELETE,
             ADMIN_CREATE,
-            MANAGER_CREATE,
-            MANAGER_DELETE,
-            MANAGER_UPDATE,
-            MANAGER_READ
+            USER_CREATE,
+            USER_UPDATE,
+            USER_DELETE,
+            USER_READ
     )
-    ),
 
-    MANAGER(Set.of(
-            MANAGER_CREATE,
-            MANAGER_DELETE,
-            MANAGER_UPDATE,
-            MANAGER_READ
-    )
     );
 
     @Getter

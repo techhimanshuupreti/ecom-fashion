@@ -11,10 +11,10 @@ public enum Permission {
     ADMIN_CREATE("admin:create"),
     ADMIN_DELETE("admin:delete"),
 
-    MANAGER_UPDATE("management:update"),
-    MANAGER_DELETE("management:delete"),
-    MANAGER_CREATE("management:create"),
-    MANAGER_READ("management:read");
+   USER_UPDATE("user:update"),
+    USER_DELETE("user:delete"),
+    USER_CREATE("user:create"),
+    USER_READ("user:read");
 
     @Getter
     private final String permission;

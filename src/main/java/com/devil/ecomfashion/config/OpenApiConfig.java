@@ -13,16 +13,16 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(
-                        name = "OpenContact",
-                        email = "open@contact.com",
-                        url = "https://opencontact.com/main"
+                        name = "ecommerce",
+                        email = "open@ecommerce.com",
+                        url = "https://ecommerce.com/main"
                 ),
-                description = "OpenApi documentation for Spring Security",
-                title = "OpenApi specification - Alibou",
+                description = "Ecommerce API Document",
+                title = "Ecommerce - Fashions,Stationery,Clothes",
                 version = "1.0",
                 license = @License(
-                        name = "Licence name",
-                        url = "https://some-url.com"
+                        name = "pretty",
+                        url = "https://ecommerce.com"
                 ),
                 termsOfService = "Terms of service"
         ),
