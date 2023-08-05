@@ -2,7 +2,6 @@ package com.devil.ecomfashion.modules.auth.service;
 
 
 import com.devil.ecomfashion.config.JwtService;
-import com.devil.ecomfashion.exceptions.ConflictException;
 import com.devil.ecomfashion.modules.auth.dto.AuthDTO;
 import com.devil.ecomfashion.modules.auth.model.AuthResponse;
 import com.devil.ecomfashion.modules.token.constants.TokenType;
@@ -16,6 +15,7 @@ import com.sun.jdi.request.DuplicateRequestException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,9 +41,9 @@ public class AuthService {
 
     public AuthResponse register(UserDTO userDTO) {
 
-        Optional<User> isUserExist = userRepository.findUserByEmail(userDTO.getEmail());
+        List<User> isUserExist = userRepository.findByEmail(userDTO.getEmail());
 
-        if(isUserExist.isPresent()){
+        if(ObjectUtils.allNotNull(isUserExist) || !isUserExist.isEmpty()){
             throw new DuplicateRequestException("user already");
         }
 
