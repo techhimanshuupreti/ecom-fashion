@@ -1,15 +1,14 @@
 package com.devil.ecomfashion.modules.user.controller;
 
 
+import com.devil.ecomfashion.modules.auth.model.AuthResponse;
+import com.devil.ecomfashion.modules.user.UserDTO;
 import com.devil.ecomfashion.modules.user.entity.User;
 import com.devil.ecomfashion.modules.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +26,13 @@ public class UserController {
     public ResponseEntity<List<User>> find() {
 
         return ResponseEntity.ok(userService.find());
+    }
+
+    @GetMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('admin:read','user:read')")
+    public ResponseEntity<User> findOne(@PathVariable long id) {
+
+        return ResponseEntity.ok(userService.findOne(id));
     }
 
 }

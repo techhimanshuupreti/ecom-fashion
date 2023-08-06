@@ -1,13 +1,12 @@
 package com.devil.ecomfashion.modules.auth.model;
 
 
+import com.devil.ecomfashion.modules.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

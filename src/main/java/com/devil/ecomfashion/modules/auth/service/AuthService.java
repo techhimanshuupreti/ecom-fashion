@@ -31,15 +31,15 @@ public class AuthService {
 
     private final UserRepository userRepository;
 
-    private final TokenRepository tokenRepository;
-
     private final PasswordEncoder passwordEncoder;
+
+    private final TokenRepository tokenRepository;
 
     private final JwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
 
-    public AuthResponse  register(UserDTO userDTO) {
+    public User register(UserDTO userDTO) {
 
         List<User> isUserExist = userRepository.findByEmail(userDTO.getEmail());
 
@@ -55,17 +55,8 @@ public class AuthService {
                 .role(userDTO.getRole())
                 .build();
 
-        user = userRepository.save(user);
+        return userRepository.save(user);
 
-        String jwtToken = jwtService.generateToken(user);
-
-        String refreshToken = jwtService.generateRefreshToken(user);
-
-        saveUserToken(user, jwtToken);
-
-        return AuthResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken).build();
     }
 
     private void saveUserToken(User user, String jwtToken) {
