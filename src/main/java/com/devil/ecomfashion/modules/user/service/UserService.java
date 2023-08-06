@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User findOne(long id) {
-        return userRepository.findById(id).orElseGet(User::new);
+    public User findOne(Long id) {
+        return userRepository.findById(id).orElseThrow();
     }
 }

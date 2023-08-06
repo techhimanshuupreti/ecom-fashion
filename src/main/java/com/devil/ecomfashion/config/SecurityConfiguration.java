@@ -1,6 +1,5 @@
 package com.devil.ecomfashion.config;
 
-import com.devil.ecomfashion.modules.user.constants.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
-
-import static com.devil.ecomfashion.modules.user.constants.Permission.*;
-import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
@@ -48,8 +44,8 @@ public class SecurityConfiguration {
                         "/swagger-ui.html"
                 ).permitAll()
 
-                .requestMatchers(GET, "/api/v1/user").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
-                .requestMatchers(GET, "/api/v1/user").hasAnyAuthority(ADMIN_READ.name(), USER_READ.name())
+//                .requestMatchers(GET, "/api/v1/user").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
+//                .requestMatchers(GET, "/api/v1/user/*").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
 
                 .anyRequest()
                 .authenticated()
