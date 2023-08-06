@@ -21,8 +21,6 @@ This project demonstrates the implementation of security using Spring Boot 3.0 a
 * Spring WebMvc 6.0.7
 * Spring Data JPA 3.0.4
 * JSON Web Tokens (JWT) 0.11.5
-* BCrypt
-* Maven
 * Apache Tomcat Server (Embedded) 10.1.7
 * Hibernate Core 6.1.7.Final
 * Spring Doc (Open API) 2.1.0
