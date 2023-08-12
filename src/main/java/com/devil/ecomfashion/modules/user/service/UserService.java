@@ -18,6 +18,6 @@ public class UserService {
     }
 
     public User findOne(Long id) {
-        return userRepository.findById(id).orElseThrow();
+         return userRepository.findById(id).orElseThrow();
     }
 }

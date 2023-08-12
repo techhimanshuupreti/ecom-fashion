@@ -23,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -43,7 +44,7 @@ public class AuthService {
 
         List<User> isUserExist = userRepository.findByEmail(userDTO.getEmail());
 
-        if(ObjectUtils.allNotNull(isUserExist) && !isUserExist.isEmpty()){
+        if (ObjectUtils.allNotNull(isUserExist) && ! isUserExist.isEmpty()) {
             throw new DuplicateRequestException("user already");
         }
 
@@ -53,6 +54,8 @@ public class AuthService {
                 .email(userDTO.getEmail())
                 .password(passwordEncoder.encode(userDTO.getPassword()))
                 .role(userDTO.getRole())
+                .createdAt(new Date())
+                .updatedAt(new Date())
                 .build();
 
         return userRepository.save(user);
@@ -66,6 +69,8 @@ public class AuthService {
                 .tokenType(TokenType.BEARER)
                 .expired(false)
                 .revoked(false)
+                .createdAt(new Date())
+                .updatedAt(new Date())
                 .build();
 
         tokenRepository.save(token);
@@ -104,6 +109,7 @@ public class AuthService {
         validUserTokens.forEach(token -> {
             token.setRevoked(true);
             token.setExpired(true);
+            token.setUpdatedAt(new Date());
         });
 
         tokenRepository.saveAll(validUserTokens);

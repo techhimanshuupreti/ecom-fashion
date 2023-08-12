@@ -8,10 +8,12 @@ This project demonstrates the implementation of security using Spring Boot 3.0 a
 ## Features
 * User registration and login with JWT authentication
 * Password encryption using BCrypt
-* Role-based authorization with Spring Security
-* Customized access denied handling
 * Logout mechanism
 * Refresh token
+
+[//]: # (* Role-based authorization with Spring Security)
+
+[//]: # (*  Customized access denied handling)
 
 ## Technologies
 * Spring Framework 6.0.7

@@ -1,11 +1,11 @@
 package com.devil.ecomfashion.modules.user.controller;
 
 
+import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.user.entity.User;
 import com.devil.ecomfashion.modules.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,15 +19,23 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> find() {
+    public ResponseEntity<ApiResponse<List<User>>> find() {
 
-        return ResponseEntity.ok(userService.find());
+        ApiResponse<List<User>> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(true);
+        apiResponseModel.setResult(userService.find());
+
+        return apiResponseModel.createResponse();
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> findOne(@PathVariable long id) {
+    public ResponseEntity<ApiResponse<User>> findOne(@PathVariable long id) {
 
-        return ResponseEntity.ok(userService.findOne(id));
+        ApiResponse<User> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(true);
+        apiResponseModel.setResult(userService.findOne(id));
+
+        return apiResponseModel.createResponse();
     }
 
 }
