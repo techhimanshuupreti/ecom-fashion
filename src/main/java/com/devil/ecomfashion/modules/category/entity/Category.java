@@ -16,7 +16,7 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private long id;
 
     // Todo: it defines which like Mobile, Laptop (type: Electronics)
@@ -24,7 +24,7 @@ public class Category {
     private String name;
 
     // Todo: it defines which type of products like Electronics, Clothes,etc
-    @Column(nullable = false,length = 120)
+    @Column(nullable = false, length = 120)
     private String type;
 
     @Column(nullable = false)
@@ -33,7 +33,7 @@ public class Category {
     @Column(nullable = false)
     private Date updatedAt;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Set<Product> products = new HashSet<>();
 

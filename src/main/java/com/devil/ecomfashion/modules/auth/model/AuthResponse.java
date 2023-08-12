@@ -1,7 +1,6 @@
 package com.devil.ecomfashion.modules.auth.model;
 
 
-import com.devil.ecomfashion.modules.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 

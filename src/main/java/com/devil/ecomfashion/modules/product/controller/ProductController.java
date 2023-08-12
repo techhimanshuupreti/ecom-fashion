@@ -1,10 +1,8 @@
 package com.devil.ecomfashion.modules.product.controller;
 
 import com.devil.ecomfashion.model.ApiResponse;
-import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.service.ProductService;
-import com.devil.ecomfashion.modules.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +19,7 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity< ApiResponse<List<Product>>> find() {
+    public ResponseEntity<ApiResponse<List<Product>>> find() {
 
         ApiResponse<List<Product>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);

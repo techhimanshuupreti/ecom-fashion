@@ -4,7 +4,6 @@ import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.auth.dto.AuthDTO;
 import com.devil.ecomfashion.modules.auth.model.AuthResponse;
 import com.devil.ecomfashion.modules.auth.service.AuthService;
-import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.user.UserDTO;
 import com.devil.ecomfashion.modules.user.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController

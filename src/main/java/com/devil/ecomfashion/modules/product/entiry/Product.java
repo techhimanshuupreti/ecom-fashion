@@ -22,10 +22,10 @@ public class Product {
     @Column(nullable = false, updatable = false)
     private Date updatedAt;
 
-    @Column(nullable = false,length = 100)
+    @Column(nullable = false, length = 100)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     private Category category;
 

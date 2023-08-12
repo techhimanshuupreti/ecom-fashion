@@ -3,7 +3,6 @@ package com.devil.ecomfashion.modules.category.controller;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
-import com.devil.ecomfashion.modules.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

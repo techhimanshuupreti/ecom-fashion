@@ -2,7 +2,6 @@ package com.devil.ecomfashion.modules.category.service;
 
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
-import com.devil.ecomfashion.modules.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
