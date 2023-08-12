@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -20,12 +21,13 @@ import java.util.Optional;
 @RequestMapping("/ap1/v1/product")
 @CrossOrigin(origins = "http://localhost:3000/")
 @RequiredArgsConstructor
+@Validated
 public class ProductController {
 
     private final ProductService productService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ApiResponse<Product>> create(@ModelAttribute ProductDTO productDTO) throws IOException {
+    public ResponseEntity<ApiResponse<Product>> create(@Valid @ModelAttribute ProductDTO productDTO) throws IOException {
 
         ApiResponse<Product> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
