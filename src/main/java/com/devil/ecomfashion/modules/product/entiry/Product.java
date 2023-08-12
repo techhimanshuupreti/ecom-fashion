@@ -4,6 +4,7 @@ import com.devil.ecomfashion.modules.category.entity.Category;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Blob;
 import java.util.Date;
 
 @Data
@@ -25,7 +26,7 @@ public class Product {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     private Category category;
 
@@ -34,5 +35,8 @@ public class Product {
 
     @Column(nullable = false)
     private String longDescription;
+
+    @Column(nullable = false)
+    private String imagePath;
 
 }

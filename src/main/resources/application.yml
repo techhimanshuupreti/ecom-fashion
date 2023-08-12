@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 100MB
   datasource:
     url: jdbc:mysql://localhost/jwt_security
     username: root
@@ -15,7 +19,6 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
 
-
 application:
   security:
     jwt:
@@ -23,4 +26,3 @@ application:
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
-

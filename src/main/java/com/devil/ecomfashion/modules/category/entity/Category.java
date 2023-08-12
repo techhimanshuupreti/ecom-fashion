@@ -33,10 +33,6 @@ public class Category {
     @Column(nullable = false)
     private Date updatedAt;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Set<Product> products = new HashSet<>();
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
