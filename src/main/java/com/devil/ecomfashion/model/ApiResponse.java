@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +26,7 @@ public class ApiResponse<ResultType> {
 
     private List<ApiResponseError> errors;
 
-
+    @JsonIgnore
     private HttpStatus httpStatus;
 
     public ApiResponse() {
