@@ -33,6 +33,7 @@ public class ProductDTO {
     @NotBlank(message = "Product long description is not blank")
     private String longDescription;
 
+    @NotNull(message = "Product Image is not empty")
     private MultipartFile file;
 
 }
