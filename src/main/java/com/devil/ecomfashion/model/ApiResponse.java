@@ -1,6 +1,5 @@
 package com.devil.ecomfashion.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +14,9 @@ import java.util.List;
 @Setter
 @ToString
 @Accessors(chain = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<ResultType> {
 
-    @JsonInclude(value = JsonInclude.Include.NON_EMPTY, content = JsonInclude.Include.NON_NULL)
     private String message;
 
     private boolean success;
@@ -26,7 +25,7 @@ public class ApiResponse<ResultType> {
 
     private List<ApiResponseError> errors;
 
-    @JsonIgnore
+
     private HttpStatus httpStatus;
 
     public ApiResponse() {
