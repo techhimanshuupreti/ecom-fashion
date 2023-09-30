@@ -46,7 +46,7 @@ public class ProductController {
         return apiResponseModel.createResponse();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Optional<Product>>> findOne(@PathVariable long id) {
 
         ApiResponse<Optional<Product>> apiResponseModel = new ApiResponse<>();
