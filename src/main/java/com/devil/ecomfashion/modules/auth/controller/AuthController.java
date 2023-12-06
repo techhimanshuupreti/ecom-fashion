@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,14 +21,19 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@Tag(name="Authentication",description = "authentication related api like login, logout,forget,change password")
+@Tag(name = "Authentication", description = "authentication related api like login, logout,forget,change password")
 public class AuthController {
+
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
     private final AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<User>> register(@RequestBody UserDTO userDTO) {
-
+        log.info("register info");
+        log.debug("register debug");
+        log.trace("register trace");
+        log.warn("register warn");
         ApiResponse<User> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(authService.register(userDTO));
