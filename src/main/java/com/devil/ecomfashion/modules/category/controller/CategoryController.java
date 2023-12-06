@@ -4,6 +4,7 @@ import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000/")
 @RequiredArgsConstructor
 @Validated
+@Tag(name = "Categories", description = "categories related api")
 public class CategoryController {
 
     private final CategoryService categoryService;

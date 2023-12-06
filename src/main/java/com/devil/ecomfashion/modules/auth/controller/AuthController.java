@@ -6,6 +6,7 @@ import com.devil.ecomfashion.modules.auth.model.AuthResponse;
 import com.devil.ecomfashion.modules.auth.service.AuthService;
 import com.devil.ecomfashion.modules.user.UserDTO;
 import com.devil.ecomfashion.modules.user.entity.User;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@Tag(name="Authentication",description = "authentication related api like login, logout,forget,change password")
 public class AuthController {
 
     private final AuthService authService;
