@@ -6,7 +6,7 @@
     <!--    <logger name="org.mongodb" level="INFO"/>-->
     <!--    <logger name="com.castler" level="DEBUG"/>-->
 
-    <property name="DIRECTORY" value="logs"/>
+    <property name="DIRECTORY" value="./logs"/>
     <contextName>${HOSTNAME}</contextName>
     <timestamp key="year" datePattern="yyyy"/>
     <timestamp key="month" datePattern="MMM"/>
@@ -16,14 +16,20 @@
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>[%d{dd-MMM-yy HH:mm:ss.SSS}] %level: %class.%M:%L - %msg%n</pattern>
         </encoder>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %white(%d{dd-MMM-yy HH:mm:ss.SSS}) %highlight(%-5level) [%blue(%t)] : %msg%n%throwable
+<!--                %black(%d{dd-MMM-yy HH:mm:ss.SSS}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable-->
+            </Pattern>
+        </layout>
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${DIRECTORY}/EcomFashion</file>
+        <file>${DIRECTORY}/EcomFashion.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             rollover daily
-            <fileNamePattern>${DIRECTORY}/%d{yyyy/MM/dd, aux}/ecom-fashion-%d{yyyy-MM-dd}.%i.out</fileNamePattern>
-            <maxFileSize>500MB</maxFileSize>
+            <fileNamePattern>${DIRECTORY}/%d{yyyy/MM/dd, aux}/ecom-fashion-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>1MB</maxFileSize>
         </rollingPolicy>
         <encoder>
             <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %X{RANDOM_ID} %-5level %class{36}.%M %L - %msg%n</pattern>
