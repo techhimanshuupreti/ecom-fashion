@@ -38,3 +38,5 @@ logging:
     devil:
       ecomfashion: trace
 
+img-folder-name: uploadFiles
+

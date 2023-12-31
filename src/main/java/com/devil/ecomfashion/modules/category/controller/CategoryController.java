@@ -3,6 +3,7 @@ package com.devil.ecomfashion.modules.category.controller;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
 import com.devil.ecomfashion.modules.category.entity.Category;
+import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -35,21 +36,31 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Category>>> find() {
+    public ResponseEntity<ApiResponse<List<CategoryRepository.DisplayCategory>>> find() {
 
-        ApiResponse<List<Category>> apiResponseModel = new ApiResponse<>();
+        ApiResponse<List<CategoryRepository.DisplayCategory>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(categoryService.find());
 
         return apiResponseModel.createResponse();
     }
 
+    @GetMapping("{name}")
+    public ResponseEntity<ApiResponse<List<CategoryRepository.DisplayCategory>>> findByName(@PathVariable String name) {
+
+        ApiResponse<List<CategoryRepository.DisplayCategory>> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(true);
+        apiResponseModel.setResult(categoryService.findByName(name));
+
+        return apiResponseModel.createResponse();
+    }
+
     @GetMapping("{id}")
-    public ResponseEntity<ApiResponse<Optional<Category>>> findOne(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<Optional<Category>>> findById(@PathVariable String id) {
 
         ApiResponse<Optional<Category>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
-        apiResponseModel.setResult(categoryService.findOne(id));
+        apiResponseModel.setResult(categoryService.findById(id));
 
         return apiResponseModel.createResponse();
     }
