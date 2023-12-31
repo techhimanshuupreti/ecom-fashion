@@ -52,6 +52,7 @@ public class ProductService {
         product.setCategory(category.get());
 
 //        File fileInputStream = new File(System.getProperty("user.dir") + "/"+uploadFiles+"/" + productDTO.getFile().getOriginalFilename());
+        System.out.println("Directory for Product images: "+System.getProperty("user.dir"));
         File fileInputStream = new File(System.getProperty("user.dir") + "/" + FOLDER_NAME + "/" + productDTO.getFile().getOriginalFilename());
         product.setImagePath(fileInputStream.getPath());
         product.setLongDescription(productDTO.getLongDescription());
