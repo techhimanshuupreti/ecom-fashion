@@ -15,9 +15,9 @@ import java.util.List;
 @Setter
 @ToString
 @Accessors(chain = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<ResultType> {
 
-    @JsonInclude(value = JsonInclude.Include.NON_EMPTY, content = JsonInclude.Include.NON_NULL)
     private String message;
 
     private boolean success;

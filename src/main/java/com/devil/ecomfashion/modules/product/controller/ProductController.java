@@ -1,11 +1,10 @@
 package com.devil.ecomfashion.modules.product.controller;
 
 import com.devil.ecomfashion.model.ApiResponse;
-import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
-import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.product.dto.ProductDTO;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.service.ProductService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -22,6 +21,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000/")
 @RequiredArgsConstructor
 @Validated
+@Tag(name = "Product", description = "product related api")
 public class ProductController {
 
     private final ProductService productService;

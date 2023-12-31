@@ -4,7 +4,6 @@ import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +17,16 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public List<Category> find() {
-        return (List<Category>) categoryRepository.findAll();
+    public List<CategoryRepository.DisplayCategory> find() {
+        return categoryRepository.findDistinctMainCategory();
     }
 
-    public Optional<Category> findOne(String id) {
-        return categoryRepository.findById(id);
+    public Optional<Category> findById(String id) {
+        Optional<Category> category = categoryRepository.findById(id);
+        if (category.isEmpty()) {
+            throw new NullPointerException("no found category");
+        }
+        return category;
     }
 
     @Transactional
@@ -36,5 +39,9 @@ public class CategoryService {
         category.setName(categoryDTO.getName());
 
         return categoryRepository.save(category);
+    }
+
+    public List<CategoryRepository.DisplayCategory> findByName(String name) {
+        return categoryRepository.findDistinctByType(name);
     }
 }

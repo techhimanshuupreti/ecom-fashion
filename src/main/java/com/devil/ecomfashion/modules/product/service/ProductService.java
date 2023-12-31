@@ -6,12 +6,12 @@ import com.devil.ecomfashion.modules.product.dto.ProductDTO;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +21,9 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+
+    @Value("${img-folder-name}")
+    private String FOLDER_NAME;
 
     private final CategoryService categoryService;
 
@@ -33,14 +36,14 @@ public class ProductService {
     }
 
     @Transactional
-    public Product create(ProductDTO productDTO) throws IOException {
+    public Product create(ProductDTO productDTO) {
 
         Product product = new Product();
         product.setCreatedAt(new Date());
         product.setUpdatedAt(new Date());
         product.setName(productDTO.getName());
 
-        Optional<Category> category = categoryService.findOne(productDTO.getCategoryId());
+        Optional<Category> category = categoryService.findById(productDTO.getCategoryId());
 
         if (category.isEmpty()) {
             throw new RuntimeException();
@@ -48,7 +51,8 @@ public class ProductService {
 
         product.setCategory(category.get());
 
-        File fileInputStream = new File(System.getProperty("user.dir") + "/uploadFiles/" + productDTO.getFile().getOriginalFilename());
+//        File fileInputStream = new File(System.getProperty("user.dir") + "/"+uploadFiles+"/" + productDTO.getFile().getOriginalFilename());
+        File fileInputStream = new File(System.getProperty("user.dir") + "/" + FOLDER_NAME + "/" + productDTO.getFile().getOriginalFilename());
         product.setImagePath(fileInputStream.getPath());
         product.setLongDescription(productDTO.getLongDescription());
         product.setShortDescription(productDTO.getShortDescription());
