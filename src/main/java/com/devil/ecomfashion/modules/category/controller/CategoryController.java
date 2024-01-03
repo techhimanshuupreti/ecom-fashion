@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/ap1/v1/category")
-@CrossOrigin(origins = "http://localhost:3000/")
+@CrossOrigin(origins = {"http://localhost:3000/", "*"})
 @RequiredArgsConstructor
 @Validated
 @Tag(name = "Categories", description = "categories related api")
