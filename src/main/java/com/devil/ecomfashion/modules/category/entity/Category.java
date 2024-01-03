@@ -1,13 +1,10 @@
 package com.devil.ecomfashion.modules.category.entity;
 
-import com.devil.ecomfashion.modules.product.entiry.Product;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Data
 @Entity

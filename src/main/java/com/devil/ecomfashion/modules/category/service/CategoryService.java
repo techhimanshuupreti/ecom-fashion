@@ -18,7 +18,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public List<CategoryRepository.DisplayCategory> find() {
-        return categoryRepository.findDistinctMainCategory();
+        return categoryRepository.find();
     }
 
     public Optional<Category> findById(String id) {
