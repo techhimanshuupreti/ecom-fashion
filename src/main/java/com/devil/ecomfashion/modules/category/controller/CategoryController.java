@@ -3,7 +3,7 @@ package com.devil.ecomfashion.modules.category.controller;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
 import com.devil.ecomfashion.modules.category.entity.Category;
-import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
+import com.devil.ecomfashion.modules.category.repository.projection.CategoryProjection;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -36,9 +36,9 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<CategoryRepository.DisplayCategory>>> find() {
+    public ResponseEntity<ApiResponse<List<CategoryProjection>>> find() {
 
-        ApiResponse<List<CategoryRepository.DisplayCategory>> apiResponseModel = new ApiResponse<>();
+        ApiResponse<List<CategoryProjection>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(categoryService.find());
 
@@ -46,9 +46,9 @@ public class CategoryController {
     }
 
     @GetMapping("{name}")
-    public ResponseEntity<ApiResponse<List<CategoryRepository.DisplayCategory>>> findByName(@PathVariable String name) {
+    public ResponseEntity<ApiResponse<List<CategoryProjection>>> findByName(@PathVariable String name) {
 
-        ApiResponse<List<CategoryRepository.DisplayCategory>> apiResponseModel = new ApiResponse<>();
+        ApiResponse<List<CategoryProjection>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(categoryService.findByName(name));
 

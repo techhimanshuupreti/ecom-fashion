@@ -16,13 +16,9 @@ public class Category {
     @Column(unique = true, nullable = false)
     private long id;
 
-    // Todo: it defines which like Mobile, Laptop (type: Electronics)
+    // Todo: it defines which type of products like Electronics, Clothes,etc
     @Column(nullable = false)
     private String name;
-
-    // Todo: it defines which type of products like Electronics, Clothes,etc
-    @Column(nullable = false, length = 120)
-    private String type;
 
     @Column(nullable = false)
     private Date createdAt;
@@ -34,11 +30,11 @@ public class Category {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (! (o instanceof Category category)) return false;
-        return id == category.id && Objects.equals(name, category.name) && Objects.equals(type, category.type);
+        return id == category.id && Objects.equals(name, category.name) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, type);
+        return Objects.hash(id, name);
     }
 }

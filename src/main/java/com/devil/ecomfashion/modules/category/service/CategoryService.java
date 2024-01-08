@@ -3,6 +3,8 @@ package com.devil.ecomfashion.modules.category.service;
 import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
+import com.devil.ecomfashion.modules.category.repository.projection.CategoryProjection;
+import com.devil.ecomfashion.projection.Projection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +19,7 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public List<CategoryRepository.DisplayCategory> find() {
+    public List<CategoryProjection> find() {
         return categoryRepository.find();
     }
 
@@ -35,13 +37,12 @@ public class CategoryService {
         Category category = new Category();
         category.setCreatedAt(new Date());
         category.setUpdatedAt(new Date());
-        category.setType(categoryDTO.getType());
         category.setName(categoryDTO.getName());
 
         return categoryRepository.save(category);
     }
 
-    public List<CategoryRepository.DisplayCategory> findByName(String name) {
-        return categoryRepository.findDistinctByType(name);
+    public List<CategoryProjection> findByName(String name) {
+        return categoryRepository.findDistinctByName(name);
     }
 }
