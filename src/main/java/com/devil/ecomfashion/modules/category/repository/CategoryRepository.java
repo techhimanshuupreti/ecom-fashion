@@ -2,7 +2,6 @@ package com.devil.ecomfashion.modules.category.repository;
 
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.repository.projection.CategoryProjection;
-import com.devil.ecomfashion.projection.Projection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
