@@ -21,6 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MimeTypeUtils;
 
 import java.io.IOException;
 import java.util.Date;
@@ -144,6 +145,7 @@ public class AuthService {
                         .refreshToken(refreshToken)
                         .build();
 
+                response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }

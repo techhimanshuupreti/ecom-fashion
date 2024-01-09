@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.config;
 
+import com.devil.ecomfashion.exception.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,9 +41,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests(req->
-                req.requestMatchers(ENDPOINTS_WHITELIST).permitAll()
-                        .anyRequest().authenticated())
+        http.authorizeHttpRequests(req ->
+                        req.requestMatchers(ENDPOINTS_WHITELIST).permitAll()
+                                .anyRequest().authenticated())
                 .csrf().disable()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
@@ -52,9 +53,11 @@ public class SecurityConfiguration {
                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                        .accessDeniedHandler(new CustomAuthenticationEntryPoint()));
 
 
 //        http
