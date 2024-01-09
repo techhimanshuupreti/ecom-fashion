@@ -7,7 +7,7 @@ import com.devil.ecomfashion.modules.auth.model.AuthResponse;
 import com.devil.ecomfashion.modules.token.constants.TokenType;
 import com.devil.ecomfashion.modules.token.entity.Token;
 import com.devil.ecomfashion.modules.token.respository.TokenRepository;
-import com.devil.ecomfashion.modules.user.UserDTO;
+import com.devil.ecomfashion.modules.user.dto.UserDTO;
 import com.devil.ecomfashion.modules.user.entity.User;
 import com.devil.ecomfashion.modules.user.respository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;

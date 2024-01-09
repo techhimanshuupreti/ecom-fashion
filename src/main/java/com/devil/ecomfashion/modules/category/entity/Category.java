@@ -14,10 +14,10 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private long id;
+    private Long id;
 
     // Todo: it defines which type of products like Electronics, Clothes,etc
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String name;
 
     @Column(nullable = false)
@@ -30,7 +30,7 @@ public class Category {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (! (o instanceof Category category)) return false;
-        return id == category.id && Objects.equals(name, category.name) ;
+        return Objects.equals(id, category.id) && Objects.equals(name, category.name) ;
     }
 
     @Override

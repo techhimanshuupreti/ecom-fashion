@@ -1,4 +1,4 @@
-package com.devil.ecomfashion.modules.user;
+package com.devil.ecomfashion.modules.user.dto;
 
 import com.devil.ecomfashion.modules.user.constants.Role;
 import lombok.AllArgsConstructor;

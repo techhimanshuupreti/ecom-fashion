@@ -4,7 +4,7 @@ import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.auth.dto.AuthDTO;
 import com.devil.ecomfashion.modules.auth.model.AuthResponse;
 import com.devil.ecomfashion.modules.auth.service.AuthService;
-import com.devil.ecomfashion.modules.user.UserDTO;
+import com.devil.ecomfashion.modules.user.dto.UserDTO;
 import com.devil.ecomfashion.modules.user.entity.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
