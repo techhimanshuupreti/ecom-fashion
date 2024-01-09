@@ -3,15 +3,15 @@ package com.devil.ecomfashion.exception;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NotFound extends RuntimeException {
+public class ResourceNotFoundException extends RuntimeException {
 
     private String message;
 
-    NotFound() {
+    ResourceNotFoundException() {
         super();
     }
 
-    public NotFound(String message) {
+    public ResourceNotFoundException(String message) {
         super(message);
         this.message = message;
     }

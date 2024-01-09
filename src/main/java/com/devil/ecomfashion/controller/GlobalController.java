@@ -1,23 +1,21 @@
 package com.devil.ecomfashion.controller;
 
+import com.devil.ecomfashion.exception.ExpiredJwtExceptionHandler;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.model.ApiResponseError;
+import io.jsonwebtoken.JwtException;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.ErrorResponseException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
@@ -25,11 +23,10 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
-public class GlobalController  extends ResponseEntityExceptionHandler {
+public class GlobalController extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
@@ -83,36 +80,16 @@ public class GlobalController  extends ResponseEntityExceptionHandler {
         return super.handleTypeMismatch(ex, headers, status, request);
     }
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<ApiResponse<?>> handleValidationErrors(MethodArgumentNotValidException ex) {
-//        List<ApiResponseError> errors = ex.getBindingResult().getFieldErrors().stream().map((fieldError) -> new ApiResponseError().setTitle(fieldError.getField()).setMessage(fieldError.getDefaultMessage())).toList();
-//
-//        return new ResponseEntity<>(new ApiResponse<>(null, "invalid field ", true, errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
-//    }
 
-//    @ExceptionHandler(AccessDeniedException.class)
-//    public final ResponseEntity<ApiResponse<String>> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
-//
-//        ApiResponse<String> errorDetails = new ApiResponse<>();
-//        errorDetails.setResult(null);
-//        errorDetails.setSuccess(false);
-//        errorDetails.setMessage(ex.getMessage());
-//        errorDetails.setHttpStatus(HttpStatus.FORBIDDEN);
-//
-//        return errorDetails.createResponse();
-//    }
+    @ExceptionHandler(ExpiredJwtExceptionHandler.class)
+    protected ResponseEntity<ApiResponse<String>> handleJWTException(JwtException ex) {
+        System.out.println(ex.getMessage());
+        ApiResponse<String> apiResponse = new ApiResponse<>();
+        apiResponse.setMessage(ex.getMessage());
+        apiResponse.setSuccess(false);
+        apiResponse.setHttpStatus(HttpStatus.HTTP_VERSION_NOT_SUPPORTED);
 
-    @ExceptionHandler({ AuthenticationException.class })
-    @ResponseBody
-    public ResponseEntity<ApiResponse<String>> handleAuthenticationException(Exception ex) {
-
-        ApiResponse<String> errorDetails = new ApiResponse<>();
-        errorDetails.setResult(null);
-        errorDetails.setSuccess(false);
-        errorDetails.setMessage(ex.getMessage());
-        errorDetails.setHttpStatus(HttpStatus.UNAUTHORIZED);
-
-        return errorDetails.createResponse();
+        return apiResponse.createResponse();
     }
 
 }

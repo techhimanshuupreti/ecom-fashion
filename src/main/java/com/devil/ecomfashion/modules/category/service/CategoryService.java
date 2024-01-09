@@ -1,6 +1,6 @@
 package com.devil.ecomfashion.modules.category.service;
 
-import com.devil.ecomfashion.exception.NotFound;
+import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.projection.CategoryProjection;
@@ -57,7 +57,7 @@ public class CategoryService {
         Optional<Category> updatedCategory = categoryRepository.getCategoriesByNameIgnoreCase(categoryDTO.getName());
 
         if (updatedCategory.isEmpty()) {
-            throw new NotFound("no found");
+            throw new ResourceNotFoundException("no found");
         }
 
         return updatedCategory.get();
