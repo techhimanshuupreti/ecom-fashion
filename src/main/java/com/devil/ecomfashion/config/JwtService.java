@@ -1,7 +1,8 @@
 package com.devil.ecomfashion.config;
 
-import com.devil.ecomfashion.exception.ExpiredJwtExceptionHandler;
+import com.devil.ecomfashion.exception.JwtExceptionHandler;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -79,7 +80,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private Claims extractAllClaims(String token) throws ExpiredJwtExceptionHandler {
+    private Claims extractAllClaims(String token) {
         try {
             return Jwts
                     .parserBuilder()
@@ -87,9 +88,8 @@ public class JwtService {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-        } catch (Exception ex) {
-            throw new ExpiredJwtExceptionHandler(null,null,"token maybe invalid or expired");
+        } catch (ExpiredJwtException expiredJwtException) {
+            throw new JwtExceptionHandler(null,null,"token expire or invalid");
         }
     }
-
 }

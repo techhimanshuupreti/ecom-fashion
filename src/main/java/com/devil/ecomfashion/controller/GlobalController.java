@@ -1,8 +1,10 @@
 package com.devil.ecomfashion.controller;
 
-import com.devil.ecomfashion.exception.ExpiredJwtExceptionHandler;
+import com.devil.ecomfashion.exception.JwtExceptionHandler;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.model.ApiResponseError;
+import io.jsonwebtoken.ClaimJwtException;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
@@ -10,12 +12,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.ErrorResponseException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
@@ -49,6 +54,7 @@ public class GlobalController extends ResponseEntityExceptionHandler {
     }
 
     @Override
+    @ResponseBody
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         List<ApiResponseError> errors = ex.getBindingResult().getFieldErrors().stream().map((fieldError) -> new ApiResponseError().setTitle(fieldError.getField()).setMessage(fieldError.getDefaultMessage())).toList();
 //
@@ -80,16 +86,44 @@ public class GlobalController extends ResponseEntityExceptionHandler {
         return super.handleTypeMismatch(ex, headers, status, request);
     }
 
+    @ResponseBody
+    @ExceptionHandler(AccessDeniedException.class)
+    public final ResponseEntity<ApiResponse<String>> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
 
-    @ExceptionHandler(ExpiredJwtExceptionHandler.class)
-    protected ResponseEntity<ApiResponse<String>> handleJWTException(JwtException ex) {
-        System.out.println(ex.getMessage());
-        ApiResponse<String> apiResponse = new ApiResponse<>();
-        apiResponse.setMessage(ex.getMessage());
-        apiResponse.setSuccess(false);
-        apiResponse.setHttpStatus(HttpStatus.HTTP_VERSION_NOT_SUPPORTED);
+        ApiResponse<String> errorDetails = new ApiResponse<>();
+        errorDetails.setResult(null);
+        errorDetails.setSuccess(false);
+        errorDetails.setMessage(ex.getMessage());
+        errorDetails.setHttpStatus(HttpStatus.FORBIDDEN);
 
-        return apiResponse.createResponse();
+        return errorDetails.createResponse();
+    }
+
+
+    @ResponseBody
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiResponse<String>> handleAuthenticationException(Exception ex) {
+
+        ApiResponse<String> errorDetails = new ApiResponse<>();
+        errorDetails.setResult(null);
+        errorDetails.setSuccess(false);
+        errorDetails.setMessage(ex.getMessage());
+        errorDetails.setHttpStatus(HttpStatus.UNAUTHORIZED);
+
+        return errorDetails.createResponse();
+    }
+
+    @ResponseBody
+    @ExceptionHandler({JwtException.class, ExpiredJwtException.class, ClaimJwtException.class, JwtExceptionHandler.class})
+    public final ResponseEntity<ApiResponse<String>> handleJwtException(JwtException ex, WebRequest request) {
+
+        ApiResponse<String> errorDetails = new ApiResponse<>();
+        errorDetails.setResult(null);
+        errorDetails.setSuccess(false);
+        errorDetails.setMessage(ex.getMessage());
+        errorDetails.setHttpStatus(HttpStatus.INSUFFICIENT_STORAGE);
+
+        return errorDetails.createResponse();
     }
 
 }

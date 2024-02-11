@@ -1,17 +1,14 @@
 package com.devil.ecomfashion.config;
 
 import com.devil.ecomfashion.exception.CustomAuthenticationException;
-import com.devil.ecomfashion.exception.ExpiredJwtExceptionHandler;
 import com.devil.ecomfashion.modules.token.entity.Token;
 import com.devil.ecomfashion.modules.token.respository.TokenRepository;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -62,7 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 isTokenValid = (! token.get().isExpired() && ! token.get().isRevoked());
 
                 if (token.get().isRevoked()) {
-                    throw  new CustomAuthenticationException("Token has expired");
+                    throw  new CustomAuthenticationException("user already logout");
                 }
             }
 

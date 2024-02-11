@@ -1,7 +1,5 @@
 package com.devil.ecomfashion.config;
 
-import com.devil.ecomfashion.exception.CustomAccessDeniedHandler;
-import com.devil.ecomfashion.exception.CustomAuthenticationHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,11 +52,11 @@ public class SecurityConfiguration {
                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(new CustomAuthenticationHandler())
-                        .accessDeniedHandler(new CustomAccessDeniedHandler()));
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//                .and()
+//                .exceptionHandling(exception -> exception
+//                        .authenticationEntryPoint(new CustomAuthenticationHandler())
+//                        .accessDeniedHandler(new CustomAccessDeniedHandler()));
 
 
 //        http
