@@ -3,7 +3,6 @@ package com.devil.ecomfashion.modules.category.service;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
 import com.devil.ecomfashion.modules.category.entity.Category;
-import com.devil.ecomfashion.modules.category.projection.CategoryProjection;
 import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -20,14 +19,14 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public List<CategoryProjection> find(String name) {
+    public List<Category> find(String name) {
 
-        List<CategoryProjection> categories;
+        List<Category> categories;
 
         if (StringUtils.isBlank(name)) {
             categories = categoryRepository.find();
         } else {
-            categories = categoryRepository.findByNameIgnoreCase(name);
+            categories = categoryRepository.findByNameAllIgnoreCase(name);
         }
 
         return categories;
