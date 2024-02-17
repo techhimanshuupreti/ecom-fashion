@@ -1,7 +1,6 @@
 package com.devil.ecomfashion.modules.category.repository;
 
 import com.devil.ecomfashion.modules.category.entity.Category;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -9,15 +8,14 @@ import java.util.Optional;
 
 public interface CategoryRepository extends CrudRepository<Category, Long> {
 
-    @Query("SELECT name,id FROM Category")
-    List<Category> find();
+    List<Category> findAll();
 
-    @Query("SELECT DISTINCT name as name,id FROM Category where name=?1")
-    List<Category> findByNameAllIgnoreCase(String name);
+    Category findByNameIgnoreCase(String name);
+
+    List<Category> findByNameIsContainingIgnoreCase(String name);
 
     boolean deleteByNameIgnoreCase(String name);
 
-    @Query("SELECT c FROM Category c where c.name=?1")
     Optional<Category> getCategoriesByNameIgnoreCase(String name);
 }
 

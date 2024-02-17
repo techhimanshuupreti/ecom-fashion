@@ -3,7 +3,6 @@ package com.devil.ecomfashion.modules.category.controller;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
 import com.devil.ecomfashion.modules.category.entity.Category;
-import com.devil.ecomfashion.modules.category.projection.CategoryProjection;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -36,9 +35,9 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<CategoryProjection>>> find(@RequestParam(required = false) String name) {
+    public ResponseEntity<ApiResponse<List<Category>>> find(@RequestParam(required = false) String name) {
 
-        ApiResponse<List<CategoryProjection>> apiResponseModel = new ApiResponse<>();
+        ApiResponse<List<Category>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(categoryService.find(name));
 

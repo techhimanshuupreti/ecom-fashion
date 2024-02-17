@@ -5,13 +5,12 @@ import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,9 +23,9 @@ public class CategoryService {
         List<Category> categories;
 
         if (StringUtils.isBlank(name)) {
-            categories = categoryRepository.find();
+            categories = categoryRepository.findAll();
         } else {
-            categories = categoryRepository.findByNameAllIgnoreCase(name);
+            categories = Collections.singletonList(categoryRepository.findByNameIgnoreCase(name));
         }
 
         return categories;
@@ -64,6 +63,10 @@ public class CategoryService {
 
     public Boolean delete(String name) {
 
+        Category category = categoryRepository.findByNameIgnoreCase(name);
+        if(ObjectUtils.isEmpty(category)){
+            throw new ResourceNotFoundException(name);
+        }
         return categoryRepository.deleteByNameIgnoreCase(name);
     }
 }
