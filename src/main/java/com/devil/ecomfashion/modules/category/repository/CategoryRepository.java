@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface CategoryRepository extends CrudRepository<Category, Long> {
 
-    @Query("SELECT DISTINCT name as name,id FROM Category")
+    @Query("SELECT name,id FROM Category")
     List<CategoryProjection> find();
 
     @Query("SELECT DISTINCT name as name,id FROM Category where name=?1")

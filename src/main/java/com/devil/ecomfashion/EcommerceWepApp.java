@@ -17,6 +17,7 @@ public class EcommerceWepApp {
                 "    \uD83D\uDEE1️  \n" +
                 "    \uD83D\uDEE1️  Listening on port: " + context.getEnvironment().getProperty("server.port") + "\n" +
                 "    \uD83D\uDEE1️  Connected to Database: " + context.getEnvironment().getProperty("spring.datasource.url") + "\n" +
+                "    \uD83D\uDEE1️  Swagger URL: http://localhost:" + context.getEnvironment().getProperty("server.port") + "/swagger-ui/index.html." + "\n" +
                 "    ###########################################################################\n" +
                 "\n\n");
 
