@@ -16,6 +16,6 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
 
     boolean deleteByNameIgnoreCase(String name);
 
-    Optional<Category> getCategoriesByNameIgnoreCase(String name);
+    Optional<Category> getByNameIgnoreCase(String name);
 }
 

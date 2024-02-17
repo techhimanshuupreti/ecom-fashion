@@ -1,8 +1,9 @@
-package com.devil.ecomfashion.modules.category.entity;
+package com.devil.ecomfashion.modules.subcategory.entity;
 
+import com.devil.ecomfashion.modules.category.entity.Category;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
 import java.util.Objects;
@@ -12,8 +13,8 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "categories")
-public class Category {
+@Table(name = "subCategory")
+public class SubCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +29,8 @@ public class Category {
 
     @Column(nullable = false)
     private Date updatedAt;
+
+    @ManyToOne
+    private Category category;
 
 }

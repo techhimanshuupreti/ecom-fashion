@@ -10,7 +10,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,12 +34,12 @@ public class CategoryService {
         return categories;
     }
 
-    public Optional<Category> findById(long id) {
+    public Category findById(long id) {
         Optional<Category> category = categoryRepository.findById(id);
         if (category.isEmpty()) {
             throw new NullPointerException("no found category");
         }
-        return category;
+        return category.get();
     }
 
     @Transactional
@@ -50,23 +53,30 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category update(CategoryDTO categoryDTO) {
+    public Category update(long id,CategoryDTO categoryDTO) {
 
-        Optional<Category> updatedCategory = categoryRepository.getCategoriesByNameIgnoreCase(categoryDTO.getName());
+        Category updatedCategory = findById(id);
+        updatedCategory.setName(categoryDTO.getName());
+        updatedCategory.setUpdatedAt(new Date());
 
-        if (updatedCategory.isEmpty()) {
-            throw new ResourceNotFoundException("no found");
-        }
-
-        return updatedCategory.get();
+        return categoryRepository.save(updatedCategory);
     }
 
     public Boolean delete(String name) {
 
-        Category category = categoryRepository.findByNameIgnoreCase(name);
-        if(ObjectUtils.isEmpty(category)){
-            throw new ResourceNotFoundException(name);
-        }
+        Category category = findOne(name);
+
         return categoryRepository.deleteByNameIgnoreCase(name);
+    }
+
+    public Category findOne(String name) {
+
+        Category category = categoryRepository.findByNameIgnoreCase(name);
+
+        if (ObjectUtils.isEmpty(category)) {
+            throw new ResourceNotFoundException(name + " category is not found");
+        }
+
+        return category;
     }
 }

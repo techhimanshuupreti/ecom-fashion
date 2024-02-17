@@ -28,7 +28,7 @@ public class ProductService {
     private final CategoryService categoryService;
 
     public List<Product> find() {
-        return productRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        return productRepository.findAll(Sort.by(Sort.Direction.DESC, "id" ));
     }
 
     public Optional<Product> findOne(long id) {
@@ -43,13 +43,8 @@ public class ProductService {
         product.setUpdatedAt(new Date());
         product.setName(productDTO.getName());
 
-        Optional<Category> category = categoryService.findById(productDTO.getCategoryId());
-
-        if (category.isEmpty()) {
-            throw new RuntimeException();
-        }
-
-        product.setCategory(category.get());
+        Category category = categoryService.findById(productDTO.getCategoryId());
+        product.setCategory(category);
 
 //        File fileInputStream = new File(System.getProperty("user.dir") + "/"+uploadFiles+"/" + productDTO.getFile().getOriginalFilename());
         System.out.println("Directory for Product images: "+System.getProperty("user.dir"));

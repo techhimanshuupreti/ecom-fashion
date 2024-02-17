@@ -1,4 +1,4 @@
-package com.devil.ecomfashion.modules.category.dto;
+package com.devil.ecomfashion.modules.subcategory.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -8,12 +8,16 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CategoryDTO {
+public class SubCategoryDTO {
 
-    // Todo: it defines which like Mobile, Laptop (type: Electronics)
+    @NotNull(message = "Sub-Category name is not null")
+    @NotEmpty(message = "Sub-Category name is not empty")
+    @NotBlank(message = "Sub-Category name is not blank")
+    private String name;
+
     @NotNull(message = "Category name is not null")
     @NotEmpty(message = "Category name is not empty")
     @NotBlank(message = "Category name is not blank")
-    private String name;
+    private String categoryName;
 
 }

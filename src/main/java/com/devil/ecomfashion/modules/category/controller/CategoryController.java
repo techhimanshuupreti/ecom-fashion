@@ -12,14 +12,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/ap1/v1/category")
 @CrossOrigin(origins = {"http://localhost:3000/", "*"})
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "Categories", description = "categories related api")
+@Tag(name = "Categories", description = "Categories related api")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -45,9 +44,9 @@ public class CategoryController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ApiResponse<Optional<Category>>> findById(@PathVariable long id) {
+    public ResponseEntity<ApiResponse<Category>> findById(@PathVariable long id) {
 
-        ApiResponse<Optional<Category>> apiResponseModel = new ApiResponse<>();
+        ApiResponse<Category> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(categoryService.findById(id));
 
@@ -63,11 +62,11 @@ public class CategoryController {
         return apiResponse.createResponse();
     }
 
-    @PatchMapping
-    public ResponseEntity<ApiResponse<Category>> update(@Valid @RequestBody CategoryDTO categoryDTO) {
+    @PatchMapping("{id}")
+    public ResponseEntity<ApiResponse<Category>> update(@PathVariable long id,@Valid @RequestBody CategoryDTO categoryDTO) {
         ApiResponse<Category> apiResponse = new ApiResponse<>();
         apiResponse.setSuccess(true);
-        apiResponse.setResult(categoryService.update(categoryDTO));
+        apiResponse.setResult(categoryService.update(id,categoryDTO));
 
         return apiResponse.createResponse();
     }
