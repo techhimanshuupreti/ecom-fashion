@@ -5,6 +5,7 @@ import com.devil.ecomfashion.modules.category.service.CategoryService;
 import com.devil.ecomfashion.modules.product.dto.ProductDTO;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.repository.ProductRepository;
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
@@ -27,8 +28,12 @@ public class ProductService {
 
     private final CategoryService categoryService;
 
-    public List<Product> find() {
-        return productRepository.findAll(Sort.by(Sort.Direction.DESC, "id" ));
+    public List<Product> find(String name) {
+
+        if (StringUtils.isEmpty(name))
+            return productRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+
+        return productRepository.findByNameIgnoreCase(name,Sort.by(Sort.Direction.DESC, "id"));
     }
 
     public Optional<Product> findOne(long id) {
@@ -47,7 +52,7 @@ public class ProductService {
         product.setCategory(category);
 
 //        File fileInputStream = new File(System.getProperty("user.dir") + "/"+uploadFiles+"/" + productDTO.getFile().getOriginalFilename());
-        System.out.println("Directory for Product images: "+System.getProperty("user.dir"));
+        System.out.println("Directory for Product images: " + System.getProperty("user.dir"));
         File fileInputStream = new File(System.getProperty("user.dir") + "/" + FOLDER_NAME + "/" + productDTO.getFile().getOriginalFilename());
         product.setImagePath(fileInputStream.getPath());
         product.setLongDescription(productDTO.getLongDescription());
