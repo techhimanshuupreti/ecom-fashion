@@ -1,4 +1,4 @@
-package com.devil.ecomfashion.config;
+package com.devil.ecomfashion.exception;
 
 
 import com.devil.ecomfashion.model.ApiResponse;

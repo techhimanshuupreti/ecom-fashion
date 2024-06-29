@@ -2,12 +2,15 @@ package com.devil.ecomfashion.modules.auth.service;
 
 
 import com.devil.ecomfashion.config.JwtService;
+import com.devil.ecomfashion.exception.ExceptionOccur;
+import com.devil.ecomfashion.exception.UserAlreadyExistException;
 import com.devil.ecomfashion.modules.auth.dto.AuthDTO;
 import com.devil.ecomfashion.modules.auth.model.AuthResponse;
 import com.devil.ecomfashion.modules.token.constants.TokenType;
 import com.devil.ecomfashion.modules.token.entity.Token;
 import com.devil.ecomfashion.modules.token.respository.TokenRepository;
 import com.devil.ecomfashion.modules.user.UserDTO;
+import com.devil.ecomfashion.modules.user.constants.Role;
 import com.devil.ecomfashion.modules.user.entity.User;
 import com.devil.ecomfashion.modules.user.respository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +18,7 @@ import com.sun.jdi.request.DuplicateRequestException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +32,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
     private final UserRepository userRepository;
@@ -41,25 +46,30 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public User register(UserDTO userDTO) {
+        try{
+            List<User> isUserExist = userRepository.findByEmail(userDTO.getEmail());
 
-        List<User> isUserExist = userRepository.findByEmail(userDTO.getEmail());
+            if (ObjectUtils.allNotNull(isUserExist) && ! isUserExist.isEmpty()) {
+                log.error("user already found for {}",userDTO.getEmail());
+                throw new UserAlreadyExistException("user already found");
+            }
 
-        if (ObjectUtils.allNotNull(isUserExist) && ! isUserExist.isEmpty()) {
-            throw new DuplicateRequestException("user already");
+            User user = User.builder()
+                    .firstName(userDTO.getFirstName())
+                    .lastName(userDTO.getLastName())
+                    .email(userDTO.getEmail())
+                    .password(passwordEncoder.encode(userDTO.getPassword()))
+                    .role(userDTO.getRole())
+                    .createdAt(new Date())
+                    .updatedAt(new Date())
+                    .build();
+
+            log.info("user creating for {}",userDTO.getEmail());
+            return userRepository.save(user);
+        }catch (Exception e){
+            log.error("exception occur while register for user details : {}",userDTO.getEmail());
+            throw new ExceptionOccur("Unable to register for user.");
         }
-
-        User user = User.builder()
-                .firstName(userDTO.getFirstName())
-                .lastName(userDTO.getLastName())
-                .email(userDTO.getEmail())
-                .password(passwordEncoder.encode(userDTO.getPassword()))
-                .role(userDTO.getRole())
-                .createdAt(new Date())
-                .updatedAt(new Date())
-                .build();
-
-        return userRepository.save(user);
-
     }
 
     private void saveUserToken(User user, String jwtToken) {
