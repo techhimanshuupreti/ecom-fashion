@@ -33,12 +33,13 @@ public class Category {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (! (o instanceof Category category)) return false;
-        return id == category.id && Objects.equals(name, category.name) && Objects.equals(type, category.type);
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return id == category.id && Objects.equals(name, category.name) && Objects.equals(type, category.type) && Objects.equals(createdAt, category.createdAt) && Objects.equals(updatedAt, category.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, type);
+        return Objects.hash(id, name, type, createdAt, updatedAt);
     }
 }
