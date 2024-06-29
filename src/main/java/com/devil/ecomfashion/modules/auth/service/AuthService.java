@@ -59,7 +59,7 @@ public class AuthService {
                     .lastName(userDTO.getLastName())
                     .email(userDTO.getEmail())
                     .password(passwordEncoder.encode(userDTO.getPassword()))
-                    .role(userDTO.getRole())
+                    .role(Role.valueOf(userDTO.getRole()))
                     .createdAt(new Date())
                     .updatedAt(new Date())
                     .build();
