@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.controller;
 
+import com.devil.ecomfashion.exception.ExceptionOccur;
 import com.devil.ecomfashion.exception.UserAlreadyExistException;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.model.ApiResponseError;
@@ -23,14 +24,24 @@ public class GlobalController{
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<?>> handleValidationErrors(MethodArgumentNotValidException ex) {
-        log.info("MethodArgumentNotValidException : {}",ex.getMessage());
+        log.info("handleValidationErrors : {}",ex.getMessage());
         List<ApiResponseError> errors = ex.getBindingResult().getFieldErrors().stream().map((fieldError) -> new ApiResponseError().setTitle(fieldError.getField()).setMessage(fieldError.getDefaultMessage())).collect(Collectors.toList());
         return new ResponseEntity<>(new ApiResponse<>(null, "invalid field ", false, errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UserAlreadyExistException.class)
     public ResponseEntity<ApiResponse<?>> handleUserAlreadyExistException(UserAlreadyExistException ex) {
-        log.info("UserAlreadyExistException : {}",ex.getMessage());
+        log.info("handleUserAlreadyExistException : {}",ex.getMessage());
+        ApiResponse<?> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(false);
+        apiResponseModel.setResult(null);
+        apiResponseModel.setMessage(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponseModel);
+    }
+
+    @ExceptionHandler(ExceptionOccur.class)
+    public ResponseEntity<ApiResponse<?>> handleExceptionOccur(ExceptionOccur ex) {
+        log.info("handleExceptionOccur : {}",ex.getMessage());
         ApiResponse<?> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(false);
         apiResponseModel.setResult(null);
