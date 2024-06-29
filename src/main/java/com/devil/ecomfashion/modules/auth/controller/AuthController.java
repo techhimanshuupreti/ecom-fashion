@@ -30,10 +30,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<User>> register(@RequestBody UserDTO userDTO) {
-        log.info("register info");
-        log.debug("register debug");
-        log.trace("register trace");
-        log.warn("register warn");
+
         ApiResponse<User> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(authService.register(userDTO));
