@@ -4,9 +4,11 @@ import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
+import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +47,12 @@ public class CategoryService {
     @Transactional
     public Category create(CategoryDTO categoryDTO) {
 
-        Category category = new Category();
+        Category category = findOne(categoryDTO.getName());
+        if(!ObjectUtils.isEmpty(category)){
+            throw new DuplicateKeyException("name");
+        }
+
+        category = new Category();
         category.setCreatedAt(new Date());
         category.setUpdatedAt(new Date());
         category.setName(categoryDTO.getName());

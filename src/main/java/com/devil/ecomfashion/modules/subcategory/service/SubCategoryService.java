@@ -9,6 +9,7 @@ import com.devil.ecomfashion.modules.subcategory.repository.SubCategoryRepositor
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,7 +57,12 @@ public class SubCategoryService {
     @Transactional
     public SubCategory create(SubCategoryDTO subCategoryDTO) {
 
-        SubCategory subCategory = new SubCategory();
+        SubCategory subCategory = findOne(subCategoryDTO.getName());
+        if(!ObjectUtils.isEmpty(subCategory)){
+            throw new DuplicateKeyException("name");
+        }
+
+        subCategory = new SubCategory();
         subCategory.setCreatedAt(new Date());
         subCategory.setUpdatedAt(new Date());
         subCategory.setName(subCategoryDTO.getName());

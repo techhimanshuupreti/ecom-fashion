@@ -30,7 +30,7 @@ public class Product {
     @JoinColumn(nullable = false)
     private Category category;
 
-    @Column(nullable = false, length = 120)
+    @Column(nullable = false)
     private String shortDescription;
 
     @Column(nullable = false)
