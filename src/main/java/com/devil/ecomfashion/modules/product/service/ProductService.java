@@ -5,6 +5,8 @@ import com.devil.ecomfashion.modules.category.service.CategoryService;
 import com.devil.ecomfashion.modules.product.dto.ProductDTO;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.repository.ProductRepository;
+import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
+import com.devil.ecomfashion.modules.subcategory.service.SubCategoryService;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +28,7 @@ public class ProductService {
     @Value("${img-folder-name}")
     private String FOLDER_NAME;
 
-    private final CategoryService categoryService;
+    private final SubCategoryService subCategoryService;
 
     public List<Product> find(String name) {
 
@@ -48,8 +50,8 @@ public class ProductService {
         product.setUpdatedAt(new Date());
         product.setName(productDTO.getName());
 
-        Category category = categoryService.findById(productDTO.getCategoryId());
-        product.setCategory(category);
+        SubCategory subCategory = subCategoryService.findOne(productDTO.getSubCategoryName());
+        product.setSubCategory(subCategory);
 
 //        File fileInputStream = new File(System.getProperty("user.dir") + "/"+uploadFiles+"/" + productDTO.getFile().getOriginalFilename());
         System.out.println("Directory for Product images: " + System.getProperty("user.dir"));

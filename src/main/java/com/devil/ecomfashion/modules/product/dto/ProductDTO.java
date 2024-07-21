@@ -18,8 +18,8 @@ public class ProductDTO {
     @NotBlank(message = "Product name is not blank")
     private String name;
 
-    @NotNull(message = "Product category is not null")
-    private Long categoryId;
+    @NotNull(message = "Product Sub category is not null")
+    private String subCategoryName;
 
     @NotNull(message = "Product short description is not null")
     @NotEmpty(message = "Product short description is not empty")

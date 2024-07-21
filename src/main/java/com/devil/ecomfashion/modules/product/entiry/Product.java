@@ -1,6 +1,7 @@
 package com.devil.ecomfashion.modules.product.entiry;
 
 import com.devil.ecomfashion.modules.category.entity.Category;
+import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -28,7 +29,7 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
-    private Category category;
+    private SubCategory subCategory;
 
     @Column(nullable = false)
     private String shortDescription;
