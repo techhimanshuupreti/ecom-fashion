@@ -1,23 +1,21 @@
 package com.devil.ecomfashion.modules.category.repository;
 
 import com.devil.ecomfashion.modules.category.entity.Category;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface CategoryRepository extends CrudRepository<Category, String> {
+public interface CategoryRepository extends CrudRepository<Category, Long> {
 
-    @Query("SELECT DISTINCT c.name,c.type,c.id FROM Category c")
-    public List<DisplayCategory> find();
+    List<Category> findAll();
 
-    public List<DisplayCategory> findDistinctByType(String mainCategory);
+    Category findByNameIgnoreCase(String name);
 
-    interface DisplayCategory {
+    List<Category> findByNameIsContainingIgnoreCase(String name);
 
-        String getId();
-        String getName();
-        String getType();
-    }
+    boolean deleteByNameIgnoreCase(String name);
+
+    Optional<Category> getByNameIgnoreCase(String name);
 }
 

@@ -1,12 +1,15 @@
 package com.devil.ecomfashion.modules.category.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "categories")
 public class Category {
@@ -14,7 +17,7 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private long id;
+    private Long id;
 
     // Todo: it defines which like Mobile, Laptop (type: Electronics)
     @Column(nullable = false)
@@ -35,7 +38,7 @@ public class Category {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
-        return id == category.id && Objects.equals(name, category.name) && Objects.equals(type, category.type) && Objects.equals(createdAt, category.createdAt) && Objects.equals(updatedAt, category.updatedAt);
+        return Objects.equals(id, category.id) && Objects.equals(name, category.name) && Objects.equals(type, category.type) && Objects.equals(createdAt, category.createdAt) && Objects.equals(updatedAt, category.updatedAt);
     }
 
     @Override

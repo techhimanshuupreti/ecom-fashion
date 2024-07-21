@@ -2,6 +2,7 @@ package com.devil.ecomfashion.modules.auth.service;
 
 
 import com.devil.ecomfashion.config.JwtService;
+import com.devil.ecomfashion.exception.CustomAuthenticationException;
 import com.devil.ecomfashion.exception.ExceptionOccur;
 import com.devil.ecomfashion.exception.UserAlreadyExistException;
 import com.devil.ecomfashion.modules.auth.dto.AuthDTO;
@@ -9,6 +10,7 @@ import com.devil.ecomfashion.modules.auth.model.AuthResponse;
 import com.devil.ecomfashion.modules.token.constants.TokenType;
 import com.devil.ecomfashion.modules.token.entity.Token;
 import com.devil.ecomfashion.modules.token.respository.TokenRepository;
+import com.devil.ecomfashion.modules.user.dto.UserDTO;
 import com.devil.ecomfashion.modules.user.UserDTO;
 import com.devil.ecomfashion.modules.user.constants.Role;
 import com.devil.ecomfashion.modules.user.entity.User;
@@ -25,10 +27,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MimeTypeUtils;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -143,17 +147,21 @@ public class AuthService {
         userEmail = jwtService.extractUserName(refreshToken);
 
         if (userEmail != null) {
-            User user = this.userRepository.findUserByEmail(userEmail).orElseThrow();
+            Optional<User> user = this.userRepository.findUserByEmail(userEmail);
+            if(user.isEmpty()){
+                throw new CustomAuthenticationException("no user found");
+            }
 
-            if (jwtService.isTokenValid(refreshToken, user)) {
-                String accessToken = jwtService.generateToken(user);
-                revokeAllUserTokens(user);
-                saveUserToken(user, accessToken);
+            if (jwtService.isTokenValid(refreshToken, user.get())) {
+                String accessToken = jwtService.generateToken(user.get());
+                revokeAllUserTokens(user.get());
+                saveUserToken(user.get(), accessToken);
                 AuthResponse authResponse = AuthResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build();
 
+                response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }

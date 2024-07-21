@@ -37,11 +37,11 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Product>>> find() {
+    public ResponseEntity<ApiResponse<List<Product>>> find(@RequestParam(required = false) String name) {
 
         ApiResponse<List<Product>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
-        apiResponseModel.setResult(productService.find());
+        apiResponseModel.setResult(productService.find(name));
 
         return apiResponseModel.createResponse();
     }

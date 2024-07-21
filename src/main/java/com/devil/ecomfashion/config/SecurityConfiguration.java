@@ -23,7 +23,7 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
 
-    private final String[] excludedEndPoints = new String[]{
+    private final String[] ENDPOINTS_WHITELIST = {
             "/api/v1/auth/**",
             "/v2/api-docs",
             "/v3/api-docs",
@@ -38,31 +38,50 @@ public class SecurityConfiguration {
     };
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        httpSecurity
-                .csrf()
-                .disable()
-                .authorizeHttpRequests()
-                .requestMatchers(excludedEndPoints).permitAll()
-
-//                .requestMatchers(GET, "/api/v1/user").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
-//                .requestMatchers(GET, "/api/v1/user/*").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
-
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+        http.authorizeHttpRequests(req ->
+                        req.requestMatchers(ENDPOINTS_WHITELIST).permitAll()
+                                .anyRequest().authenticated())
+                .csrf().disable()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout()
                 .logoutUrl("/api/v1/auth/logout")
                 .addLogoutHandler(logoutHandler)
-                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
+                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//                .and()
+//                .exceptionHandling(exception -> exception
+//                        .authenticationEntryPoint(new CustomAuthenticationHandler())
+//                        .accessDeniedHandler(new CustomAccessDeniedHandler()));
 
-        return httpSecurity.build();
+
+//        http
+//                .csrf()
+//                .disable()
+//                .authorizeHttpRequests()
+//                .requestMatchers(ENDPOINTS_WHITELIST).permitAll()
+//
+////                .requestMatchers(GET, "/api/v1/user").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
+////                .requestMatchers(GET, "/api/v1/user/*").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
+//
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .authenticationProvider(authenticationProvider)
+//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+//                .logout()
+//                .logoutUrl("/api/v1/auth/logout")
+//                .addLogoutHandler(logoutHandler)
+//                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
+
+        return http.build();
     }
 
 

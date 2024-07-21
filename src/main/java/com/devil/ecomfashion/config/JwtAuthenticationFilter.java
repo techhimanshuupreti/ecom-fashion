@@ -1,5 +1,7 @@
 package com.devil.ecomfashion.config;
 
+import com.devil.ecomfashion.exception.CustomAuthenticationException;
+import com.devil.ecomfashion.modules.token.entity.Token;
 import com.devil.ecomfashion.modules.token.respository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -49,9 +52,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            boolean isTokenValid = tokenRepository.findByToken(jwt)
-                    .map(token -> ( !token.isExpired() && !token.isRevoked()) )
-                    .orElse(false);
+            Optional<Token> token = tokenRepository.findByToken(jwt);
+
+            boolean isTokenValid = false;
+            if (token.isPresent()) {
+                isTokenValid = (! token.get().isExpired() && ! token.get().isRevoked());
+
+                if (token.get().isRevoked()) {
+                    throw  new CustomAuthenticationException("user already logout");
+                }
+            }
 
             if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
