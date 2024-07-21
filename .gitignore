@@ -32,3 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 /logs/EcomFashion.log
+/logs/2024/06/29/ecom-fashion-2024-06-29.0.log
