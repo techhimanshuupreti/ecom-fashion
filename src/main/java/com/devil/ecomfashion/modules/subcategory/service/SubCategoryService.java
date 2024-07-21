@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.modules.subcategory.service;
 
+import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
@@ -59,7 +60,7 @@ public class SubCategoryService {
 
         SubCategory subCategory = findOne(subCategoryDTO.getName());
         if(!ObjectUtils.isEmpty(subCategory)){
-            throw new DuplicateKeyException("name");
+            throw new AlreadyExistException("Sub Category name is already exist.");
         }
 
         subCategory = new SubCategory();

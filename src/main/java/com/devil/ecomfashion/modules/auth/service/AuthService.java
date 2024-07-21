@@ -4,7 +4,7 @@ package com.devil.ecomfashion.modules.auth.service;
 import com.devil.ecomfashion.config.JwtService;
 import com.devil.ecomfashion.exception.CustomAuthenticationException;
 import com.devil.ecomfashion.exception.ExceptionOccur;
-import com.devil.ecomfashion.exception.UserAlreadyExistException;
+import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.modules.auth.dto.AuthDTO;
 import com.devil.ecomfashion.modules.auth.model.AuthResponse;
 import com.devil.ecomfashion.modules.token.constants.TokenType;
@@ -53,7 +53,7 @@ public class AuthService {
 
             if (ObjectUtils.allNotNull(isUserExist) && ! isUserExist.isEmpty()) {
                 log.error("user already found for {}",userDTO.getEmail());
-                throw new UserAlreadyExistException("user already found");
+                throw new AlreadyExistException("user already found");
             }
 
             User user = User.builder()

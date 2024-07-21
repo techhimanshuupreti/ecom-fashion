@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.modules.category.service;
 
+import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
 import com.devil.ecomfashion.modules.category.entity.Category;
@@ -49,7 +50,7 @@ public class CategoryService {
 
         Category category = findOne(categoryDTO.getName());
         if(!ObjectUtils.isEmpty(category)){
-            throw new DuplicateKeyException("name");
+            throw new AlreadyExistException("Category name is already exist.");
         }
 
         category = new Category();

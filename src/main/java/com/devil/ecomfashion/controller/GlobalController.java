@@ -1,7 +1,7 @@
 package com.devil.ecomfashion.controller;
 
 import com.devil.ecomfashion.exception.ExceptionOccur;
-import com.devil.ecomfashion.exception.UserAlreadyExistException;
+import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.model.ApiResponseError;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +26,8 @@ public class GlobalController{
         return new ResponseEntity<>(new ApiResponse<>(null, "invalid field ", false, errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(UserAlreadyExistException.class)
-    public ResponseEntity<ApiResponse<?>> handleUserAlreadyExistException(UserAlreadyExistException ex) {
+    @ExceptionHandler(AlreadyExistException.class)
+    public ResponseEntity<ApiResponse<?>> handleAlreadyExistException(AlreadyExistException ex) {
         log.info("handleUserAlreadyExistException : {}",ex.getMessage());
         ApiResponse<?> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(false);

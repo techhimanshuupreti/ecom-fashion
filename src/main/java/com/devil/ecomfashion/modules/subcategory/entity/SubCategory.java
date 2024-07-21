@@ -13,7 +13,8 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "subCategory")
+@Table(name = "subCategory",uniqueConstraints = {
+@UniqueConstraint(name = "UniqueNameAndCategory", columnNames = {"name", "category_id"})})
 public class SubCategory {
 
     @Id
