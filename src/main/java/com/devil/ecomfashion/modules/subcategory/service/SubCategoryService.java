@@ -79,7 +79,7 @@ public class SubCategoryService {
         SubCategory subCategory = subCatRepository.findByNameIgnoreCase(name);
 
         if (ObjectUtils.isEmpty(subCategory)) {
-            throw new ResourceNotFoundException(name + " sub category is not found");
+            return null;
         }
 
         return subCategory;

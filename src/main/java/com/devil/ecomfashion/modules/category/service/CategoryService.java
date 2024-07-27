@@ -48,12 +48,12 @@ public class CategoryService {
     @Transactional
     public Category create(CategoryDTO categoryDTO) {
 
-        Category category = findOne(categoryDTO.getName());
-        if(!ObjectUtils.isEmpty(category)){
+        Category isAlreadyCategory = findOne(categoryDTO.getName());
+        if(!ObjectUtils.isEmpty(isAlreadyCategory)){
             throw new AlreadyExistException("Category name is already exist.");
         }
 
-        category = new Category();
+        Category category = new Category();
         category.setCreatedAt(new Date());
         category.setUpdatedAt(new Date());
         category.setName(categoryDTO.getName());

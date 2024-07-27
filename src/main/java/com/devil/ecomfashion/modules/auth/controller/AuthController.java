@@ -48,9 +48,13 @@ public class AuthController {
     }
 
     @PostMapping("/refresh-token")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseEntity<ApiResponse<AuthResponse>> refreshToken(HttpServletRequest request) throws IOException {
 
-        authService.refreshToken(request, response);
+        ApiResponse<AuthResponse> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(true);
+        apiResponseModel.setResult(authService.refreshToken(request));
+
+        return apiResponseModel.createResponse();
     }
 
     @GetMapping("/logout")
