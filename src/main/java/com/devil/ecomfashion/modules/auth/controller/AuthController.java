@@ -47,7 +47,7 @@ public class AuthController {
         return apiResponseModel.createResponse();
     }
 
-    @PostMapping("/refresh-token")
+    @GetMapping("/refresh-token")
     public ResponseEntity<ApiResponse<AuthResponse>> refreshToken(HttpServletRequest request) throws IOException {
 
         ApiResponse<AuthResponse> apiResponseModel = new ApiResponse<>();
