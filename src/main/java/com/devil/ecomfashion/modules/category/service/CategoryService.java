@@ -82,7 +82,7 @@ public class CategoryService {
         Category category = categoryRepository.findByNameIgnoreCase(name);
 
         if (ObjectUtils.isEmpty(category)) {
-            throw new ResourceNotFoundException(name + " category is not found");
+            return null;
         }
 
         return category;
