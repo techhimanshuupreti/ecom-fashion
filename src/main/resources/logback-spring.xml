@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-        <include resource="/org/springframework/boot/logging/logback/base.xml"/>
-        <logger name="org.apache.juli.*" level="DEBUG"/>
-            <logger name="org.hibernate" level="INFO"/>
-<!--        <logger name="org.mongodb" level="INFO"/>-->
-        <logger name="com.devil.ecomfashion.*" level="DEBUG"/>
+<!--        <include resource="/org/springframework/boot/logging/logback/base.xml"/>-->
+<!--        <logger name="org.apache.juli.*" level="DEBUG"/>-->
+<!--            <logger name="org.hibernate" level="INFO"/>-->
+<!--&lt;!&ndash;        <logger name="org.mongodb" level="INFO"/>&ndash;&gt;-->
+<!--        <logger name="com.devil.ecomfashion.*" level="DEBUG"/>-->
 
     <property name="DIRECTORY" value="./logs"/>
     <contextName>${HOSTNAME}</contextName>
@@ -22,10 +22,10 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${DIRECTORY}/EcomFashion.log</file>
+        <file>${DIRECTORY}/FashionApp.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             rollover daily
-            <fileNamePattern>${DIRECTORY}/%d{yyyy/MM/dd, aux}/ecom-fashion-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${DIRECTORY}/%d{yyyy/MM/dd, aux}/FashionApp-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>1MB</maxFileSize>
         </rollingPolicy>
         <encoder>
