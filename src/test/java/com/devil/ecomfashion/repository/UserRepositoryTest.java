@@ -1,40 +1,39 @@
-package com.devil.ecomfashion;
+package com.devil.ecomfashion.repository;
 
 import com.devil.ecomfashion.modules.user.constants.Role;
 import com.devil.ecomfashion.modules.user.entity.User;
 import com.devil.ecomfashion.modules.user.respository.UserRepository;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
 
-@DirtiesContext
+/*
+ * Todo: When run database layer test. You must do these things first.
+ *  1. spring.profiles.active=test
+ *  2. h2 and Junit dependency in pom
+ * */
 @DataJpaTest
-@ContextConfiguration(
-        classes = {EcommerceWepApp.class}
-)
 @DisplayName("User Database Layer Test")
 public class UserRepositoryTest {
+
     @Autowired
     UserRepository userRepository;
-
-    public UserRepositoryTest() {
-    }
 
     @Test
     @Order(1)
     @DisplayName("Saving User Test")
     void saveUser() {
         User user = User.builder().firstName("TestFirst").lastName("TestLast").email("testemail@gmail.com").password(UUID.randomUUID().toString()).role(Role.valueOf("ADMIN")).createdAt(new Date()).updatedAt(new Date()).build();
-        User savedUser = (User)this.userRepository.save(user);
+        User savedUser = (User) this.userRepository.save(user);
         Assertions.assertNotNull(savedUser);
         Assertions.assertNotNull(savedUser.getId());
         Assertions.assertEquals(savedUser.getFirstName(), "TestFirst");
@@ -51,7 +50,7 @@ public class UserRepositoryTest {
         this.userRepository.save(user);
         Optional<User> foundUser = this.userRepository.findUserByEmail(email);
         Assertions.assertTrue(foundUser.isPresent());
-        Assertions.assertEquals(email, ((User)foundUser.get()).getEmail());
+        Assertions.assertEquals(email, ((User) foundUser.get()).getEmail());
     }
 
     @Test
@@ -59,10 +58,10 @@ public class UserRepositoryTest {
     @DisplayName("Update the User Test")
     void updateUser() {
         User user = User.builder().firstName("UpdateFirst").lastName("UpdateLast").email("updateemail@gmail.com").password(UUID.randomUUID().toString()).role(Role.valueOf("USER")).createdAt(new Date()).updatedAt(new Date()).build();
-        User savedUser = (User)this.userRepository.save(user);
+        User savedUser = (User) this.userRepository.save(user);
         savedUser.setFirstName("UpdatedFirst");
         savedUser.setLastName("UpdatedLast");
-        User updatedUser = (User)this.userRepository.save(savedUser);
+        User updatedUser = (User) this.userRepository.save(savedUser);
         Assertions.assertNotNull(updatedUser);
         Assertions.assertEquals("UpdatedFirst", updatedUser.getFirstName());
         Assertions.assertEquals("UpdatedLast", updatedUser.getLastName());
@@ -73,7 +72,7 @@ public class UserRepositoryTest {
     @DisplayName("Delete the User Test")
     void deleteUser() {
         User user = User.builder().firstName("DeleteFirst").lastName("DeleteLast").email("deleteemail@gmail.com").password(UUID.randomUUID().toString()).role(Role.valueOf("USER")).createdAt(new Date()).updatedAt(new Date()).build();
-        User savedUser = (User)this.userRepository.save(user);
+        User savedUser = (User) this.userRepository.save(user);
         this.userRepository.delete(savedUser);
         Optional<User> deletedUser = this.userRepository.findById(savedUser.getId());
         Assertions.assertFalse(deletedUser.isPresent());
