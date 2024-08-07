@@ -128,7 +128,7 @@ public class AuthService {
 
     }
 
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public AuthResponse refreshToken(HttpServletRequest request) throws IOException {
 
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
@@ -137,32 +137,33 @@ public class AuthService {
         final String userEmail;
 
         if (authHeader == null || ! authHeader.startsWith("Bearer ")) {
-            return;
+            return AuthResponse.builder()
+                    .build();
         }
 
         refreshToken = authHeader.substring(7);
 
         userEmail = jwtService.extractUserName(refreshToken);
 
+        AuthResponse authResponse = null;
         if (userEmail != null) {
             Optional<User> user = this.userRepository.findUserByEmail(userEmail);
             if(user.isEmpty()){
-                throw new CustomAuthenticationException("no user found");
+                return AuthResponse.builder()
+                        .build();
             }
 
             if (jwtService.isTokenValid(refreshToken, user.get())) {
                 String accessToken = jwtService.generateToken(user.get());
                 revokeAllUserTokens(user.get());
                 saveUserToken(user.get(), accessToken);
-                AuthResponse authResponse = AuthResponse.builder()
+                authResponse = AuthResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build();
-
-                response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+        return authResponse;
     }
 
 }

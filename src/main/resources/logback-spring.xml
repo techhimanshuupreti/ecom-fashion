@@ -43,27 +43,15 @@
     <!-- Async Appender -->
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="FILE"/>
+        <includeCallerData>true</includeCallerData>
+        <queueSize>5000</queueSize>
+        <maxFlushTime>0</maxFlushTime>
     </appender>
 
-<!--    &lt;!&ndash; Socket Appender &ndash;&gt;-->
-<!--    <appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">-->
-<!--        <remoteHost>localhost</remoteHost>-->
-<!--        <port>4560</port>-->
-<!--        <reconnectionDelay>10000</reconnectionDelay>-->
-<!--    </appender>-->
-
-<!--    &lt;!&ndash; Syslog Appender &ndash;&gt;-->
-<!--    <appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">-->
-<!--        <syslogHost>localhost</syslogHost>-->
-<!--        <facility>USER</facility>-->
-<!--        <suffixPattern>%logger - %msg%n</suffixPattern>-->
-<!--    </appender>-->
-
-    <!-- Logger Configurations -->
     <root level="info">
+        <appender-ref ref="ASYNC"/>
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
         <!-- You can add other appenders as needed -->
     </root>
-
 </configuration>
