@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/sub-category")
-@CrossOrigin(origins = {"http://localhost:3000/", "*"})
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @Validated
 @Tag(name = "Sub-Category", description = "Sub-categories related api")

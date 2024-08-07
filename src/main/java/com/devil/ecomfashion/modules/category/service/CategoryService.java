@@ -9,6 +9,8 @@ import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CategoryService {
 
+    private static final Logger log = LoggerFactory.getLogger(CategoryService.class);
     private final CategoryRepository categoryRepository;
 
     public List<Category> find(String name) {
@@ -47,10 +50,10 @@ public class CategoryService {
 
     @Transactional
     public Category create(CategoryDTO categoryDTO) {
-
+        log.info("calling creating the category");
         Category category = findOne(categoryDTO.getName());
         if(!ObjectUtils.isEmpty(category)){
-            throw new AlreadyExistException("Category name is already exist.");
+            throw new AlreadyExistException(categoryDTO.getName()+" is already exist.");
         }
 
         category = new Category();
@@ -70,11 +73,14 @@ public class CategoryService {
         return categoryRepository.save(updatedCategory);
     }
 
-    public Boolean delete(String name) {
+    public Boolean delete(long id) {
 
-        Category category = findOne(name);
-
-        return categoryRepository.deleteByNameIgnoreCase(name);
+        Category category = findById(id);
+        if (category == null) {
+            return false;
+        }
+        categoryRepository.deleteById(id);
+        return true;
     }
 
     public Category findOne(String name) {
@@ -82,7 +88,7 @@ public class CategoryService {
         Category category = categoryRepository.findByNameIgnoreCase(name);
 
         if (ObjectUtils.isEmpty(category)) {
-            throw new ResourceNotFoundException(name + " category is not found");
+            return null;
         }
 
         return category;

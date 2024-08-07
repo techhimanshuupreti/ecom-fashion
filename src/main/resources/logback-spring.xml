@@ -12,39 +12,58 @@
     <timestamp key="month" datePattern="MMM"/>
     <timestamp key="date" datePattern="dd"/>
 
+    <!-- Console Appender -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>[%d{dd-MMM-yy HH:mm:ss.SSS}] %level: %class.%M:%L - %msg%n</pattern>
+        <encoder>
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) %logger{36} - %msg%n</pattern>
         </encoder>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                %white(%d{dd-MMM-yy HH:mm:ss.SSS}) %highlight(%-5level) [%blue(%t)] : %msg%n%throwable
-<!--                %black(%d{dd-MMM-yy HH:mm:ss.SSS}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable-->
-            </Pattern>
-        </layout>
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${DIRECTORY}/EcomFashion.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            rollover daily
-            <fileNamePattern>${DIRECTORY}/%d{yyyy/MM/dd, aux}/ecom-fashion-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxFileSize>1MB</maxFileSize>
+    <!-- File Appender -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/app.log</file>
+        <encoder>
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Rolling File Appender -->
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/rolling_app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/rolling_app.%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %X{RANDOM_ID} %-5level %class{36}.%M %L - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
+    <!-- Async Appender -->
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="FILE"/>
-        <includeCallerData>true</includeCallerData>
-        <queueSize>5000</queueSize>
-        <maxFlushTime>0</maxFlushTime>
     </appender>
 
+<!--    &lt;!&ndash; Socket Appender &ndash;&gt;-->
+<!--    <appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">-->
+<!--        <remoteHost>localhost</remoteHost>-->
+<!--        <port>4560</port>-->
+<!--        <reconnectionDelay>10000</reconnectionDelay>-->
+<!--    </appender>-->
+
+<!--    &lt;!&ndash; Syslog Appender &ndash;&gt;-->
+<!--    <appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">-->
+<!--        <syslogHost>localhost</syslogHost>-->
+<!--        <facility>USER</facility>-->
+<!--        <suffixPattern>%logger - %msg%n</suffixPattern>-->
+<!--    </appender>-->
+
+    <!-- Logger Configurations -->
     <root level="info">
-        <appender-ref ref="ASYNC"/>
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+        <!-- You can add other appenders as needed -->
     </root>
+
 </configuration>

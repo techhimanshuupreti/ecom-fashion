@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ap1/v1/category")
-@CrossOrigin(origins = {"http://localhost:3000/", "*"})
+@RequestMapping("/api/v1/categories")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @Validated
 @Tag(name = "Categories", description = "Categories related api")
@@ -53,11 +53,11 @@ public class CategoryController {
         return apiResponseModel.createResponse();
     }
 
-    @DeleteMapping
-    public ResponseEntity<ApiResponse<Boolean>> delete(@RequestParam String name) {
+    @DeleteMapping("{id}")
+    public ResponseEntity<ApiResponse<Boolean>> delete(@PathVariable long id) {
         ApiResponse<Boolean> apiResponse = new ApiResponse<>();
         apiResponse.setSuccess(true);
-        apiResponse.setResult(categoryService.delete(name));
+        apiResponse.setResult(categoryService.delete(id));
 
         return apiResponse.createResponse();
     }

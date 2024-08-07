@@ -60,15 +60,17 @@ public class SubCategoryService {
 
         SubCategory subCategory = findOne(subCategoryDTO.getName());
         if(!ObjectUtils.isEmpty(subCategory)){
-            throw new AlreadyExistException("Sub Category name is already exist.");
+            throw new AlreadyExistException(subCategoryDTO.getName() + " sub category is not found");
         }
+
+        Category category = catService.findOne(subCategoryDTO.getCategoryName());
+        if(ObjectUtils.isEmpty(category))
+            throw new ResourceNotFoundException("Category not found");
 
         subCategory = new SubCategory();
         subCategory.setCreatedAt(new Date());
         subCategory.setUpdatedAt(new Date());
         subCategory.setName(subCategoryDTO.getName());
-
-        Category category = catService.findOne(subCategoryDTO.getCategoryName());
         subCategory.setCategory(category);
 
         return subCatRepository.save(subCategory);
@@ -79,7 +81,7 @@ public class SubCategoryService {
         SubCategory subCategory = subCatRepository.findByNameIgnoreCase(name);
 
         if (ObjectUtils.isEmpty(subCategory)) {
-            throw new ResourceNotFoundException(name + " sub category is not found");
+            return null;
         }
 
         return subCategory;
@@ -87,11 +89,13 @@ public class SubCategoryService {
 
     public SubCategory update(long id, SubCategoryDTO subCategoryDTO) {
 
+        Category category = catService.findOne(subCategoryDTO.getCategoryName());
+        if(ObjectUtils.isEmpty(category))
+            throw new ResourceNotFoundException("Category not found");
+
         SubCategory updatedSubCategory = findById(id);
         updatedSubCategory.setName(subCategoryDTO.getName());
         updatedSubCategory.setUpdatedAt(new Date());
-
-        Category category = catService.findOne(subCategoryDTO.getCategoryName());
         updatedSubCategory.setCategory(category);
 
         return subCatRepository.save(updatedSubCategory);

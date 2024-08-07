@@ -32,6 +32,7 @@ public class SubCategory {
     private Date updatedAt;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
 }

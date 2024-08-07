@@ -1,9 +1,11 @@
 package com.devil.ecomfashion.modules.category.entity;
 
+import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -28,6 +30,9 @@ public class Category {
 
     @Column(nullable = false)
     private Date updatedAt;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<SubCategory> subCategories;
 
     @Override
     public boolean equals(Object o) {

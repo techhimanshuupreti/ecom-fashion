@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/ap1/v1/product")
-@CrossOrigin(origins = {"http://localhost:3000/", "*"})
+@RequestMapping("/api/v1/product")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @Validated
 @Tag(name = "Product", description = "product related api")
