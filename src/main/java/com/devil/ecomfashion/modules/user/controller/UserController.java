@@ -52,4 +52,13 @@ public class UserController {
         return apiResponseModel.createResponse();
     }
 
+    @PatchMapping("{id}")
+    public ResponseEntity<ApiResponse<User>> updateUser(@PathVariable long id, @RequestBody UserDTO userDTO) {
+
+        ApiResponse<User> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(true);
+        apiResponseModel.setResult(userService.updateUser(id,userDTO));
+
+        return apiResponseModel.createResponse();
+    }
 }
