@@ -76,4 +76,25 @@ public class ProductController {
 
         return apiResponseModel.createResponse();
     }
+
+    @GetMapping("{id}/by-categories")
+    public ResponseEntity<ApiResponse<List<ProductResponse>>> getProductsByCategory(@PathVariable long id) {
+
+        ApiResponse<List<ProductResponse>> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(true);
+        apiResponseModel.setResult(productService.getProductsByCategory(id));
+
+        return apiResponseModel.createResponse();
+    }
+
+    @GetMapping("{id}/by-sub-categories")
+    public ResponseEntity<ApiResponse<List<ProductResponse>>> getProductsBySubCategory(@PathVariable long id) {
+
+        ApiResponse<List<ProductResponse>> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(true);
+        apiResponseModel.setResult(productService.getProductsBySubCategory(id));
+
+        return apiResponseModel.createResponse();
+    }
+
 }

@@ -25,4 +25,7 @@ public interface SubCategoryRepository extends CrudRepository<SubCategory, Long>
 
     List<SubCategory> findAllByCategory(Category category);
 
+    @Query(value = "select * from sub_categories where category_id=:categoryId",nativeQuery = true)
+    List<SubCategory> findAllByCategoryId(Long categoryId);
+
 }

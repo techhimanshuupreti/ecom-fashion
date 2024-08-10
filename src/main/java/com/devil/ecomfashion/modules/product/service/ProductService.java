@@ -88,12 +88,29 @@ public class ProductService {
         return ProductUtils.convertProductResponse(products);
     }
 
+    public List<ProductResponse> getProductsBySubCategory(Long subCategoryId) {
+        SubCategory subCategory = subCategoryService.getById(subCategoryId);
+        List<Product> products = productRepository.findAllBySubCategory(subCategory);
+        if (ObjectUtils.isEmpty(products))
+            return new ArrayList<>();
+
+        return ProductUtils.convertProductResponse(products);
+    }
+
     public List<ProductResponse> getProductsBySubCategory(List<SubCategory> subCategories) {
         List<Product> products = productRepository.findAllBySubCategoryIn(subCategories);
         if (ObjectUtils.isEmpty(products))
             return new ArrayList<>();
 
         return ProductUtils.convertProductResponse(products);
+    }
+
+
+    public List<ProductResponse> getProductsByCategory(Long id) {
+
+        List<SubCategory> subCategories = subCategoryService.findAllByCategoryId(id);
+
+        return getProductsBySubCategory(subCategories);
     }
 
     public Boolean delete(long id) {
@@ -133,4 +150,5 @@ public class ProductService {
 
         return ProductUtils.convertProductResponse(product);
     }
+
 }

@@ -72,15 +72,4 @@ public class CategoryController {
 
         return apiResponse.createResponse();
     }
-
-    @GetMapping("{id}/products")
-    public ResponseEntity<ApiResponse<List<ProductResponse>>> findAllProductsBySubCategoryId(@PathVariable long id) {
-
-        ApiResponse<List<ProductResponse>> apiResponseModel = new ApiResponse<>();
-        apiResponseModel.setSuccess(true);
-        apiResponseModel.setResult(categoryService.findAllProductsByCategoryId(id));
-
-        return apiResponseModel.createResponse();
-    }
-
 }

@@ -11,6 +11,7 @@ import com.devil.ecomfashion.modules.subcategory.dto.request.SubCategoryDTO;
 import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import com.devil.ecomfashion.modules.subcategory.repository.SubCategoryRepository;
+import com.devil.ecomfashion.utils.ProductUtils;
 import com.devil.ecomfashion.utils.SubCategoryUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -18,10 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +28,6 @@ public class SubCategoryService {
 
     private final SubCategoryRepository subCatRepository;
     private final CategoryService catService;
-    private final ProductService productService;
 
     public List<SubCategoryResponse> find(String name) {
         List<SubCategory> subCategories;
@@ -118,8 +115,12 @@ public class SubCategoryService {
     }
 
 
-    public List<ProductResponse> findAllProductsBySubCategoryId(long id) {
-        SubCategory subCategory = getById(id);
-        return productService.getProductsBySubCategory(subCategory);
+    public List<SubCategory> findAllByCategoryId(Long categoryId){
+        List<SubCategory> subCategories = subCatRepository.findAllByCategoryId(categoryId);
+        if (ObjectUtils.isEmpty(subCategories)) {
+            return new ArrayList<>();
+        }
+
+        return subCategories;
     }
 }

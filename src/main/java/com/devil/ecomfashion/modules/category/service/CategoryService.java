@@ -28,7 +28,6 @@ public class CategoryService {
 
     private static final Logger log = LoggerFactory.getLogger(CategoryService.class);
     private final CategoryRepository categoryRepository;
-    private final ProductService productService;
 
     public List<CategoryResponse> find(String name) {
 
@@ -106,8 +105,4 @@ public class CategoryService {
         return category;
     }
 
-    public List<ProductResponse> findAllProductsByCategoryId(long id) {
-        Category category = getById(id);
-        return productService.getProductsBySubCategory(category.getSubCategories());
-    }
 }
