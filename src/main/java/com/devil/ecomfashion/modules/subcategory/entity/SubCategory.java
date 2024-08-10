@@ -13,8 +13,9 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "subCategory",uniqueConstraints = {
-@UniqueConstraint(name = "UniqueNameAndCategory", columnNames = {"name", "category_id"})})
+@Table(name = "sub_categories",uniqueConstraints = {
+@UniqueConstraint(name = "UniqueNameAndCategory", columnNames = {"name", "category_id"})},
+        indexes = @Index(columnList = "name,category_id,id"))
 public class SubCategory {
 
     @Id
@@ -31,7 +32,7 @@ public class SubCategory {
     @Column(nullable = false)
     private Date updatedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 

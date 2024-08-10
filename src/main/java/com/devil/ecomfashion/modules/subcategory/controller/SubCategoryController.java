@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/sub-category")
+@RequestMapping("/api/v1/sub-categories")
 @CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @Validated

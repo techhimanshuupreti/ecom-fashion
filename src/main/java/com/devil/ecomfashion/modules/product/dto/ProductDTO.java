@@ -19,7 +19,7 @@ public class ProductDTO {
     private String name;
 
     @NotNull(message = "Product Sub category is not null")
-    private String subCategoryName;
+    private Long subcategoryId;
 
     @NotNull(message = "Product short description is not null")
     @NotEmpty(message = "Product short description is not empty")

@@ -1,9 +1,11 @@
 package com.devil.ecomfashion.modules.category.entity;
 
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -31,7 +33,8 @@ public class Category {
     @Column(nullable = false)
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubCategory> subCategories;
 
     @Override

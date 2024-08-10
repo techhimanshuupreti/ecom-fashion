@@ -51,7 +51,7 @@ public class ProductService {
         product.setUpdatedAt(new Date());
         product.setName(productDTO.getName());
 
-        SubCategory subCategory = subCategoryService.findOne(productDTO.getSubCategoryName());
+        SubCategory subCategory = subCategoryService.findById(productDTO.getSubcategoryId());
         product.setSubCategory(subCategory);
 
 //        File fileInputStream = new File(System.getProperty("user.dir") + "/"+uploadFiles+"/" + productDTO.getFile().getOriginalFilename());
