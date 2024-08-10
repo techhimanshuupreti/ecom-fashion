@@ -1,17 +1,15 @@
 package com.devil.ecomfashion.modules.category.service;
 
 import com.devil.ecomfashion.exception.AlreadyExistException;
-import com.devil.ecomfashion.exception.ResourceNotFoundException;
-import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
+import com.devil.ecomfashion.modules.category.dto.request.CategoryDTO;
+import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
-import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +17,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +26,7 @@ public class CategoryService {
     private static final Logger log = LoggerFactory.getLogger(CategoryService.class);
     private final CategoryRepository categoryRepository;
 
-    public List<Category> find(String name) {
+    public List<CategoryResponse> find(String name) {
 
         List<Category> categories;
 
@@ -37,10 +36,16 @@ public class CategoryService {
             categories = Collections.singletonList(categoryRepository.findByNameIgnoreCase(name));
         }
 
-        return categories;
+        return convertCategoryResponse(categories);
+
     }
 
-    public Category findById(long id) {
+    public CategoryResponse findById(long id) {
+        return convertCategoryResponse(getById(id));
+
+    }
+
+    public Category getById(long id) {
         Optional<Category> category = categoryRepository.findById(id);
         if (category.isEmpty()) {
             throw new NullPointerException("no found category");
@@ -49,11 +54,11 @@ public class CategoryService {
     }
 
     @Transactional
-    public Category create(CategoryDTO categoryDTO) {
+    public CategoryResponse create(CategoryDTO categoryDTO) {
         log.info("calling creating the category");
         Category category = findOne(categoryDTO.getName());
-        if(!ObjectUtils.isEmpty(category)){
-            throw new AlreadyExistException(categoryDTO.getName()+" is already exist.");
+        if (!ObjectUtils.isEmpty(category)) {
+            throw new AlreadyExistException(categoryDTO.getName() + " is already exist.");
         }
 
         category = new Category();
@@ -61,21 +66,24 @@ public class CategoryService {
         category.setUpdatedAt(new Date());
         category.setName(categoryDTO.getName());
 
-        return categoryRepository.save(category);
+        category = categoryRepository.save(category);
+
+        return convertCategoryResponse(category);
     }
 
-    public Category update(long id,CategoryDTO categoryDTO) {
+    public CategoryResponse update(long id, CategoryDTO categoryDTO) {
 
-        Category updatedCategory = findById(id);
+        Category updatedCategory = getById(id);
         updatedCategory.setName(categoryDTO.getName());
         updatedCategory.setUpdatedAt(new Date());
 
-        return categoryRepository.save(updatedCategory);
+        updatedCategory = categoryRepository.save(updatedCategory);
+        return convertCategoryResponse(updatedCategory);
     }
 
     public Boolean delete(long id) {
 
-        Category category = findById(id);
+        Category category = getById(id);
         if (category == null) {
             return false;
         }
@@ -92,5 +100,20 @@ public class CategoryService {
         }
 
         return category;
+    }
+
+    public CategoryResponse convertCategoryResponse(Category category) {
+        return CategoryResponse.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .build();
+    }
+
+    public List<CategoryResponse> convertCategoryResponse(List<Category> categories) {
+
+        return categories.stream().map(category -> CategoryResponse.builder()
+                                    .name(category.getName())
+                                    .id(category.getId()).build())
+                .collect(Collectors.toList());
     }
 }

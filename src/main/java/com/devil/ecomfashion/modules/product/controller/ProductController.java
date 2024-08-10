@@ -1,7 +1,8 @@
 package com.devil.ecomfashion.modules.product.controller;
 
 import com.devil.ecomfashion.model.ApiResponse;
-import com.devil.ecomfashion.modules.product.dto.ProductDTO;
+import com.devil.ecomfashion.modules.product.dto.request.ProductDTO;
+import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.service.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/product")
+@RequestMapping("/api/v1/products")
 @CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @Validated
@@ -27,9 +28,9 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ApiResponse<Product>> create(@Valid @ModelAttribute ProductDTO productDTO) throws IOException {
+    public ResponseEntity<ApiResponse<ProductResponse>> create(@Valid @ModelAttribute ProductDTO productDTO) throws IOException {
 
-        ApiResponse<Product> apiResponseModel = new ApiResponse<>();
+        ApiResponse<ProductResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(productService.create(productDTO));
 
@@ -37,9 +38,9 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Product>>> find(@RequestParam(required = false) String name) {
+    public ResponseEntity<ApiResponse<List<ProductResponse>>> find(@RequestParam(required = false) String name) {
 
-        ApiResponse<List<Product>> apiResponseModel = new ApiResponse<>();
+        ApiResponse<List<ProductResponse>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(productService.find(name));
 
@@ -47,9 +48,9 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Optional<Product>>> findOne(@PathVariable long id) {
+    public ResponseEntity<ApiResponse<ProductResponse>> findOne(@PathVariable long id) {
 
-        ApiResponse<Optional<Product>> apiResponseModel = new ApiResponse<>();
+        ApiResponse<ProductResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(productService.findOne(id));
 

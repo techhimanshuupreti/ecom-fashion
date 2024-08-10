@@ -2,6 +2,7 @@ package com.devil.ecomfashion.modules.subcategory.repository;
 
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -18,5 +19,8 @@ public interface SubCategoryRepository extends CrudRepository<SubCategory, Long>
     boolean deleteByNameIgnoreCase(String name);
 
     Optional<SubCategory> getByNameIgnoreCase(String name);
+
+    @Query(value = "select distinct name from sub_categories",nativeQuery = true)
+    List<String> findAllNames();
 
 }

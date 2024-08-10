@@ -2,15 +2,16 @@ package com.devil.ecomfashion.modules.subcategory.service;
 
 import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
+import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
-import com.devil.ecomfashion.modules.subcategory.dto.SubCategoryDTO;
+import com.devil.ecomfashion.modules.subcategory.dto.request.SubCategoryDTO;
+import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import com.devil.ecomfashion.modules.subcategory.repository.SubCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class SubCategoryService {
     private final SubCategoryRepository subCatRepository;
     private final CategoryService catService;
 
-    public List<SubCategory> find(String name) {
+    public List<SubCategoryResponse> find(String name) {
         List<SubCategory> subCategories;
 
         if (StringUtils.isBlank(name)) {
@@ -35,10 +37,18 @@ public class SubCategoryService {
             subCategories = Collections.singletonList(subCatRepository.findByNameIgnoreCase(name));
         }
 
-        return subCategories;
+        return convertSubCategoryResponse(subCategories);
     }
 
-    public SubCategory findById(long id) {
+    public SubCategoryResponse findById(long id) {
+        Optional<SubCategory> subCategory = subCatRepository.findById(id);
+        if (subCategory.isEmpty()) {
+            throw new NullPointerException("no found sub-category");
+        }
+        return convertSubCategoryResponse(subCategory.get());
+    }
+
+    public SubCategory getById(long id) {
         Optional<SubCategory> subCategory = subCatRepository.findById(id);
         if (subCategory.isEmpty()) {
             throw new NullPointerException("no found sub-category");
@@ -56,7 +66,7 @@ public class SubCategoryService {
     }
 
     @Transactional
-    public SubCategory create(SubCategoryDTO subCategoryDTO) {
+    public SubCategoryResponse create(SubCategoryDTO subCategoryDTO) {
 
         SubCategory subCategory = findOne(subCategoryDTO.getName());
         if(!ObjectUtils.isEmpty(subCategory)){
@@ -73,7 +83,8 @@ public class SubCategoryService {
         subCategory.setName(subCategoryDTO.getName());
         subCategory.setCategory(category);
 
-        return subCatRepository.save(subCategory);
+        subCategory = subCatRepository.save(subCategory);
+        return convertSubCategoryResponse(subCategory);
     }
 
     public SubCategory findOne(String name) {
@@ -87,17 +98,33 @@ public class SubCategoryService {
         return subCategory;
     }
 
-    public SubCategory update(long id, SubCategoryDTO subCategoryDTO) {
+    public SubCategoryResponse update(long id, SubCategoryDTO subCategoryDTO) {
 
         Category category = catService.findOne(subCategoryDTO.getCategoryName());
         if(ObjectUtils.isEmpty(category))
             throw new ResourceNotFoundException("Category not found");
 
-        SubCategory updatedSubCategory = findById(id);
+        SubCategory updatedSubCategory = getById(id);
         updatedSubCategory.setName(subCategoryDTO.getName());
         updatedSubCategory.setUpdatedAt(new Date());
         updatedSubCategory.setCategory(category);
 
-        return subCatRepository.save(updatedSubCategory);
+        updatedSubCategory = subCatRepository.save(updatedSubCategory);
+        return convertSubCategoryResponse(updatedSubCategory);
+    }
+
+    public SubCategoryResponse convertSubCategoryResponse(SubCategory subCategory) {
+        return SubCategoryResponse.builder()
+                .id(subCategory.getId())
+                .name(subCategory.getName())
+                .build();
+    }
+
+    public List<SubCategoryResponse> convertSubCategoryResponse(List<SubCategory> subCategories) {
+
+        return subCategories.stream().map(subCategory -> SubCategoryResponse.builder()
+                        .name(subCategory.getName())
+                        .id(subCategory.getId()).build())
+                .collect(Collectors.toList());
     }
 }

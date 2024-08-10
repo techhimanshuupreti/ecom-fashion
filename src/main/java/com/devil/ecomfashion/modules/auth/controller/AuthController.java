@@ -24,8 +24,6 @@ import java.io.IOException;
 @Tag(name = "Authentication", description = "authentication related api like login, logout,forget,change password")
 public class AuthController {
 
-    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
-
     private final AuthService authService;
 
     @PostMapping("/register")

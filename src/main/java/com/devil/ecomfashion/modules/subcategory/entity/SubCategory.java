@@ -3,7 +3,9 @@ package com.devil.ecomfashion.modules.subcategory.entity;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.repository.Modifying;
 
 import java.util.Date;
 import java.util.Objects;
@@ -14,8 +16,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "sub_categories",uniqueConstraints = {
-@UniqueConstraint(name = "UniqueNameAndCategory", columnNames = {"name", "category_id"})},
-        indexes = @Index(columnList = "name,category_id,id"))
+@UniqueConstraint(name = "UniqueNameAndCategory", columnNames = {"name", "category_id"})})
 public class SubCategory {
 
     @Id

@@ -1,7 +1,8 @@
 package com.devil.ecomfashion.modules.category.controller;
 
 import com.devil.ecomfashion.model.ApiResponse;
-import com.devil.ecomfashion.modules.category.dto.CategoryDTO;
+import com.devil.ecomfashion.modules.category.dto.request.CategoryDTO;
+import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,9 +25,9 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Category>> create(@Valid @RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<ApiResponse<CategoryResponse>> create(@Valid @RequestBody CategoryDTO categoryDTO) {
 
-        ApiResponse<Category> apiResponseModel = new ApiResponse<>();
+        ApiResponse<CategoryResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(categoryService.create(categoryDTO));
 
@@ -34,9 +35,9 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Category>>> find(@RequestParam(required = false) String name) {
+    public ResponseEntity<ApiResponse<List<CategoryResponse>>> find(@RequestParam(required = false) String name) {
 
-        ApiResponse<List<Category>> apiResponseModel = new ApiResponse<>();
+        ApiResponse<List<CategoryResponse>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(categoryService.find(name));
 
@@ -44,9 +45,9 @@ public class CategoryController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ApiResponse<Category>> findById(@PathVariable long id) {
+    public ResponseEntity<ApiResponse<CategoryResponse>> findById(@PathVariable long id) {
 
-        ApiResponse<Category> apiResponseModel = new ApiResponse<>();
+        ApiResponse<CategoryResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(categoryService.findById(id));
 
@@ -63,8 +64,8 @@ public class CategoryController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<ApiResponse<Category>> update(@PathVariable long id,@Valid @RequestBody CategoryDTO categoryDTO) {
-        ApiResponse<Category> apiResponse = new ApiResponse<>();
+    public ResponseEntity<ApiResponse<CategoryResponse>> update(@PathVariable long id,@Valid @RequestBody CategoryDTO categoryDTO) {
+        ApiResponse<CategoryResponse> apiResponse = new ApiResponse<>();
         apiResponse.setSuccess(true);
         apiResponse.setResult(categoryService.update(id,categoryDTO));
 

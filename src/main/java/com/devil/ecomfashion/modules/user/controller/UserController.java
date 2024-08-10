@@ -2,20 +2,16 @@ package com.devil.ecomfashion.modules.user.controller;
 
 
 import com.devil.ecomfashion.model.ApiResponse;
+import com.devil.ecomfashion.modules.user.dto.UserDTO;
 import com.devil.ecomfashion.modules.user.entity.User;
 import com.devil.ecomfashion.modules.user.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
-
-@PreAuthorize("hasAnyRole('ROLE_VIEWER')")
 
 @CrossOrigin(origins = {"http://localhost:3000/", "*"})
 @RestController
@@ -43,6 +39,15 @@ public class UserController {
         ApiResponse<User> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(userService.findOne(id));
+
+        return apiResponseModel.createResponse();
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<ApiResponse<User>> create(@RequestBody UserDTO userDTO) {
+        ApiResponse<User> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(true);
+        apiResponseModel.setResult(userService.create(userDTO));
 
         return apiResponseModel.createResponse();
     }

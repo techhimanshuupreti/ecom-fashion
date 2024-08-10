@@ -1,11 +1,9 @@
 package com.devil.ecomfashion.modules.product.entiry;
 
-import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Blob;
 import java.util.Date;
 
 @Data
@@ -31,11 +29,8 @@ public class Product {
     @JoinColumn(nullable = false)
     private SubCategory subCategory;
 
-    @Column(nullable = false)
-    private String shortDescription;
-
-    @Column(nullable = false)
-    private String longDescription;
+    @Column(nullable = false, columnDefinition = "text")
+    private String description;
 
     @Column(nullable = false)
     private String imagePath;

@@ -1,4 +1,4 @@
-package com.devil.ecomfashion.modules.subcategory.dto;
+package com.devil.ecomfashion.modules.subcategory.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

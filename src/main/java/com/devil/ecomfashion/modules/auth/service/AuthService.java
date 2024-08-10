@@ -52,7 +52,7 @@ public class AuthService {
             List<User> isUserExist = userRepository.findByEmail(userDTO.getEmail());
 
             if (ObjectUtils.allNotNull(isUserExist) && ! isUserExist.isEmpty()) {
-                log.error("user already found for {}",userDTO.getEmail());
+                log.error("user already found for {}", userDTO.getEmail());
                 throw new AlreadyExistException("user already found");
             }
 
@@ -61,7 +61,7 @@ public class AuthService {
                     .lastName(userDTO.getLastName())
                     .email(userDTO.getEmail())
                     .password(passwordEncoder.encode(userDTO.getPassword()))
-                    .role(Role.valueOf(userDTO.getRole()))
+                    .role(Role.USER)
                     .createdAt(new Date())
                     .updatedAt(new Date())
                     .build();
@@ -108,6 +108,8 @@ public class AuthService {
         return AuthResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .userId(String.valueOf(user.getId()))
+                .role(user.getRole().name())
                 .build();
     }
 
@@ -128,7 +130,7 @@ public class AuthService {
 
     }
 
-    public AuthResponse refreshToken(HttpServletRequest request) throws IOException {
+    public AuthResponse refreshToken(HttpServletRequest request) {
 
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
@@ -160,6 +162,8 @@ public class AuthService {
                 authResponse = AuthResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
+                        .userId(String.valueOf(user.get().getId()))
+                        .role(user.get().getRole().name())
                         .build();
             }
         }

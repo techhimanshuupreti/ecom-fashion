@@ -2,6 +2,7 @@ package com.devil.ecomfashion.modules.category.repository;
 
 import com.devil.ecomfashion.modules.category.entity.Category;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -21,5 +22,9 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
 
     @Modifying
     void deleteById(Long id);
+
+    @Query(value = "select distinct name from categories",nativeQuery = true)
+    List<String> findAllNames();
+
 }
 
