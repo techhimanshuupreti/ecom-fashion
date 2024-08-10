@@ -9,6 +9,7 @@ import com.devil.ecomfashion.modules.subcategory.dto.request.SubCategoryDTO;
 import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import com.devil.ecomfashion.modules.subcategory.repository.SubCategoryRepository;
+import com.devil.ecomfashion.utils.SubCategoryUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +38,7 @@ public class SubCategoryService {
             subCategories = Collections.singletonList(subCatRepository.findByNameIgnoreCase(name));
         }
 
-        return convertSubCategoryResponse(subCategories);
+        return SubCategoryUtils.convertSubCategoryResponse(subCategories);
     }
 
     public SubCategoryResponse findById(long id) {
@@ -45,7 +46,7 @@ public class SubCategoryService {
         if (subCategory.isEmpty()) {
             throw new NullPointerException("no found sub-category");
         }
-        return convertSubCategoryResponse(subCategory.get());
+        return SubCategoryUtils.convertSubCategoryResponse(subCategory.get());
     }
 
     public SubCategory getById(long id) {
@@ -84,7 +85,7 @@ public class SubCategoryService {
         subCategory.setCategory(category);
 
         subCategory = subCatRepository.save(subCategory);
-        return convertSubCategoryResponse(subCategory);
+        return SubCategoryUtils.convertSubCategoryResponse(subCategory);
     }
 
     public SubCategory findOne(String name) {
@@ -110,21 +111,8 @@ public class SubCategoryService {
         updatedSubCategory.setCategory(category);
 
         updatedSubCategory = subCatRepository.save(updatedSubCategory);
-        return convertSubCategoryResponse(updatedSubCategory);
+        return SubCategoryUtils.convertSubCategoryResponse(updatedSubCategory);
     }
 
-    public SubCategoryResponse convertSubCategoryResponse(SubCategory subCategory) {
-        return SubCategoryResponse.builder()
-                .id(subCategory.getId())
-                .name(subCategory.getName())
-                .build();
-    }
 
-    public List<SubCategoryResponse> convertSubCategoryResponse(List<SubCategory> subCategories) {
-
-        return subCategories.stream().map(subCategory -> SubCategoryResponse.builder()
-                        .name(subCategory.getName())
-                        .id(subCategory.getId()).build())
-                .collect(Collectors.toList());
-    }
 }

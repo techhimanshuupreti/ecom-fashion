@@ -5,6 +5,7 @@ import com.devil.ecomfashion.modules.category.dto.request.CategoryDTO;
 import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
+import com.devil.ecomfashion.utils.CategoryUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -36,12 +37,12 @@ public class CategoryService {
             categories = Collections.singletonList(categoryRepository.findByNameIgnoreCase(name));
         }
 
-        return convertCategoryResponse(categories);
+        return CategoryUtils.convertCategoryResponse(categories);
 
     }
 
     public CategoryResponse findById(long id) {
-        return convertCategoryResponse(getById(id));
+        return CategoryUtils.convertCategoryResponse(getById(id));
 
     }
 
@@ -68,7 +69,7 @@ public class CategoryService {
 
         category = categoryRepository.save(category);
 
-        return convertCategoryResponse(category);
+        return CategoryUtils.convertCategoryResponse(category);
     }
 
     public CategoryResponse update(long id, CategoryDTO categoryDTO) {
@@ -78,7 +79,7 @@ public class CategoryService {
         updatedCategory.setUpdatedAt(new Date());
 
         updatedCategory = categoryRepository.save(updatedCategory);
-        return convertCategoryResponse(updatedCategory);
+        return CategoryUtils.convertCategoryResponse(updatedCategory);
     }
 
     public Boolean delete(long id) {
@@ -102,18 +103,4 @@ public class CategoryService {
         return category;
     }
 
-    public CategoryResponse convertCategoryResponse(Category category) {
-        return CategoryResponse.builder()
-                .id(category.getId())
-                .name(category.getName())
-                .build();
-    }
-
-    public List<CategoryResponse> convertCategoryResponse(List<Category> categories) {
-
-        return categories.stream().map(category -> CategoryResponse.builder()
-                                    .name(category.getName())
-                                    .id(category.getId()).build())
-                .collect(Collectors.toList());
-    }
 }
