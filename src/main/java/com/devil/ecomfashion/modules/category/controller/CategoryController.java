@@ -5,6 +5,7 @@ import com.devil.ecomfashion.modules.category.dto.request.CategoryDTO;
 import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
+import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +71,16 @@ public class CategoryController {
         apiResponse.setResult(categoryService.update(id,categoryDTO));
 
         return apiResponse.createResponse();
+    }
+
+    @GetMapping("{id}/products")
+    public ResponseEntity<ApiResponse<List<ProductResponse>>> findAllProductsBySubCategoryId(@PathVariable long id) {
+
+        ApiResponse<List<ProductResponse>> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(true);
+        apiResponseModel.setResult(categoryService.findAllProductsByCategoryId(id));
+
+        return apiResponseModel.createResponse();
     }
 
 }

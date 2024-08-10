@@ -1,6 +1,7 @@
 package com.devil.ecomfashion.modules.subcategory.controller;
 
 import com.devil.ecomfashion.model.ApiResponse;
+import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.subcategory.dto.request.SubCategoryDTO;
 import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
@@ -72,5 +73,15 @@ public class SubCategoryController {
         apiResponse.setResult(subCategoryService.update(id,subCategoryDTO));
 
         return apiResponse.createResponse();
+    }
+
+    @GetMapping("{id}/products")
+    public ResponseEntity<ApiResponse<List<ProductResponse>>> findAllProductsBySubCategoryId(@PathVariable long id) {
+
+        ApiResponse<List<ProductResponse>> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(true);
+        apiResponseModel.setResult(subCategoryService.findAllProductsBySubCategoryId(id));
+
+        return apiResponseModel.createResponse();
     }
 }

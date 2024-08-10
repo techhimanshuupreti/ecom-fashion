@@ -1,6 +1,5 @@
 package com.devil.ecomfashion.utils;
 
-import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 

@@ -5,6 +5,8 @@ import com.devil.ecomfashion.modules.category.dto.request.CategoryDTO;
 import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
+import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
+import com.devil.ecomfashion.modules.product.service.ProductService;
 import com.devil.ecomfashion.utils.CategoryUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -26,6 +28,7 @@ public class CategoryService {
 
     private static final Logger log = LoggerFactory.getLogger(CategoryService.class);
     private final CategoryRepository categoryRepository;
+    private final ProductService productService;
 
     public List<CategoryResponse> find(String name) {
 
@@ -103,4 +106,8 @@ public class CategoryService {
         return category;
     }
 
+    public List<ProductResponse> findAllProductsByCategoryId(long id) {
+        Category category = getById(id);
+        return productService.getProductsBySubCategory(category.getSubCategories());
+    }
 }

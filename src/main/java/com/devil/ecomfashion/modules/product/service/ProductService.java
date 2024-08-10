@@ -8,6 +8,7 @@ import com.devil.ecomfashion.modules.product.repository.ProductRepository;
 import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import com.devil.ecomfashion.modules.subcategory.service.SubCategoryService;
+import com.devil.ecomfashion.utils.ProductUtils;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,20 +43,20 @@ public class ProductService {
         List<Product> products = new ArrayList<>();
         if (StringUtils.isEmpty(name)) {
             products = productRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-        }else {
+        } else {
             products = productRepository.findByNameIgnoreCase(name, Sort.by(Sort.Direction.DESC, "id"));
         }
-        return convertProductResponse(products);
+        return ProductUtils.convertProductResponse(products);
     }
 
     public ProductResponse findOne(long id) {
         Product product = getById(id);
-        return convertProductResponse(product);
+        return ProductUtils.convertProductResponse(product);
     }
 
     public Product getById(long id) {
         Optional<Product> product = productRepository.findById(id);
-        if(product.isEmpty())
+        if (product.isEmpty())
             throw new ResourceNotFoundException("product not found");
 
         return product.get();
@@ -79,21 +80,23 @@ public class ProductService {
         product.setDescription(productDTO.getDescription());
 
         product = productRepository.save(product);
-        return convertProductResponse(product);
+        return ProductUtils.convertProductResponse(product);
     }
 
-    public ProductResponse convertProductResponse(Product product) {
-        return ProductResponse.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .build();
+    public List<ProductResponse> getProductsBySubCategory(SubCategory subCategoryId) {
+        List<Product> products = productRepository.findAllBySubCategory(subCategoryId);
+        if (ObjectUtils.isEmpty(products))
+            return new ArrayList<>();
+
+        return ProductUtils.convertProductResponse(products);
     }
 
-    public List<ProductResponse> convertProductResponse(List<Product> products) {
+    public List<ProductResponse> getProductsBySubCategory(List<SubCategory> subCategories) {
+        List<Product> products = productRepository.findAllBySubCategoryIn(subCategories);
+        if (ObjectUtils.isEmpty(products))
+            return new ArrayList<>();
 
-        return products.stream().map(product -> ProductResponse.builder()
-                        .name(product.getName())
-                        .id(product.getId()).build())
-                .collect(Collectors.toList());
+        return ProductUtils.convertProductResponse(products);
     }
+
 }

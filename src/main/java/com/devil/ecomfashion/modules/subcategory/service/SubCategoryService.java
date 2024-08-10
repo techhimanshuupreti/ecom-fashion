@@ -5,6 +5,8 @@ import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
+import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
+import com.devil.ecomfashion.modules.product.service.ProductService;
 import com.devil.ecomfashion.modules.subcategory.dto.request.SubCategoryDTO;
 import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
@@ -28,6 +30,7 @@ public class SubCategoryService {
 
     private final SubCategoryRepository subCatRepository;
     private final CategoryService catService;
+    private final ProductService productService;
 
     public List<SubCategoryResponse> find(String name) {
         List<SubCategory> subCategories;
@@ -115,4 +118,8 @@ public class SubCategoryService {
     }
 
 
+    public List<ProductResponse> findAllProductsBySubCategoryId(long id) {
+        SubCategory subCategory = getById(id);
+        return productService.getProductsBySubCategory(subCategory);
+    }
 }
