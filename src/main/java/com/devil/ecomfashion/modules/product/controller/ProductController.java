@@ -77,7 +77,7 @@ public class ProductController {
         return apiResponseModel.createResponse();
     }
 
-    @GetMapping("{id}/by-categories")
+    @GetMapping("/categories/{id}")
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getProductsByCategory(@PathVariable long id) {
 
         ApiResponse<List<ProductResponse>> apiResponseModel = new ApiResponse<>();
@@ -87,7 +87,7 @@ public class ProductController {
         return apiResponseModel.createResponse();
     }
 
-    @GetMapping("{id}/by-sub-categories")
+    @GetMapping("/sub-categories/{id}")
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getProductsBySubCategory(@PathVariable long id) {
 
         ApiResponse<List<ProductResponse>> apiResponseModel = new ApiResponse<>();
