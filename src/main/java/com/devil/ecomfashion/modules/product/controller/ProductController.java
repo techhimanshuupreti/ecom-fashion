@@ -56,4 +56,24 @@ public class ProductController {
 
         return apiResponseModel.createResponse();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Boolean>> delete(@PathVariable long id) {
+
+        ApiResponse<Boolean> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(true);
+        apiResponseModel.setResult(productService.delete(id));
+
+        return apiResponseModel.createResponse();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(@PathVariable long id, @RequestBody ProductDTO productDTO) {
+
+        ApiResponse<ProductResponse> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(true);
+        apiResponseModel.setResult(productService.updateProduct(id,productDTO));
+
+        return apiResponseModel.createResponse();
+    }
 }

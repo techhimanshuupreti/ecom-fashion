@@ -19,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -99,4 +96,41 @@ public class ProductService {
         return ProductUtils.convertProductResponse(products);
     }
 
+    public Boolean delete(long id) {
+        productRepository.deleteById(id);
+        return true;
+    }
+
+    public ProductResponse updateProduct(long id, ProductDTO productDTO) {
+
+        Product product = getById(id);
+
+        boolean isUpdated = false;
+
+        if (!ObjectUtils.isEmpty(productDTO.getName()) && !productDTO.getName().equals(product.getName())) {
+            product.setName(productDTO.getName());
+            isUpdated = true;
+        }
+
+        if (!ObjectUtils.isEmpty(productDTO.getDescription()) && !productDTO.getDescription().equals(product.getDescription())) {
+            product.setDescription(productDTO.getDescription());
+            isUpdated = true;
+        }
+
+        if (!ObjectUtils.isEmpty(productDTO.getFile()) && !Objects.equals(productDTO.getFile().getOriginalFilename(), productDTO.getFile().getOriginalFilename())) {
+            product.setImagePath(productDTO.getFile().getOriginalFilename());
+            isUpdated = true;
+        }
+
+        if (ObjectUtils.isEmpty(productDTO.getSubcategoryId()) && !productDTO.getSubcategoryId().equals(product.getId())) {
+            SubCategory subCategory = subCategoryService.getById(productDTO.getSubcategoryId());
+            product.setSubCategory(subCategory);
+            isUpdated = true;
+        }
+        if (isUpdated){
+            product.setUpdatedAt(new Date());
+        }
+
+        return ProductUtils.convertProductResponse(product);
+    }
 }
