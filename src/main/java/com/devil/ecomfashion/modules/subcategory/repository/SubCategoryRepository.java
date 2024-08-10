@@ -23,4 +23,6 @@ public interface SubCategoryRepository extends CrudRepository<SubCategory, Long>
     @Query(value = "select distinct name from sub_categories",nativeQuery = true)
     List<String> findAllNames();
 
+    List<SubCategory> findAllByCategory(Category category);
+
 }
