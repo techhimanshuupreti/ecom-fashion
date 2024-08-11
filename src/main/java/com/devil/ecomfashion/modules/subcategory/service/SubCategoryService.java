@@ -29,6 +29,7 @@ public class SubCategoryService {
     private final SubCategoryRepository subCatRepository;
     private final CategoryService catService;
 
+    @Transactional
     public List<SubCategoryResponse> find(String name) {
         List<SubCategory> subCategories;
 
@@ -41,14 +42,13 @@ public class SubCategoryService {
         return SubCategoryUtils.convertSubCategoryResponse(subCategories);
     }
 
+    @Transactional
     public SubCategoryResponse findById(long id) {
-        Optional<SubCategory> subCategory = subCatRepository.findById(id);
-        if (subCategory.isEmpty()) {
-            throw new NullPointerException("no found sub-category");
-        }
-        return SubCategoryUtils.convertSubCategoryResponse(subCategory.get());
+        SubCategory subCategory = getById(id);
+        return SubCategoryUtils.convertSubCategoryResponse(subCategory);
     }
 
+    @Transactional
     public SubCategory getById(long id) {
         Optional<SubCategory> subCategory = subCatRepository.findById(id);
         if (subCategory.isEmpty()) {
@@ -88,6 +88,7 @@ public class SubCategoryService {
         return SubCategoryUtils.convertSubCategoryResponse(subCategory);
     }
 
+    @Transactional
     public SubCategory findOne(String name) {
 
         SubCategory subCategory = subCatRepository.findByNameIgnoreCase(name);
@@ -99,6 +100,7 @@ public class SubCategoryService {
         return subCategory;
     }
 
+    @Transactional
     public SubCategoryResponse update(long id, SubCategoryDTO subCategoryDTO) {
 
         Category category = catService.findOne(subCategoryDTO.getCategoryName());
@@ -116,11 +118,11 @@ public class SubCategoryService {
 
 
     public List<SubCategory> findAllByCategoryId(Long categoryId){
-        List<SubCategory> subCategories = subCatRepository.findAllByCategoryId(categoryId);
+        Category category = catService.getById(categoryId);
+        List<SubCategory> subCategories = subCatRepository.findAllByCategory(category);
         if (ObjectUtils.isEmpty(subCategories)) {
             return new ArrayList<>();
         }
-
         return subCategories;
     }
 }

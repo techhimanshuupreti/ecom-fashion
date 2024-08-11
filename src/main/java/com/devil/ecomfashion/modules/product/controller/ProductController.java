@@ -38,11 +38,11 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ProductResponse>>> find(@RequestParam(required = false) String name) {
+            public ResponseEntity<ApiResponse<List<ProductResponse>>> find(@RequestParam(required = false) String name,@RequestParam(required = false,defaultValue = "0") int pageIndex,@RequestParam(required = false, defaultValue = "10") int pageSize) {
 
         ApiResponse<List<ProductResponse>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
-        apiResponseModel.setResult(productService.find(name));
+        apiResponseModel.setResult(productService.find(name,pageIndex,pageSize));
 
         return apiResponseModel.createResponse();
     }

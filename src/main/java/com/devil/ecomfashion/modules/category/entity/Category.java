@@ -33,7 +33,7 @@ public class Category {
     @Column(nullable = false)
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<SubCategory> subCategories;
 
     @Override
@@ -41,7 +41,7 @@ public class Category {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
-        return Objects.equals(id, category.id) && Objects.equals(name, category.name);
+        return Objects.equals(id, category.id) && Objects.equals(name, category.name) && Objects.equals(createdAt, category.createdAt) && Objects.equals(updatedAt, category.updatedAt);
     }
 
     @Override

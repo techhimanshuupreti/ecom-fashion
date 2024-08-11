@@ -23,8 +23,8 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
     @Modifying
     void deleteById(Long id);
 
-    @Query(value = "select distinct name from categories",nativeQuery = true)
-    List<String> findAllNames();
+//    @Query(value = "select distinct name from categories",nativeQuery = true)
+//    List<String> findAllNames();
 
 }
 

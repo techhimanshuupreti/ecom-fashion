@@ -5,7 +5,6 @@ import com.devil.ecomfashion.modules.product.dto.request.ProductDTO;
 import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.repository.ProductRepository;
-import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import com.devil.ecomfashion.modules.subcategory.service.SubCategoryService;
 import com.devil.ecomfashion.utils.ProductUtils;
@@ -14,13 +13,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -34,14 +33,18 @@ public class ProductService {
 
     private final SubCategoryService subCategoryService;
 
-    @Transactional(readOnly = true)
-    public List<ProductResponse> find(String name) {
+    public List<ProductResponse> find(String name, int pageIndex, int pageSize) {
         log.info("fetching products with name {}", name);
         List<Product> products = new ArrayList<>();
+        PageRequest pageRequest = PageRequest.of(pageIndex, pageSize, Sort.by("createdAt").descending());
         if (StringUtils.isEmpty(name)) {
-            products = productRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+            pageRequest.withSort((Sort.by("name").ascending()));
+            Pageable sortedByCreatedAtDescAndNameAsc = pageRequest.withSort((Sort.by("name").ascending()));
+            products = productRepository.findAllByNameContainingIgnoreCase(name, sortedByCreatedAtDescAndNameAsc);
         } else {
-            products = productRepository.findByNameIgnoreCase(name, Sort.by(Sort.Direction.DESC, "id"));
+            pageRequest.withSort((Sort.by("id").ascending()));
+            Pageable sortedByCreatedAtDescAndIdAsc = pageRequest.withSort((Sort.by("name").ascending()));
+            products = productRepository.findAllByNameContainingIgnoreCase(name, sortedByCreatedAtDescAndIdAsc);
         }
         return ProductUtils.convertProductResponse(products);
     }
@@ -59,7 +62,6 @@ public class ProductService {
         return product.get();
     }
 
-    @Transactional
     public ProductResponse create(ProductDTO productDTO) {
         log.info("saving the product {}", productDTO);
         Product product = new Product();
@@ -144,7 +146,7 @@ public class ProductService {
             product.setSubCategory(subCategory);
             isUpdated = true;
         }
-        if (isUpdated){
+        if (isUpdated) {
             product.setUpdatedAt(new Date());
         }
 

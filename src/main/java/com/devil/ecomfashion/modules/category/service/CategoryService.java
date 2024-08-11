@@ -1,6 +1,7 @@
 package com.devil.ecomfashion.modules.category.service;
 
 import com.devil.ecomfashion.exception.AlreadyExistException;
+import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.category.dto.request.CategoryDTO;
 import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
@@ -29,6 +30,7 @@ public class CategoryService {
     private static final Logger log = LoggerFactory.getLogger(CategoryService.class);
     private final CategoryRepository categoryRepository;
 
+    @Transactional
     public List<CategoryResponse> find(String name) {
 
         List<Category> categories;
@@ -43,20 +45,21 @@ public class CategoryService {
 
     }
 
+    @Transactional
     public CategoryResponse findById(long id) {
         return CategoryUtils.convertCategoryResponse(getById(id));
 
     }
 
+    @Transactional
     public Category getById(long id) {
         Optional<Category> category = categoryRepository.findById(id);
         if (category.isEmpty()) {
-            throw new NullPointerException("no found category");
+            throw new ResourceNotFoundException("no found category");
         }
         return category.get();
     }
 
-    @Transactional
     public CategoryResponse create(CategoryDTO categoryDTO) {
         log.info("calling creating the category");
         Category category = findOne(categoryDTO.getName());
@@ -94,6 +97,7 @@ public class CategoryService {
         return true;
     }
 
+    @Transactional
     public Category findOne(String name) {
 
         Category category = categoryRepository.findByNameIgnoreCase(name);

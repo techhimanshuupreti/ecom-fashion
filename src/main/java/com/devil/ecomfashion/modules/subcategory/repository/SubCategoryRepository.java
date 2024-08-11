@@ -20,12 +20,6 @@ public interface SubCategoryRepository extends CrudRepository<SubCategory, Long>
 
     Optional<SubCategory> getByNameIgnoreCase(String name);
 
-    @Query(value = "select distinct name from sub_categories",nativeQuery = true)
-    List<String> findAllNames();
-
     List<SubCategory> findAllByCategory(Category category);
-
-    @Query(value = "select * from sub_categories where category_id=:categoryId",nativeQuery = true)
-    List<SubCategory> findAllByCategoryId(Long categoryId);
 
 }
