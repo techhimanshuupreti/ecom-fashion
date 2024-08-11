@@ -1,10 +1,8 @@
 package com.devil.ecomfashion.modules.cart.entity;
 
 import com.devil.ecomfashion.modules.product.entiry.Product;
-import com.devil.ecomfashion.modules.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Date;
 
@@ -25,7 +23,7 @@ public class Cart {
     private Date updatedAt;
 
     @Column(nullable = false)
-    private User user;
+    private Long userId;
 
     private int qty;
 
@@ -37,15 +35,5 @@ public class Cart {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     private Product product;
-
-    public Double getTotalPrice() {
-        if (ObjectUtils.isEmpty(this.totalPrice)) {
-            if (ObjectUtils.isEmpty(this.product) || ObjectUtils.isEmpty(this.product.getPrice()) || this.product.getPrice() < 0) {
-                return 0.0;
-            }
-            return this.product.getPrice() * this.qty;
-        }
-        return this.totalPrice;
-    }
 
 }
