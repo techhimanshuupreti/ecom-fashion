@@ -89,36 +89,24 @@ public class ProductService {
     }
 
     @Transactional
-    public List<ProductResponse> getProductsBySubCategory(SubCategory subCategoryId) {
-        List<Product> products = productRepository.findAllBySubCategory(subCategoryId);
-        if (ObjectUtils.isEmpty(products)) return new ArrayList<>();
-
-        return ProductUtils.convertProductResponse(products);
-    }
-
-    public List<ProductResponse> getProductsBySubCategory(Long subCategoryId) {
+    public PageableProductResponse getProductsBySubCategory(Long subCategoryId, int pageIndex, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageIndex >= 1 ? pageIndex - 1 : 0, pageSize, Sort.by("createdAt").descending());
         SubCategory subCategory = subCategoryService.getById(subCategoryId);
-        List<Product> products = productRepository.findAllBySubCategory(subCategory);
-        if (ObjectUtils.isEmpty(products)) return new ArrayList<>();
-
-        return ProductUtils.convertProductResponse(products);
+        Page<Product> productPage = productRepository.findAllBySubCategoryIn(Collections.singletonList(subCategory), pageRequest);
+        return ProductUtils.convertProductResponse(productPage);
     }
 
     @Transactional
-    public List<ProductResponse> getProductsBySubCategory(List<SubCategory> subCategories) {
-        List<Product> products = productRepository.findAllBySubCategoryIn(subCategories);
-        if (ObjectUtils.isEmpty(products)) return new ArrayList<>();
-
-        return ProductUtils.convertProductResponse(products);
+    public PageableProductResponse getProductsBySubCategory(List<SubCategory> subCategories, int pageIndex, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageIndex >= 1 ? pageIndex - 1 : 0, pageSize, Sort.by("createdAt").descending());
+        Page<Product> productPage = productRepository.findAllBySubCategoryIn(subCategories, pageRequest);
+        return ProductUtils.convertProductResponse(productPage);
     }
-
-
+    
     @Transactional
-    public List<ProductResponse> getProductsByCategory(Long id) {
-
+    public PageableProductResponse getProductsByCategory(Long id, int pageIndex, int pageSize) {
         List<SubCategory> subCategories = subCategoryService.findAllByCategoryId(id);
-
-        return getProductsBySubCategory(subCategories);
+        return getProductsBySubCategory(subCategories, pageIndex, pageSize);
     }
 
     @Transactional

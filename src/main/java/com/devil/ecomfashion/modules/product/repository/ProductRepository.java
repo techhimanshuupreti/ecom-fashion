@@ -16,6 +16,7 @@ public interface ProductRepository extends CrudRepository<Product, Long>, Paging
 
     List<Product> findAllBySubCategory(SubCategory subCategoryId);
     List<Product> findAllBySubCategoryIn(List<SubCategory> subCategories);
+    Page<Product> findAllBySubCategoryIn(List<SubCategory> subCategories,Pageable pageable);
 
     Page<Product> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
 }

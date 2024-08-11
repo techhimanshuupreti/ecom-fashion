@@ -79,21 +79,21 @@ public class ProductController {
     }
 
     @GetMapping("/categories/{id}")
-    public ResponseEntity<ApiResponse<List<ProductResponse>>> getProductsByCategory(@PathVariable long id) {
+    public ResponseEntity<ApiResponse<PageableProductResponse>> getProductsByCategory(@PathVariable long id, @RequestParam(required = false, defaultValue = "1") int pageIndex, @RequestParam(required = false, defaultValue = "10") int pageSize) {
 
-        ApiResponse<List<ProductResponse>> apiResponseModel = new ApiResponse<>();
+        ApiResponse<PageableProductResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
-        apiResponseModel.setResult(productService.getProductsByCategory(id));
+        apiResponseModel.setResult(productService.getProductsByCategory(id,pageIndex, pageSize));
 
         return apiResponseModel.createResponse();
     }
 
     @GetMapping("/sub-categories/{id}")
-    public ResponseEntity<ApiResponse<List<ProductResponse>>> getProductsBySubCategory(@PathVariable long id) {
+    public ResponseEntity<ApiResponse<PageableProductResponse>> getProductsBySubCategory(@PathVariable long id, @RequestParam(required = false, defaultValue = "1") int pageIndex, @RequestParam(required = false, defaultValue = "10") int pageSize) {
 
-        ApiResponse<List<ProductResponse>> apiResponseModel = new ApiResponse<>();
+        ApiResponse<PageableProductResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
-        apiResponseModel.setResult(productService.getProductsBySubCategory(id));
+        apiResponseModel.setResult(productService.getProductsBySubCategory(id,pageIndex, pageSize));
 
         return apiResponseModel.createResponse();
     }

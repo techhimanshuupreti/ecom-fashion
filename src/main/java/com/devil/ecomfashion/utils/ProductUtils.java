@@ -55,7 +55,7 @@ public class ProductUtils {
                 .toList();
 
         return PageableProductResponse.builder()
-                .currentPage(productPage.getNumber() + 1)
+                .currentPage(productPage.getTotalPages() == 0 ? 0 : productPage.getNumber() + 1)
                 .totalPages(productPage.getTotalPages())
                 .totalElements(productPage.getNumberOfElements())
                 .data(products).build();
