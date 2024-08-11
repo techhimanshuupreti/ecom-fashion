@@ -2,6 +2,7 @@ package com.devil.ecomfashion.modules.product.controller;
 
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.product.dto.request.ProductDTO;
+import com.devil.ecomfashion.modules.product.dto.response.PageableProductResponse;
 import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.service.ProductService;
@@ -38,11 +39,11 @@ public class ProductController {
     }
 
     @GetMapping
-            public ResponseEntity<ApiResponse<List<ProductResponse>>> find(@RequestParam(required = false) String name,@RequestParam(required = false,defaultValue = "0") int pageIndex,@RequestParam(required = false, defaultValue = "10") int pageSize) {
+    public ResponseEntity<ApiResponse<PageableProductResponse>> find(@RequestParam(required = false) String name, @RequestParam(required = false, defaultValue = "1") int pageIndex, @RequestParam(required = false, defaultValue = "10") int pageSize) {
 
-        ApiResponse<List<ProductResponse>> apiResponseModel = new ApiResponse<>();
+        ApiResponse<PageableProductResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
-        apiResponseModel.setResult(productService.find(name,pageIndex,pageSize));
+        apiResponseModel.setResult(productService.find(name, pageIndex, pageSize));
 
         return apiResponseModel.createResponse();
     }
@@ -72,7 +73,7 @@ public class ProductController {
 
         ApiResponse<ProductResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
-        apiResponseModel.setResult(productService.updateProduct(id,productDTO));
+        apiResponseModel.setResult(productService.updateProduct(id, productDTO));
 
         return apiResponseModel.createResponse();
     }

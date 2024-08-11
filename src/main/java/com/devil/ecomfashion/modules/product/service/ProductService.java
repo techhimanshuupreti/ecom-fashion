@@ -2,6 +2,7 @@ package com.devil.ecomfashion.modules.product.service;
 
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.product.dto.request.ProductDTO;
+import com.devil.ecomfashion.modules.product.dto.response.PageableProductResponse;
 import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.repository.ProductRepository;
@@ -13,10 +14,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.util.*;
@@ -33,20 +37,20 @@ public class ProductService {
 
     private final SubCategoryService subCategoryService;
 
-    public List<ProductResponse> find(String name, int pageIndex, int pageSize) {
+    @Transactional
+    public PageableProductResponse find(String name, int pageIndex, int pageSize) {
         log.info("fetching products with name {}", name);
-        List<Product> products = new ArrayList<>();
-        PageRequest pageRequest = PageRequest.of(pageIndex, pageSize, Sort.by("createdAt").descending());
-        if (StringUtils.isEmpty(name)) {
-            pageRequest.withSort((Sort.by("name").ascending()));
-            Pageable sortedByCreatedAtDescAndNameAsc = pageRequest.withSort((Sort.by("name").ascending()));
-            products = productRepository.findAllByNameContainingIgnoreCase(name, sortedByCreatedAtDescAndNameAsc);
+        Page<Product> productPage = null;
+        PageRequest pageRequest = PageRequest.of(pageIndex >= 1 ? pageIndex - 1 : 0, pageSize, Sort.by("createdAt").descending());
+        if (!StringUtils.isEmpty(name)) {
+            Pageable pageable = pageRequest.withSort((Sort.by("name").ascending()));
+            productPage = productRepository.findAllByNameContainingIgnoreCase(name, pageable);
         } else {
-            pageRequest.withSort((Sort.by("id").ascending()));
-            Pageable sortedByCreatedAtDescAndIdAsc = pageRequest.withSort((Sort.by("name").ascending()));
-            products = productRepository.findAllByNameContainingIgnoreCase(name, sortedByCreatedAtDescAndIdAsc);
+            Pageable pageable = pageRequest.withSort((Sort.by("id").ascending()));
+            productPage = productRepository.findAll(pageable);
         }
-        return ProductUtils.convertProductResponse(products);
+
+        return ProductUtils.convertProductResponse(productPage);
     }
 
     public ProductResponse findOne(long id) {
@@ -54,14 +58,15 @@ public class ProductService {
         return ProductUtils.convertProductResponse(product);
     }
 
+    @Transactional
     public Product getById(long id) {
         Optional<Product> product = productRepository.findById(id);
-        if (product.isEmpty())
-            throw new ResourceNotFoundException("product not found");
+        if (product.isEmpty()) throw new ResourceNotFoundException("product not found");
 
         return product.get();
     }
 
+    @Transactional
     public ProductResponse create(ProductDTO productDTO) {
         log.info("saving the product {}", productDTO);
         Product product = new Product();
@@ -82,10 +87,10 @@ public class ProductService {
         return ProductUtils.convertProductResponse(product);
     }
 
+    @Transactional
     public List<ProductResponse> getProductsBySubCategory(SubCategory subCategoryId) {
         List<Product> products = productRepository.findAllBySubCategory(subCategoryId);
-        if (ObjectUtils.isEmpty(products))
-            return new ArrayList<>();
+        if (ObjectUtils.isEmpty(products)) return new ArrayList<>();
 
         return ProductUtils.convertProductResponse(products);
     }
@@ -93,21 +98,21 @@ public class ProductService {
     public List<ProductResponse> getProductsBySubCategory(Long subCategoryId) {
         SubCategory subCategory = subCategoryService.getById(subCategoryId);
         List<Product> products = productRepository.findAllBySubCategory(subCategory);
-        if (ObjectUtils.isEmpty(products))
-            return new ArrayList<>();
+        if (ObjectUtils.isEmpty(products)) return new ArrayList<>();
 
         return ProductUtils.convertProductResponse(products);
     }
 
+    @Transactional
     public List<ProductResponse> getProductsBySubCategory(List<SubCategory> subCategories) {
         List<Product> products = productRepository.findAllBySubCategoryIn(subCategories);
-        if (ObjectUtils.isEmpty(products))
-            return new ArrayList<>();
+        if (ObjectUtils.isEmpty(products)) return new ArrayList<>();
 
         return ProductUtils.convertProductResponse(products);
     }
 
 
+    @Transactional
     public List<ProductResponse> getProductsByCategory(Long id) {
 
         List<SubCategory> subCategories = subCategoryService.findAllByCategoryId(id);
@@ -115,6 +120,8 @@ public class ProductService {
         return getProductsBySubCategory(subCategories);
     }
 
+    @Transactional
+    @Modifying
     public Boolean delete(long id) {
         productRepository.deleteById(id);
         return true;

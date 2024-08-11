@@ -7,14 +7,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ProductResponse {
+public class PageableProductResponse {
 
-    private Long id;
-    private String name;
-    private SubCategoryResponse subCategory;
+    private List<ProductResponse> data;
+    private int totalPages;
+    private int totalElements;
+    private int currentPage;
+
 }
