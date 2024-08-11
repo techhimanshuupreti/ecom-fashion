@@ -51,7 +51,7 @@ public class CartService {
         return cartRepository.save(newCart);
     }
 
-    public boolean remove(Long cartId, User user) {
+    public boolean delete(User user, Long cartId) {
         Optional<Cart> cart = cartRepository.findByIsDeletedIsFalseAndIdAndUser(cartId, user);
         if (cart.isEmpty()) {
             throw new ResourceNotFoundException("Entry not found");
@@ -63,7 +63,7 @@ public class CartService {
         return true;
     }
 
-    public Cart updateQty(Long cartId, User user, int qty) {
+    public Cart updateQty(User user, Long cartId, int qty) {
         Optional<Cart> cart = cartRepository.findByIsDeletedIsFalseAndIdAndUser(cartId, user);
         if (cart.isEmpty()) {
             throw new ResourceNotFoundException("Entry not found");
