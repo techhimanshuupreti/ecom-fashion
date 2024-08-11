@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.text.DecimalFormat;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -16,5 +18,6 @@ public class ProductResponse {
 
     private Long id;
     private String name;
+    private Double price = 0.00;
     private SubCategoryResponse subCategory;
 }

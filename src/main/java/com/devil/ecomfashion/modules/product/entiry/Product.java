@@ -35,4 +35,7 @@ public class Product {
     @Column(nullable = false)
     private String imagePath;
 
+    @Column(columnDefinition = "DECIMAL(10,2) DEFAULT '0.00'")
+    private Double price;
+
 }

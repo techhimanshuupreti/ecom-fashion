@@ -73,6 +73,7 @@ public class ProductService {
         product.setCreatedAt(new Date());
         product.setUpdatedAt(new Date());
         product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
 
         SubCategory subCategory = subCategoryService.getById(productDTO.getSubcategoryId());
         product.setSubCategory(subCategory);
@@ -140,6 +141,11 @@ public class ProductService {
 
         if (!ObjectUtils.isEmpty(productDTO.getDescription()) && !productDTO.getDescription().equals(product.getDescription())) {
             product.setDescription(productDTO.getDescription());
+            isUpdated = true;
+        }
+
+        if (!ObjectUtils.isEmpty(productDTO.getPrice()) && !productDTO.getPrice().equals(product.getPrice())) {
+            product.setPrice(productDTO.getPrice());
             isUpdated = true;
         }
 

@@ -20,6 +20,7 @@ public class ProductUtils {
 
         return ProductResponse.builder()
                 .id(product.getId())
+                .price(product.getPrice())
                 .name(product.getName())
                 .subCategory(SubCategoryUtils.convertSubCategoryResponse(product.getSubCategory()))
                 .build();
@@ -33,6 +34,7 @@ public class ProductUtils {
 
         return products.stream().map(product -> ProductResponse.builder()
                         .name(product.getName())
+                        .price(product.getPrice())
                         .subCategory(SubCategoryUtils.convertSubCategoryResponse(product.getSubCategory()))
                         .id(product.getId()).build())
                 .collect(Collectors.toList());
@@ -47,6 +49,7 @@ public class ProductUtils {
 
         List<ProductResponse> products = productPage.getContent().stream().map(product -> ProductResponse.builder()
                         .name(product.getName())
+                        .price(product.getPrice())
                         .subCategory(SubCategoryUtils.convertSubCategoryResponse(product.getSubCategory()))
                         .id(product.getId()).build())
                 .toList();

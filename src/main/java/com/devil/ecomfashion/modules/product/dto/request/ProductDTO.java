@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.modules.product.dto.request;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -24,5 +25,9 @@ public class ProductDTO {
 
     @NotNull(message = "Product Image is required!")
     private MultipartFile file;
+
+    @NotNull(message = "Product price is required!")
+    @Min(value = 0, message = "Product price is less than equal to 0!")
+    private Double price;
 
 }
