@@ -47,17 +47,10 @@ public class ProductUtils {
                     .data(new ArrayList<>()).build();
         }
 
-        List<ProductResponse> products = productPage.getContent().stream().map(product -> ProductResponse.builder()
-                        .name(product.getName())
-                        .price(product.getPrice())
-                        .subCategory(SubCategoryUtils.convertSubCategoryResponse(product.getSubCategory()))
-                        .id(product.getId()).build())
-                .toList();
-
         return PageableProductResponse.builder()
                 .currentPage(productPage.getTotalPages() == 0 ? 0 : productPage.getNumber() + 1)
                 .totalPages(productPage.getTotalPages())
                 .totalElements(productPage.getNumberOfElements())
-                .data(products).build();
+                .data(convertProductResponse(productPage.getContent())).build();
     }
 }
