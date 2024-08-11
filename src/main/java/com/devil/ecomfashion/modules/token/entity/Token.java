@@ -15,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "tokens")
 public class Token {
 
     @Id

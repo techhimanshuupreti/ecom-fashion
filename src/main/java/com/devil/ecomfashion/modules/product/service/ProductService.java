@@ -2,6 +2,7 @@ package com.devil.ecomfashion.modules.product.service;
 
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.product.dto.request.ProductDTO;
+import com.devil.ecomfashion.modules.product.dto.request.UpdateProductDTO;
 import com.devil.ecomfashion.modules.product.dto.response.PageableProductResponse;
 import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.product.entiry.Product;
@@ -41,12 +42,11 @@ public class ProductService {
     public PageableProductResponse find(String name, int pageIndex, int pageSize) {
         log.info("fetching products with name {}", name);
         Page<Product> productPage = null;
-        PageRequest pageRequest = PageRequest.of(pageIndex >= 1 ? pageIndex - 1 : 0, pageSize, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(pageIndex >= 1 ? pageIndex - 1 : 0, pageSize, Sort.by("createdAt")
+                .descending().and(Sort.by("id").descending()));
         if (!StringUtils.isEmpty(name)) {
-            Pageable pageable = pageRequest.withSort((Sort.by("name").ascending()));
             productPage = productRepository.findAllByNameContainingIgnoreCase(name, pageable);
         } else {
-            Pageable pageable = pageRequest.withSort((Sort.by("id").ascending()));
             productPage = productRepository.findAll(pageable);
         }
 
@@ -102,7 +102,7 @@ public class ProductService {
         Page<Product> productPage = productRepository.findAllBySubCategoryIn(subCategories, pageRequest);
         return ProductUtils.convertProductResponse(productPage);
     }
-    
+
     @Transactional
     public PageableProductResponse getProductsByCategory(Long id, int pageIndex, int pageSize) {
         List<SubCategory> subCategories = subCategoryService.findAllByCategoryId(id);
@@ -116,39 +116,40 @@ public class ProductService {
         return true;
     }
 
-    public ProductResponse updateProduct(long id, ProductDTO productDTO) {
+    public ProductResponse updateProduct(long id, UpdateProductDTO updateProductDTO) {
 
         Product product = getById(id);
 
         boolean isUpdated = false;
 
-        if (!ObjectUtils.isEmpty(productDTO.getName()) && !productDTO.getName().equals(product.getName())) {
-            product.setName(productDTO.getName());
+        if (!ObjectUtils.isEmpty(updateProductDTO.getName())) {
+            product.setName(updateProductDTO.getName());
             isUpdated = true;
         }
 
-        if (!ObjectUtils.isEmpty(productDTO.getDescription()) && !productDTO.getDescription().equals(product.getDescription())) {
-            product.setDescription(productDTO.getDescription());
+        if (!ObjectUtils.isEmpty(updateProductDTO.getDescription())) {
+            product.setDescription(updateProductDTO.getDescription());
             isUpdated = true;
         }
 
-        if (!ObjectUtils.isEmpty(productDTO.getPrice()) && !productDTO.getPrice().equals(product.getPrice())) {
-            product.setPrice(productDTO.getPrice());
+        if (!ObjectUtils.isEmpty(updateProductDTO.getPrice())) {
+            product.setPrice(updateProductDTO.getPrice());
             isUpdated = true;
         }
 
-        if (!ObjectUtils.isEmpty(productDTO.getFile()) && !Objects.equals(productDTO.getFile().getOriginalFilename(), productDTO.getFile().getOriginalFilename())) {
-            product.setImagePath(productDTO.getFile().getOriginalFilename());
+        if (!ObjectUtils.isEmpty(updateProductDTO.getFile())) {
+            product.setImagePath(updateProductDTO.getFile().getOriginalFilename());
             isUpdated = true;
         }
 
-        if (ObjectUtils.isEmpty(productDTO.getSubcategoryId()) && !productDTO.getSubcategoryId().equals(product.getId())) {
-            SubCategory subCategory = subCategoryService.getById(productDTO.getSubcategoryId());
+        if (!ObjectUtils.isEmpty(updateProductDTO.getSubcategoryId())) {
+            SubCategory subCategory = subCategoryService.getById(updateProductDTO.getSubcategoryId());
             product.setSubCategory(subCategory);
             isUpdated = true;
         }
         if (isUpdated) {
             product.setUpdatedAt(new Date());
+            productRepository.save(product);
         }
 
         return ProductUtils.convertProductResponse(product);

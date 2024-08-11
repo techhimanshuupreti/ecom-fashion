@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     throw  new CustomAuthenticationException("user already logout");
                 }
             }
-//            request.setAttribute("tokenUserId",token.get().getUser().getId());
+            request.setAttribute("user",token.get().getUser());
             if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

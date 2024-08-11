@@ -2,7 +2,6 @@ package com.devil.ecomfashion.modules.auth.service;
 
 
 import com.devil.ecomfashion.config.JwtService;
-import com.devil.ecomfashion.exception.CustomAuthenticationException;
 import com.devil.ecomfashion.exception.ExceptionOccur;
 import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.modules.auth.dto.AuthDTO;
@@ -14,9 +13,7 @@ import com.devil.ecomfashion.modules.user.dto.UserDTO;
 import com.devil.ecomfashion.modules.user.constants.Role;
 import com.devil.ecomfashion.modules.user.entity.User;
 import com.devil.ecomfashion.modules.user.respository.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -25,9 +22,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MimeTypeUtils;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;

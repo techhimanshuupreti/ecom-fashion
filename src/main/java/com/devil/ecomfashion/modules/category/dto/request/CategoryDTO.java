@@ -15,8 +15,6 @@ import lombok.NoArgsConstructor;
 public class CategoryDTO {
 
     // Todo: it defines which like Mobile, Laptop (type: Electronics)
-    @NotNull(message = "Category name is not null")
-    @NotEmpty(message = "Category name is not empty")
     @NotBlank(message = "Category name is not blank")
     private String name;
 
