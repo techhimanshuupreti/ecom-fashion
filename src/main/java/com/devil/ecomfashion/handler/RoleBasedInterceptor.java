@@ -25,28 +25,26 @@ public class RoleBasedInterceptor implements HandlerInterceptor {
         if (authentication != null && authentication.isAuthenticated()) {
             // Get the request URI
             String requestUri = request.getRequestURI();
+            String requestMethod = request.getMethod();
             User user = (User) authentication.getPrincipal();
+
             // Example role-based access control
-            if (!HttpMethod.GET.name().equalsIgnoreCase(request.getMethod()) && requestUri.startsWith(URLConstant.CATEGORY_BASE)
+            if (requestUri.startsWith(URLConstant.CATEGORY_BASE)
                     || requestUri.startsWith(URLConstant.SUBCATEGORY_BASE) || requestUri.startsWith(URLConstant.PRODUCT_BASE)) {
 
-//                if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority()role.getAuthority().equals("ROLE_ADMIN"))) {
-                if (user.getRole().equals(Role.ADMIN)) {
+                if (!HttpMethod.GET.name().equalsIgnoreCase(requestMethod)) {
+                    if (user.getRole().equals(Role.ADMIN)) {
+                        return true; // User has ADMIN role, proceed with request
+                    } else {
+                        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied: ADMIN role required");
+                        return false; // User does not have the required role
+                    }
+                }else if (HttpMethod.GET.name().equalsIgnoreCase(requestMethod)) {
                     return true; // User has ADMIN role, proceed with request
-                } else {
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied: ADMIN role required");
-                    return false; // User does not have the required role
                 }
-//            } else if (requestUri.startsWith("/api/v1/user")) {
-//                if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_USER") || role.getAuthority().equals("ROLE_ADMIN"))) {
-//                    return true; // User has USER or ADMIN role, proceed with request
-//                } else {
-//                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied: USER role required");
-//                    return false; // User does not have the required role
-//                }
             }
-            // Add more role-based logic as needed
         }
+
 
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: Please log in");
         return false; // User is not authenticated
