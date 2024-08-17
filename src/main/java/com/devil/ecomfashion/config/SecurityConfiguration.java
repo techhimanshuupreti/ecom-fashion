@@ -4,6 +4,7 @@ import com.devil.ecomfashion.constant.URLConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,25 +39,25 @@ public class SecurityConfiguration {
             "/configuration/security",
             "/swagger-ui/**",
             "/webjars/**",
-            "/swagger-ui.html",
-            "/api/v1/categories",
-            "/api/v1/sub-categories",
-            "/api/v1/products"
+//            "/api/v1/categories",
+//            "/api/v1/sub-categories",
+//            "/api/v1/products",
+            "/swagger-ui.html"
     };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests(req ->
-                        req.requestMatchers(ENDPOINTS_WHITELIST).permitAll()
-                                .anyRequest().authenticated())
-
+        http.authorizeHttpRequests(req -> {
+                    req.requestMatchers(ENDPOINTS_WHITELIST).permitAll()        // Whitelisted endpoints accessible to all
+                            .anyRequest().authenticated();                           // All other requests require authentication
+                })
                 .cors().configurationSource(corsConfigurationSource())
                 .and().csrf().disable()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout()
-                .logoutUrl("/api/v1/auth/logout")
+                .logoutUrl(URLConstant.AUTH_BASE + URLConstant.USER_LOGOUT)
                 .addLogoutHandler(logoutHandler)
                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
                 .and()
