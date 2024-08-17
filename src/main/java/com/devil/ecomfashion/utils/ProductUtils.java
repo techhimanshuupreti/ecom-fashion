@@ -21,6 +21,7 @@ public class ProductUtils {
         return ProductResponse.builder()
                 .id(product.getId())
                 .price(product.getPrice())
+                .stock(product.getStock())
                 .name(product.getName())
                 .description(product.getDescription())
                 .categoryId(ObjectUtils.isEmpty(product.getSubCategory().getCategory().getId()) ? null : product.getSubCategory().getCategory().getId())

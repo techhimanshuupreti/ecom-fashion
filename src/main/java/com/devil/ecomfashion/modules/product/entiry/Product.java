@@ -19,7 +19,7 @@ public class Product {
     @Column(nullable = false, updatable = false)
     private Date createdAt;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     private Date updatedAt;
 
     @Column(nullable = false, length = 100)
@@ -37,5 +37,8 @@ public class Product {
 
     @Column(columnDefinition = "DECIMAL(10,2) DEFAULT '0.00'")
     private Double price;
+
+    @Column(columnDefinition = "int DEFAULT '0'")
+    private int stock;
 
 }

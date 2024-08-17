@@ -31,4 +31,8 @@ public class ProductDTO {
     @Min(value = 0, message = Message.INVALID_PRODUCT_PRICE)
     private Double price;
 
+    @NotNull(message = Message.PRODUCT_STOCK_REQUIRED)
+    @Min(value = 0, message = Message.INVALID_PRODUCT_STOCK)
+    private int stock;
+
 }

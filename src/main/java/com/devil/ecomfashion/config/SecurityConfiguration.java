@@ -50,7 +50,9 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(req ->
                         req.requestMatchers(ENDPOINTS_WHITELIST).permitAll()
                                 .anyRequest().authenticated())
-                .cors().and().csrf().disable()
+
+                .cors().configurationSource(corsConfigurationSource())
+                .and().csrf().disable()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout()
@@ -60,35 +62,6 @@ public class SecurityConfiguration {
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        http.cors().configurationSource(corsConfigurationSource());
-//                .and()
-//                .exceptionHandling(exception -> exception
-//                        .authenticationEntryPoint(new CustomAuthenticationHandler())
-//                        .accessDeniedHandler(new CustomAccessDeniedHandler()));
-
-
-//        http
-//                .csrf()
-//                .disable()
-//                .authorizeHttpRequests()
-//                .requestMatchers(ENDPOINTS_WHITELIST).permitAll()
-//
-////                .requestMatchers(GET, "/api/v1/user").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
-////                .requestMatchers(GET, "/api/v1/user/*").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
-//
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-//                .logout()
-//                .logoutUrl("/api/v1/auth/logout")
-//                .addLogoutHandler(logoutHandler)
-//                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
 
         return http.build();
     }

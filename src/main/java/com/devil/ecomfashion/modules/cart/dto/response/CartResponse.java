@@ -26,6 +26,8 @@ public class CartResponse {
 
     private Long productId;
 
+    private int productStock;
+
     private Double price;
 
     private String categoryName;

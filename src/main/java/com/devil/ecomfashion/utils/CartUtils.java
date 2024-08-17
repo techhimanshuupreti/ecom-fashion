@@ -22,6 +22,7 @@ public class CartUtils {
                 .id(cart.getId())
                 .totalPrice(cart.getTotalPrice())
                 .qty(cart.getQty())
+                .productStock(cart.getProduct().getStock() - cart.getQty())
                 .productId(cart.getProduct().getId())
                 .price(cart.getProduct().getPrice())
                 .productName(cart.getProduct().getName())

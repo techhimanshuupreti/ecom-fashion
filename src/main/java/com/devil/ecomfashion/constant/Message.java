@@ -43,4 +43,8 @@ public class Message {
     public static final String INVALID_PRODUCT_PRICE = "Product price is less than equal to 0!";
     public static final String NO_SUB_CATEGORY_FOUND = "no found sub category";
     public static final String EXCEPTION_OCCUR = "Unable to creating for user.";
+    public static final String INVALID_PRODUCT_QTY = "Invalid product quality selected" ;
+    public static final String PRODUCT_STOCK_REQUIRED = "Product stock is required!";
+    public static final String INVALID_PRODUCT_STOCK =  "Product stock is less than equal to 0!";
+    public static final String DUPLICATE_DATA_EXIST_IN_REQUEST = "Duplicate data found";
 }

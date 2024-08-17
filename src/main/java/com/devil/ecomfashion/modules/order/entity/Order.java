@@ -1,4 +1,4 @@
-package com.devil.ecomfashion.modules.cart.entity;
+package com.devil.ecomfashion.modules.order.entity;
 
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import jakarta.persistence.*;
@@ -9,24 +9,24 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Entity
-@Table(name = "carts")
 @Data
-public class Cart {
+@Entity
+@Table(name = "orders")
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private long id;
+    private Long id;
+
+    @Column(nullable = false)
+    private Date updatedAt;
 
     @Column(nullable = false, updatable = false)
     private Date createdAt;
-
-    @Column(nullable = false, updatable = false)
-    private Date updatedAt;
 
     @Column(nullable = false)
     private Long userId;
@@ -41,5 +41,4 @@ public class Cart {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     private Product product;
-
 }

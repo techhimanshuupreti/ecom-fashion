@@ -1,6 +1,7 @@
 package com.devil.ecomfashion.modules.cart.service;
 
 import com.devil.ecomfashion.constant.Message;
+import com.devil.ecomfashion.exception.RequestValidationException;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.cart.dto.request.CartRequestDTO;
 import com.devil.ecomfashion.modules.cart.dto.response.CartResponse;
@@ -51,6 +52,10 @@ public class CartService {
             throw new ResourceNotFoundException(Message.PRODUCT_NOT_FOUND);
         }
 
+        if(product.getStock()>=cartRequestDTO.getQty()){
+            throw new RequestValidationException(Message.INVALID_PRODUCT_QTY);
+        }
+
         Cart newCart = new Cart();
         newCart.setQty(cartRequestDTO.getQty());
         newCart.setUserId(user.getId());
@@ -82,6 +87,10 @@ public class CartService {
             throw new ResourceNotFoundException(Message.NO_CART_FOUND);
         }
 
+
+        if(cart.get().getProduct().getStock()>=cart.get().getQty()){
+            throw new RequestValidationException(Message.INVALID_PRODUCT_QTY);
+        }
         cart.get().setUpdatedAt(new Date());
         cart.get().setQty(qty);
         Cart updatedCart =  cartRepository.save(cart.get());

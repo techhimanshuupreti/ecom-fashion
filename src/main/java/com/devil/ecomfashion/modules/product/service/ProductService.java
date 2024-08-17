@@ -38,7 +38,7 @@ public class ProductService {
 
     private final SubCategoryService subCategoryService;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public PageableProductResponse find(String name, int pageNo, int pageSize) {
         log.info("fetching products with name {}", name);
         Page<Product> productPage = null;
@@ -53,12 +53,13 @@ public class ProductService {
         return ProductUtils.convert(productPage);
     }
 
+    @Transactional(readOnly = true)
     public ProductResponse findOne(long id) {
         Product product = getById(id);
         return ProductUtils.convert(product);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Product getById(long id) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isEmpty()) throw new ResourceNotFoundException("product not found");
@@ -69,13 +70,15 @@ public class ProductService {
     @Transactional
     public ProductResponse create(ProductDTO productDTO) {
         log.info("saving the product {}", productDTO);
+
+        SubCategory subCategory = subCategoryService.getById(productDTO.getSubcategoryId());
+
         Product product = new Product();
         product.setCreatedAt(new Date());
         product.setUpdatedAt(new Date());
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());
-
-        SubCategory subCategory = subCategoryService.getById(productDTO.getSubcategoryId());
+        product.setStock(productDTO.getStock());
         product.setSubCategory(subCategory);
 
 //        File fileInputStream = new File(System.getProperty("user.dir") + "/"+uploadFiles+"/" + productDTO.getFile().getOriginalFilename());
@@ -88,7 +91,7 @@ public class ProductService {
         return ProductUtils.convert(product);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public PageableProductResponse getProductsBySubCategory(Long subCategoryId, int pageNo, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt").descending());
         SubCategory subCategory = subCategoryService.getById(subCategoryId);
@@ -96,14 +99,14 @@ public class ProductService {
         return ProductUtils.convert(productPage);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public PageableProductResponse getProductsBySubCategory(List<SubCategory> subCategories, int pageNo, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt").descending());
         Page<Product> productPage = productRepository.findAllBySubCategoryIn(subCategories, pageRequest);
         return ProductUtils.convert(productPage);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public PageableProductResponse getProductsByCategory(Long id, int pageNo, int pageSize) {
         List<SubCategory> subCategories = subCategoryService.findAllByCategoryId(id);
         return getProductsBySubCategory(subCategories, pageNo, pageSize);
@@ -116,6 +119,7 @@ public class ProductService {
         return true;
     }
 
+    @Transactional
     public ProductResponse updateProduct(long id, UpdateProductDTO updateProductDTO) {
 
         Product product = getById(id);

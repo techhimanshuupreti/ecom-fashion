@@ -6,6 +6,7 @@ import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.model.ApiResponseError;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +46,16 @@ public class GlobalController {
         apiResponseModel.setSuccess(false);
         apiResponseModel.setResult(null);
         apiResponseModel.setMessage(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponseModel);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ApiResponse<?>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        log.info("handleDataIntegrityViolationException : {}", ex.getMessage());
+        ApiResponse<?> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(false);
+        apiResponseModel.setResult(null);
+        apiResponseModel.setMessage(Message.DUPLICATE_DATA_EXIST_IN_REQUEST);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponseModel);
     }
 }
