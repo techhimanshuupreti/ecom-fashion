@@ -39,10 +39,10 @@ public class ProductService {
     private final SubCategoryService subCategoryService;
 
     @Transactional
-    public PageableProductResponse find(String name, int pageIndex, int pageSize) {
+    public PageableProductResponse find(String name, int pageNo, int pageSize) {
         log.info("fetching products with name {}", name);
         Page<Product> productPage = null;
-        Pageable pageable = PageRequest.of(pageIndex >= 1 ? pageIndex - 1 : 0, pageSize, Sort.by("createdAt")
+        Pageable pageable = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt")
                 .descending().and(Sort.by("id").descending()));
         if (!StringUtils.isEmpty(name)) {
             productPage = productRepository.findAllByNameContainingIgnoreCase(name, pageable);
@@ -50,12 +50,12 @@ public class ProductService {
             productPage = productRepository.findAll(pageable);
         }
 
-        return ProductUtils.convertProductResponse(productPage);
+        return ProductUtils.convert(productPage);
     }
 
     public ProductResponse findOne(long id) {
         Product product = getById(id);
-        return ProductUtils.convertProductResponse(product);
+        return ProductUtils.convert(product);
     }
 
     @Transactional
@@ -85,28 +85,28 @@ public class ProductService {
         product.setDescription(productDTO.getDescription());
 
         product = productRepository.save(product);
-        return ProductUtils.convertProductResponse(product);
+        return ProductUtils.convert(product);
     }
 
     @Transactional
-    public PageableProductResponse getProductsBySubCategory(Long subCategoryId, int pageIndex, int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageIndex >= 1 ? pageIndex - 1 : 0, pageSize, Sort.by("createdAt").descending());
+    public PageableProductResponse getProductsBySubCategory(Long subCategoryId, int pageNo, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt").descending());
         SubCategory subCategory = subCategoryService.getById(subCategoryId);
         Page<Product> productPage = productRepository.findAllBySubCategoryIn(Collections.singletonList(subCategory), pageRequest);
-        return ProductUtils.convertProductResponse(productPage);
+        return ProductUtils.convert(productPage);
     }
 
     @Transactional
-    public PageableProductResponse getProductsBySubCategory(List<SubCategory> subCategories, int pageIndex, int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageIndex >= 1 ? pageIndex - 1 : 0, pageSize, Sort.by("createdAt").descending());
+    public PageableProductResponse getProductsBySubCategory(List<SubCategory> subCategories, int pageNo, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt").descending());
         Page<Product> productPage = productRepository.findAllBySubCategoryIn(subCategories, pageRequest);
-        return ProductUtils.convertProductResponse(productPage);
+        return ProductUtils.convert(productPage);
     }
 
     @Transactional
-    public PageableProductResponse getProductsByCategory(Long id, int pageIndex, int pageSize) {
+    public PageableProductResponse getProductsByCategory(Long id, int pageNo, int pageSize) {
         List<SubCategory> subCategories = subCategoryService.findAllByCategoryId(id);
-        return getProductsBySubCategory(subCategories, pageIndex, pageSize);
+        return getProductsBySubCategory(subCategories, pageNo, pageSize);
     }
 
     @Transactional
@@ -152,7 +152,7 @@ public class ProductService {
             productRepository.save(product);
         }
 
-        return ProductUtils.convertProductResponse(product);
+        return ProductUtils.convert(product);
     }
 
 }

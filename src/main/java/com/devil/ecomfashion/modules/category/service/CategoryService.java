@@ -4,17 +4,19 @@ import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.category.dto.request.CategoryDTO;
 import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
+import com.devil.ecomfashion.modules.category.dto.response.PageableCategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
-import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
-import com.devil.ecomfashion.modules.product.service.ProductService;
+import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import com.devil.ecomfashion.utils.CategoryUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +24,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -32,23 +33,24 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public List<CategoryResponse> find(String name) {
+    public PageableCategoryResponse find(String name, int pageNo, int pageSize) {
 
-        List<Category> categories;
-
+        Page<Category> categoryPage = null;
+        Pageable pageable = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt")
+                .descending().and(Sort.by("id").descending()));
         if (StringUtils.isBlank(name)) {
-            categories = categoryRepository.findAll();
+            categoryPage = categoryRepository.findAll(pageable);
         } else {
-            categories = Collections.singletonList(categoryRepository.findByNameIgnoreCase(name));
+            categoryPage = categoryRepository.findAllByNameContainingIgnoreCase(name, pageable);
         }
 
-        return CategoryUtils.convertCategoryResponse(categories);
+        return CategoryUtils.convert(categoryPage);
 
     }
 
     @Transactional
     public CategoryResponse findById(long id) {
-        return CategoryUtils.convertCategoryResponse(getById(id));
+        return CategoryUtils.convert(getById(id));
 
     }
 
@@ -75,7 +77,7 @@ public class CategoryService {
 
         category = categoryRepository.save(category);
 
-        return CategoryUtils.convertCategoryResponse(category);
+        return CategoryUtils.convert(category);
     }
 
     public CategoryResponse update(long id, CategoryDTO categoryDTO) {
@@ -85,7 +87,7 @@ public class CategoryService {
         updatedCategory.setUpdatedAt(new Date());
 
         updatedCategory = categoryRepository.save(updatedCategory);
-        return CategoryUtils.convertCategoryResponse(updatedCategory);
+        return CategoryUtils.convert(updatedCategory);
     }
 
     public Boolean delete(long id) {

@@ -1,8 +1,10 @@
 package com.devil.ecomfashion.modules.category.controller;
 
+import com.devil.ecomfashion.constant.Constants;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.category.dto.request.CategoryDTO;
 import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
+import com.devil.ecomfashion.modules.category.dto.response.PageableCategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
 import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
@@ -36,11 +38,13 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<CategoryResponse>>> find(@RequestParam(required = false) String name) {
+    public ResponseEntity<ApiResponse<PageableCategoryResponse>> find(@RequestParam(required = false) String name,
+                                                                      @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
+                                                                      @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
 
-        ApiResponse<List<CategoryResponse>> apiResponseModel = new ApiResponse<>();
+        ApiResponse<PageableCategoryResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
-        apiResponseModel.setResult(categoryService.find(name));
+        apiResponseModel.setResult(categoryService.find(name, pageNo, pageSize));
 
         return apiResponseModel.createResponse();
     }
@@ -65,10 +69,10 @@ public class CategoryController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<ApiResponse<CategoryResponse>> update(@PathVariable long id,@Valid @RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<ApiResponse<CategoryResponse>> update(@PathVariable long id, @Valid @RequestBody CategoryDTO categoryDTO) {
         ApiResponse<CategoryResponse> apiResponse = new ApiResponse<>();
         apiResponse.setSuccess(true);
-        apiResponse.setResult(categoryService.update(id,categoryDTO));
+        apiResponse.setResult(categoryService.update(id, categoryDTO));
 
         return apiResponse.createResponse();
     }

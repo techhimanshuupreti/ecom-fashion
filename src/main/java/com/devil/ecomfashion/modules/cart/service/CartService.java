@@ -3,8 +3,10 @@ package com.devil.ecomfashion.modules.cart.service;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.cart.dto.request.CartRequestDTO;
 import com.devil.ecomfashion.modules.cart.dto.response.CartResponse;
+import com.devil.ecomfashion.modules.cart.dto.response.PageableCartResponse;
 import com.devil.ecomfashion.modules.cart.entity.Cart;
 import com.devil.ecomfashion.modules.cart.repository.CartRepository;
+import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.service.ProductService;
 import com.devil.ecomfashion.modules.user.entity.User;
@@ -13,6 +15,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -29,12 +35,14 @@ public class CartService {
     private final ProductService productService;
 
     @Transactional
-    public List<CartResponse> findAll(User user) {
-        List<Cart> carts = cartRepository.findByIsDeletedIsFalseAndUserId(user.getId());
-        if (ObjectUtils.isEmpty(carts)) {
-            return Collections.emptyList();
-        }
-        return CartUtils.convert(carts);
+    public PageableCartResponse findAll(User user, int pageNo, int pageSize) {
+
+        Pageable pageable = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt")
+                .descending().and(Sort.by("id").descending()));
+
+        Page<Cart> categoryPage = cartRepository.findByIsDeletedIsFalseAndUserId(user.getId(),pageable);
+
+        return CartUtils.convert(categoryPage);
     }
 
     @Transactional

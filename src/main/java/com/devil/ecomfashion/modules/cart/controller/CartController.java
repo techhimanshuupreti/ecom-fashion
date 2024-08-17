@@ -1,8 +1,10 @@
 package com.devil.ecomfashion.modules.cart.controller;
 ;
+import com.devil.ecomfashion.constant.Constants;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.cart.dto.request.CartRequestDTO;
 import com.devil.ecomfashion.modules.cart.dto.response.CartResponse;
+import com.devil.ecomfashion.modules.cart.dto.response.PageableCartResponse;
 import com.devil.ecomfashion.modules.cart.entity.Cart;
 import com.devil.ecomfashion.modules.cart.service.CartService;
 import com.devil.ecomfashion.modules.user.entity.User;
@@ -35,10 +37,12 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<CartResponse>>> findAll(@RequestAttribute User user) {
-        ApiResponse<List<CartResponse>> apiResponseModel = new ApiResponse<>();
+    public ResponseEntity<ApiResponse<PageableCartResponse>> findAll(@RequestAttribute User user,
+                                                                     @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
+                                                                     @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
+        ApiResponse<PageableCartResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
-        apiResponseModel.setResult(cartService.findAll(user));
+        apiResponseModel.setResult(cartService.findAll(user, pageNo, pageSize));
 
         return apiResponseModel.createResponse();
     }

@@ -1,6 +1,5 @@
 package com.devil.ecomfashion.modules.cart.dto.response;
 
-import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

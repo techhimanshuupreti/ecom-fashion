@@ -1,11 +1,10 @@
 package com.devil.ecomfashion.modules.category.entity;
 
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -35,6 +34,10 @@ public class Category {
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<SubCategory> subCategories;
+
+    public Collection<SubCategory> getSubCategories() {
+        return this.subCategories;
+    }
 
     @Override
     public boolean equals(Object o) {

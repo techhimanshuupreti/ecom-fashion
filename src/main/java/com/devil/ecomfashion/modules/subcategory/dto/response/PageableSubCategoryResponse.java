@@ -1,4 +1,4 @@
-package com.devil.ecomfashion.modules.product.dto.response;
+package com.devil.ecomfashion.modules.subcategory.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,14 +7,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageableProductResponse {
+public class PageableSubCategoryResponse {
 
-    private List<ProductResponse> data;
+    private List<SubCategoryResponse> data;
     private int totalPages;
     private int totalElements;
     private int currentPage;

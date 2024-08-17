@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class ProductUtils {
 
-    public static ProductResponse convertProductResponse(Product product) {
+    public static ProductResponse convert(Product product) {
 
         if (ObjectUtils.isEmpty(product)) {
             return new ProductResponse();
@@ -22,25 +22,25 @@ public class ProductUtils {
                 .id(product.getId())
                 .price(product.getPrice())
                 .name(product.getName())
-                .subCategory(SubCategoryUtils.convertSubCategoryResponse(product.getSubCategory()))
+                .description(product.getDescription())
+                .categoryId(ObjectUtils.isEmpty(product.getSubCategory().getCategory().getId()) ? null : product.getSubCategory().getCategory().getId())
+                .categoryName(ObjectUtils.isEmpty(product.getSubCategory().getCategory().getName()) ? "" : product.getSubCategory().getCategory().getName())
+                .subCategoryId(ObjectUtils.isEmpty(product.getSubCategory().getId()) ? null : product.getSubCategory().getId())
+                .subCategoryName(ObjectUtils.isEmpty(product.getSubCategory().getName()) ? "" : product.getSubCategory().getName())
                 .build();
     }
 
-    public static List<ProductResponse> convertProductResponse(List<Product> products) {
+    public static List<ProductResponse> convert(List<Product> products) {
 
         if (ObjectUtils.isEmpty(products)) {
             return new ArrayList<>();
         }
 
-        return products.stream().map(product -> ProductResponse.builder()
-                        .name(product.getName())
-                        .price(product.getPrice())
-                        .subCategory(SubCategoryUtils.convertSubCategoryResponse(product.getSubCategory()))
-                        .id(product.getId()).build())
+        return products.stream().map(ProductUtils::convert)
                 .collect(Collectors.toList());
     }
 
-    public static PageableProductResponse convertProductResponse(Page<Product> productPage) {
+    public static PageableProductResponse convert(Page<Product> productPage) {
 
         if (ObjectUtils.isEmpty(productPage)) {
             return PageableProductResponse.builder()
@@ -51,6 +51,6 @@ public class ProductUtils {
                 .currentPage(productPage.getTotalPages() == 0 ? 0 : productPage.getNumber() + 1)
                 .totalPages(productPage.getTotalPages())
                 .totalElements(productPage.getNumberOfElements())
-                .data(convertProductResponse(productPage.getContent())).build();
+                .data(convert(productPage.getContent())).build();
     }
 }

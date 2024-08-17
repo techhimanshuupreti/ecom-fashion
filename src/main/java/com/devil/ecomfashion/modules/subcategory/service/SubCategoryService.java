@@ -2,25 +2,25 @@ package com.devil.ecomfashion.modules.subcategory.service;
 
 import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
-import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
-import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
-import com.devil.ecomfashion.modules.product.service.ProductService;
 import com.devil.ecomfashion.modules.subcategory.dto.request.SubCategoryDTO;
+import com.devil.ecomfashion.modules.subcategory.dto.response.PageableSubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import com.devil.ecomfashion.modules.subcategory.repository.SubCategoryRepository;
-import com.devil.ecomfashion.utils.ProductUtils;
 import com.devil.ecomfashion.utils.SubCategoryUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,22 +30,24 @@ public class SubCategoryService {
     private final CategoryService catService;
 
     @Transactional
-    public List<SubCategoryResponse> find(String name) {
-        List<SubCategory> subCategories;
+    public PageableSubCategoryResponse find(String name, int pageNo, int pageSize) {
 
+        Page<SubCategory> subCategoryPage = null;
+        Pageable pageable = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt")
+                .descending().and(Sort.by("id").descending()));
         if (StringUtils.isBlank(name)) {
-            subCategories = subCatRepository.findAll();
+            subCategoryPage = subCatRepository.findAll(pageable);
         } else {
-            subCategories = Collections.singletonList(subCatRepository.findByNameIgnoreCase(name));
+            subCategoryPage = subCatRepository.findAllByNameContainingIgnoreCase(name,pageable);
         }
 
-        return SubCategoryUtils.convertSubCategoryResponse(subCategories);
+        return SubCategoryUtils.convert(subCategoryPage);
     }
 
     @Transactional
     public SubCategoryResponse findById(long id) {
         SubCategory subCategory = getById(id);
-        return SubCategoryUtils.convertSubCategoryResponse(subCategory);
+        return SubCategoryUtils.convert(subCategory);
     }
 
     @Transactional
@@ -85,7 +87,7 @@ public class SubCategoryService {
         subCategory.setCategory(category);
 
         subCategory = subCatRepository.save(subCategory);
-        return SubCategoryUtils.convertSubCategoryResponse(subCategory);
+        return SubCategoryUtils.convert(subCategory);
     }
 
     @Transactional
@@ -113,7 +115,7 @@ public class SubCategoryService {
         updatedSubCategory.setCategory(category);
 
         updatedSubCategory = subCatRepository.save(updatedSubCategory);
-        return SubCategoryUtils.convertSubCategoryResponse(updatedSubCategory);
+        return SubCategoryUtils.convert(updatedSubCategory);
     }
 
 
