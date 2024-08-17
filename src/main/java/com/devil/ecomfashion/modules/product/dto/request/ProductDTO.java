@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.modules.product.dto.request;
 
+import com.devil.ecomfashion.constant.Message;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -14,20 +15,20 @@ import org.springframework.web.multipart.MultipartFile;
 @Accessors(chain = true)
 public class ProductDTO {
 
-    @NotBlank(message = "Product name is required!")
+    @NotBlank(message = Message.PRODUCT_REQUIRED)
     private String name;
 
-    @NotNull(message = "Product Sub category is required!")
+    @NotNull(message = Message.SUBCATEGORY_REQUIRED)
     private Long subcategoryId;
 
-    @NotBlank(message = "Product description is required!")
+    @NotBlank(message = Message.PRODUCT_DESCRIPTION_REQUIRED)
     private String description;
 
-    @NotNull(message = "Product Image is required!")
+    @NotNull(message = Message.PRODUCT_IMAGE_REQUIRED)
     private MultipartFile file;
 
-    @NotNull(message = "Product price is required!")
-    @Min(value = 0, message = "Product price is less than equal to 0!")
+    @NotNull(message = Message.PRODUCT_PRICE_REQUIRED)
+    @Min(value = 0, message = Message.INVALID_PRODUCT_PRICE)
     private Double price;
 
 }

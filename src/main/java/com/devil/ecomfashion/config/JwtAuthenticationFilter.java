@@ -1,5 +1,7 @@
 package com.devil.ecomfashion.config;
 
+import com.devil.ecomfashion.constant.Message;
+import com.devil.ecomfashion.constant.URLConstant;
 import com.devil.ecomfashion.exception.CustomAuthenticationException;
 import com.devil.ecomfashion.modules.token.entity.Token;
 import com.devil.ecomfashion.modules.token.respository.TokenRepository;
@@ -32,16 +34,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        if (request.getServletPath().contains("/api/v1/auth")) {
+        if (request.getServletPath().contains(URLConstant.AUTH_BASE)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        final String authHeader = request.getHeader("Authorization");
+        final String authHeader = request.getHeader(Message.AUTHORIZATION);
         final String jwt;
         final String userEmail;
 
-        if (authHeader == null || ! authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || ! authHeader.startsWith(Message.BEARER)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -59,9 +61,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 isTokenValid = (! token.get().isExpired() && ! token.get().isRevoked());
 
                 if (token.get().isRevoked()) {
-                    throw  new CustomAuthenticationException("user already logout");
+                    throw  new CustomAuthenticationException(Message.USER_NOT_FOUND);
                 }
-                request.setAttribute("user",token.get().getUser());
+                request.setAttribute(Message.REQUEST_ATTRIBUTE_USER,token.get().getUser());
             }
 
             if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {

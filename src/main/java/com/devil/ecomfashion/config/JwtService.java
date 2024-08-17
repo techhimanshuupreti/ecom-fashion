@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.config;
 
+import com.devil.ecomfashion.constant.Message;
 import com.devil.ecomfashion.exception.JwtExceptionHandler;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -89,7 +90,7 @@ public class JwtService {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException expiredJwtException) {
-            throw new JwtExceptionHandler(null,null,"token expire or invalid");
+            throw new JwtExceptionHandler(null,null, Message.TOKEN_EXPIRED_OR_INVALID);
         }
     }
 }

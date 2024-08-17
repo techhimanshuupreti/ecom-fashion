@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.modules.subcategory.service;
 
+import com.devil.ecomfashion.constant.Message;
 import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.category.entity.Category;
@@ -54,11 +55,12 @@ public class SubCategoryService {
     public SubCategory getById(long id) {
         Optional<SubCategory> subCategory = subCatRepository.findById(id);
         if (subCategory.isEmpty()) {
-            throw new NullPointerException("no found sub-category");
+            throw new NullPointerException(Message.NO_SUB_CATEGORY_FOUND);
         }
         return subCategory.get();
     }
 
+    @Transactional
     public Boolean delete(String name) {
 
         SubCategory subCategory = findOne(name);
@@ -73,12 +75,12 @@ public class SubCategoryService {
 
         SubCategory subCategory = findOne(subCategoryDTO.getName());
         if(!ObjectUtils.isEmpty(subCategory)){
-            throw new AlreadyExistException(subCategoryDTO.getName() + " sub category is not found");
+            throw new AlreadyExistException(Message.ALREADY_FOUND.replace("%", subCategoryDTO.getName()));
         }
 
         Category category = catService.findOne(subCategoryDTO.getCategoryName());
         if(ObjectUtils.isEmpty(category))
-            throw new ResourceNotFoundException("Category not found");
+            throw new ResourceNotFoundException(Message.NO_CATEGORY_FOUND);
 
         subCategory = new SubCategory();
         subCategory.setCreatedAt(new Date());
@@ -107,7 +109,7 @@ public class SubCategoryService {
 
         Category category = catService.findOne(subCategoryDTO.getCategoryName());
         if(ObjectUtils.isEmpty(category))
-            throw new ResourceNotFoundException("Category not found");
+            throw new ResourceNotFoundException(Message.NO_CATEGORY_FOUND);
 
         SubCategory updatedSubCategory = getById(id);
         updatedSubCategory.setName(subCategoryDTO.getName());

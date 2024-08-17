@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.config;
 
+import com.devil.ecomfashion.constant.Message;
 import com.devil.ecomfashion.modules.user.respository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,7 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findUserByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(Message.USER_NOT_FOUND));
     }
 
     @Bean

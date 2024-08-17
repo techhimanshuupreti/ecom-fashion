@@ -1,6 +1,8 @@
 package com.devil.ecomfashion.modules.category.controller;
 
 import com.devil.ecomfashion.constant.Constants;
+import com.devil.ecomfashion.constant.Message;
+import com.devil.ecomfashion.constant.URLConstant;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.category.dto.request.CategoryDTO;
 import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
@@ -18,11 +20,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/categories")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping(URLConstant.CATEGORY_BASE)
+@CrossOrigin(origins = URLConstant.STRIKE)
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "Categories", description = "Categories related api")
+@Tag(name = Message.CATEGORY, description = Message.CATEGORY_DESCRIPTION)
 public class CategoryController {
 
     private final CategoryService categoryService;

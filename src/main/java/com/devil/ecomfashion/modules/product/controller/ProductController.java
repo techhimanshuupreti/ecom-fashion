@@ -1,6 +1,8 @@
 package com.devil.ecomfashion.modules.product.controller;
 
 import com.devil.ecomfashion.constant.Constants;
+import com.devil.ecomfashion.constant.Message;
+import com.devil.ecomfashion.constant.URLConstant;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.product.dto.request.ProductDTO;
 import com.devil.ecomfashion.modules.product.dto.request.UpdateProductDTO;
@@ -21,11 +23,11 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/products")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping(URLConstant.PRODUCT_BASE)
+@CrossOrigin(origins = URLConstant.STRIKE)
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "Product", description = "product related api")
+@Tag(name = Message.PRODUCT, description = Message.PRODUCT_DESCRIPTION)
 public class ProductController {
 
     private final ProductService productService;
@@ -83,7 +85,9 @@ public class ProductController {
     }
 
     @GetMapping("/categories/{id}")
-    public ResponseEntity<ApiResponse<PageableProductResponse>> getProductsByCategory(@PathVariable long id, @RequestParam(required = false, defaultValue = "1") int pageNo, @RequestParam(required = false, defaultValue = "10") int pageSize) {
+    public ResponseEntity<ApiResponse<PageableProductResponse>> getProductsByCategory(@PathVariable long id,
+                                                                                      @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
+                                                                                      @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
 
         ApiResponse<PageableProductResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
@@ -93,7 +97,9 @@ public class ProductController {
     }
 
     @GetMapping("/sub-categories/{id}")
-    public ResponseEntity<ApiResponse<PageableProductResponse>> getProductsBySubCategory(@PathVariable long id, @RequestParam(required = false, defaultValue = "1") int pageNo, @RequestParam(required = false, defaultValue = "10") int pageSize) {
+    public ResponseEntity<ApiResponse<PageableProductResponse>> getProductsBySubCategory(@PathVariable long id,
+                                                                                         @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
+                                                                                         @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
 
         ApiResponse<PageableProductResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);

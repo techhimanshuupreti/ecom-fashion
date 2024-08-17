@@ -20,7 +20,7 @@ public class UnauthorizedResponseBodyHandler implements AuthenticationEntryPoint
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse httpServletResponse, AuthenticationException authException) throws IOException, ServletException {
         ApiResponse<Object> response = new ApiResponse<>();
-        response.setMessage("Unauthorised");
+        response.setMessage(HttpStatus.UNAUTHORIZED.name());
         response.setSuccess(false);
         response.setHttpStatus(HttpStatus.FORBIDDEN);
         OutputStream out = httpServletResponse.getOutputStream();

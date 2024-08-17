@@ -1,6 +1,7 @@
 package com.devil.ecomfashion.modules.user.controller;
 
 
+import com.devil.ecomfashion.constant.URLConstant;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.user.dto.UserDTO;
 import com.devil.ecomfashion.modules.user.entity.User;
@@ -13,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:3000/", "*"})
+@CrossOrigin(origins = URLConstant.STRIKE)
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping(URLConstant.USER_BASE)
 @RequiredArgsConstructor
 @Validated
 @Tag(name = "User",description = "user related api")

@@ -1,34 +1,35 @@
 package com.devil.ecomfashion.modules.cart.controller;
+
 ;
 import com.devil.ecomfashion.constant.Constants;
+import com.devil.ecomfashion.constant.Message;
+import com.devil.ecomfashion.constant.URLConstant;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.cart.dto.request.CartRequestDTO;
 import com.devil.ecomfashion.modules.cart.dto.response.CartResponse;
 import com.devil.ecomfashion.modules.cart.dto.response.PageableCartResponse;
-import com.devil.ecomfashion.modules.cart.entity.Cart;
 import com.devil.ecomfashion.modules.cart.service.CartService;
 import com.devil.ecomfashion.modules.user.entity.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 @Validated
-@Tag(name = "Carts", description = "Carts related api")
+@Tag(name = Message.CART, description = Message.CART_DESCRIPTION)
 @RestController
-@RequestMapping("/api/v1/carts")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping(URLConstant.CART_BASE)
+@CrossOrigin(origins = URLConstant.STRIKE)
 @RequiredArgsConstructor
 public class CartController {
 
     private final CartService cartService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<CartResponse>> create(@RequestAttribute User user, CartRequestDTO cartRequestDTO) {
+    public ResponseEntity<ApiResponse<CartResponse>> create(@RequestAttribute User user, @Valid CartRequestDTO cartRequestDTO) {
         ApiResponse<CartResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(cartService.create(cartRequestDTO, user));
@@ -48,19 +49,19 @@ public class CartController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ApiResponse<Boolean>> delete(@RequestAttribute User user,@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Boolean>> delete(@RequestAttribute User user, @PathVariable Long id) {
         ApiResponse<Boolean> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
-        apiResponseModel.setResult(cartService.delete(user,id));
+        apiResponseModel.setResult(cartService.delete(user, id));
 
         return apiResponseModel.createResponse();
     }
 
     @PatchMapping("{id}/qty/{qty}")
-    public ResponseEntity<ApiResponse<CartResponse>> updateQty(@RequestAttribute User user,@PathVariable Long id,@PathVariable int qty) {
+    public ResponseEntity<ApiResponse<CartResponse>> updateQty(@RequestAttribute User user, @PathVariable Long id, @PathVariable int qty) {
         ApiResponse<CartResponse> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
-        apiResponseModel.setResult(cartService.updateQty(user,id,qty));
+        apiResponseModel.setResult(cartService.updateQty(user, id, qty));
 
         return apiResponseModel.createResponse();
     }

@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.modules.category.service;
 
+import com.devil.ecomfashion.constant.Message;
 import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.category.dto.request.CategoryDTO;
@@ -7,7 +8,6 @@ import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
 import com.devil.ecomfashion.modules.category.dto.response.PageableCategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
-import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import com.devil.ecomfashion.utils.CategoryUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -58,16 +56,17 @@ public class CategoryService {
     public Category getById(long id) {
         Optional<Category> category = categoryRepository.findById(id);
         if (category.isEmpty()) {
-            throw new ResourceNotFoundException("no found category");
+            throw new ResourceNotFoundException(Message.NO_CATEGORY_FOUND);
         }
         return category.get();
     }
 
+    @Transactional
     public CategoryResponse create(CategoryDTO categoryDTO) {
         log.info("calling creating the category");
         Category category = findOne(categoryDTO.getName());
         if (!ObjectUtils.isEmpty(category)) {
-            throw new AlreadyExistException(categoryDTO.getName() + " is already exist.");
+            throw new AlreadyExistException(Message.ALREADY_FOUND.replace("%",categoryDTO.getName()));
         }
 
         category = new Category();
@@ -80,6 +79,7 @@ public class CategoryService {
         return CategoryUtils.convert(category);
     }
 
+    @Transactional
     public CategoryResponse update(long id, CategoryDTO categoryDTO) {
 
         Category updatedCategory = getById(id);

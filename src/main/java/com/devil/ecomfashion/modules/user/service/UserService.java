@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.modules.user.service;
 
+import com.devil.ecomfashion.constant.Message;
 import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.exception.ExceptionOccur;
 import com.devil.ecomfashion.modules.user.constants.Role;
@@ -33,7 +34,7 @@ public class UserService {
     public User findOne(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException(Message.USER_NOT_FOUND);
         }
         return user.get();
     }
@@ -44,7 +45,7 @@ public class UserService {
 
             if (ObjectUtils.allNotNull(isUserExist) && !isUserExist.isEmpty()) {
                 log.error("user already found for {}", userDTO.getEmail());
-                throw new AlreadyExistException("user already found");
+                throw new AlreadyExistException(Message.ALREADY_FOUND.replace("%", userDTO.getEmail()));
             }
 
             User user = User.builder()
@@ -61,7 +62,7 @@ public class UserService {
             return userRepository.save(user);
         } catch (Exception e) {
             log.error("exception occur while creating for user details : {}", userDTO.getEmail());
-            throw new ExceptionOccur("Unable to creating for user.");
+            throw new ExceptionOccur(Message.EXCEPTION_OCCUR);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.controller;
 
+import com.devil.ecomfashion.constant.Message;
 import com.devil.ecomfashion.exception.ExceptionOccur;
 import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.model.ApiResponse;
@@ -17,18 +18,18 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalController{
+public class GlobalController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<?>> handleValidationErrors(MethodArgumentNotValidException ex) {
-        log.info("handleValidationErrors : {}",ex.getMessage());
+        log.info("handleValidationErrors : {}", ex.getMessage());
         List<ApiResponseError> errors = ex.getBindingResult().getFieldErrors().stream().map((fieldError) -> new ApiResponseError().setTitle(fieldError.getField()).setMessage(fieldError.getDefaultMessage())).collect(Collectors.toList());
-        return new ResponseEntity<>(new ApiResponse<>(null, "invalid field ", false, errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ApiResponse<>(null, Message.ERROR_INVALID_FIELD, false, errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(AlreadyExistException.class)
     public ResponseEntity<ApiResponse<?>> handleAlreadyExistException(AlreadyExistException ex) {
-        log.info("handleUserAlreadyExistException : {}",ex.getMessage());
+        log.info("handleUserAlreadyExistException : {}", ex.getMessage());
         ApiResponse<?> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(false);
         apiResponseModel.setResult(null);
@@ -38,7 +39,7 @@ public class GlobalController{
 
     @ExceptionHandler(ExceptionOccur.class)
     public ResponseEntity<ApiResponse<?>> handleExceptionOccur(ExceptionOccur ex) {
-        log.info("handleExceptionOccur : {}",ex.getMessage());
+        log.info("handleExceptionOccur : {}", ex.getMessage());
         ApiResponse<?> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(false);
         apiResponseModel.setResult(null);

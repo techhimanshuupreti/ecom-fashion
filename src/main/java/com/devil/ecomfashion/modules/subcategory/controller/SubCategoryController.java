@@ -1,6 +1,8 @@
 package com.devil.ecomfashion.modules.subcategory.controller;
 
 import com.devil.ecomfashion.constant.Constants;
+import com.devil.ecomfashion.constant.Message;
+import com.devil.ecomfashion.constant.URLConstant;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.subcategory.dto.request.SubCategoryDTO;
@@ -18,11 +20,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/sub-categories")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping(URLConstant.SUBCATEGORY_BASE)
+@CrossOrigin(origins = URLConstant.STRIKE)
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "Sub-Category", description = "Sub-categories related api")
+@Tag(name = Message.SUBCATEGORY, description = Message.SUBCATEGORY_DESCRIPTION)
 public class SubCategoryController {
 
     private final SubCategoryService subCategoryService;

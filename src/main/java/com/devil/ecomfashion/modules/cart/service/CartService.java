@@ -1,12 +1,12 @@
 package com.devil.ecomfashion.modules.cart.service;
 
+import com.devil.ecomfashion.constant.Message;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.cart.dto.request.CartRequestDTO;
 import com.devil.ecomfashion.modules.cart.dto.response.CartResponse;
 import com.devil.ecomfashion.modules.cart.dto.response.PageableCartResponse;
 import com.devil.ecomfashion.modules.cart.entity.Cart;
 import com.devil.ecomfashion.modules.cart.repository.CartRepository;
-import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.service.ProductService;
 import com.devil.ecomfashion.modules.user.entity.User;
@@ -21,9 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,7 +48,7 @@ public class CartService {
 
         Product product = productService.getById(cartRequestDTO.getProductId());
         if (ObjectUtils.isEmpty(product)) {
-            throw new ResourceNotFoundException("Product not found");
+            throw new ResourceNotFoundException(Message.PRODUCT_NOT_FOUND);
         }
 
         Cart newCart = new Cart();
@@ -68,7 +66,7 @@ public class CartService {
     public boolean delete(User user, Long cartId) {
         Optional<Cart> cart = cartRepository.findByIsDeletedIsFalseAndIdAndUserId(cartId, user.getId());
         if (cart.isEmpty()) {
-            throw new ResourceNotFoundException("Entry not found");
+            throw new ResourceNotFoundException(Message.NO_CART_FOUND);
         }
 
         cart.get().setUpdatedAt(new Date());
@@ -81,7 +79,7 @@ public class CartService {
     public CartResponse updateQty(User user, Long cartId, int qty) {
         Optional<Cart> cart = cartRepository.findByIsDeletedIsFalseAndIdAndUserId(cartId, user.getId());
         if (cart.isEmpty()) {
-            throw new ResourceNotFoundException("Entry not found");
+            throw new ResourceNotFoundException(Message.NO_CART_FOUND);
         }
 
         cart.get().setUpdatedAt(new Date());

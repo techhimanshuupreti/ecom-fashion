@@ -1,8 +1,7 @@
 package com.devil.ecomfashion.modules.category.dto.request;
 
+import com.devil.ecomfashion.constant.Message;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class CategoryDTO {
 
     // Todo: it defines which like Mobile, Laptop (type: Electronics)
-    @NotBlank(message = "Category name is not blank")
+    @NotBlank(message = Message.NAME_REQUIRED)
     private String name;
 
 }
