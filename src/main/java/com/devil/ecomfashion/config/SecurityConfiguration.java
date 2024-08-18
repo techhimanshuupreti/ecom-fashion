@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -29,72 +30,43 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests(req -> {
-
-                    req.requestMatchers(URLConstant.ENDPOINT_WHITELIST).permitAll();
-                    req.requestMatchers(HttpMethod.GET,URLConstant.ALL_ENDPOINT_WHITELIST).permitAll();
-
-                    req.requestMatchers(HttpMethod.POST, URLConstant.CATEGORY_BASE,
-                                    URLConstant.CATEGORY_OPERATIONS,
-                                    URLConstant.SUBCATEGORY_BASE,
-                                    URLConstant.SUBCATEGORY_OPERATIONS,
-                                    URLConstant.PRODUCT_BASE,
-                                    URLConstant.PRODUCT_OPERATIONS)
-                            .hasRole(Role.ADMIN.name());
-
-                    req.requestMatchers(HttpMethod.PATCH, URLConstant.CATEGORY_BASE,
-                                    URLConstant.CATEGORY_OPERATIONS,
-                                    URLConstant.SUBCATEGORY_BASE,
-                                    URLConstant.SUBCATEGORY_OPERATIONS,
-                                    URLConstant.PRODUCT_BASE,
-                                    URLConstant.PRODUCT_OPERATIONS)
-                            .hasRole(Role.ADMIN.name());
-
-                    req.requestMatchers(HttpMethod.DELETE, URLConstant.CATEGORY_BASE,
-                                    URLConstant.CATEGORY_OPERATIONS,
-                                    URLConstant.SUBCATEGORY_BASE,
-                                    URLConstant.SUBCATEGORY_OPERATIONS,
-                                    URLConstant.PRODUCT_BASE,
-                                    URLConstant.PRODUCT_OPERATIONS)
-                            .hasRole(Role.ADMIN.name());
-
-                    req.requestMatchers(HttpMethod.PUT, URLConstant.CATEGORY_BASE,
-                                    URLConstant.CATEGORY_OPERATIONS,
-                                    URLConstant.SUBCATEGORY_BASE,
-                                    URLConstant.SUBCATEGORY_OPERATIONS,
-                                    URLConstant.PRODUCT_BASE,
-                                    URLConstant.PRODUCT_OPERATIONS)
-                            .hasRole(Role.ADMIN.name());
-
-                    req.anyRequest().authenticated();
-                })
-                .cors().configurationSource(corsConfigurationSource())
-                .and().csrf().disable()
+        http.csrf().disable()
+                .cors().configurationSource(corsConfigurationSource()).and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout()
-                .logoutUrl(URLConstant.AUTH_BASE + URLConstant.USER_LOGOUT)
-                .addLogoutHandler(logoutHandler)
-                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(URLConstant.ENDPOINT_WHITELIST.toArray(new String[0])).permitAll()
+                        .requestMatchers(HttpMethod.GET, URLConstant.ALL_ENDPOINT_WHITELIST.toArray(new String[0])).permitAll()
+                        .requestMatchers(HttpMethod.POST, URLConstant.ADMIN_ENDPOINTS.toArray(new String[0])).hasRole(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.PATCH, URLConstant.ADMIN_ENDPOINTS.toArray(new String[0])).hasRole(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.DELETE, URLConstant.ADMIN_ENDPOINTS.toArray(new String[0])).hasRole(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.PUT, URLConstant.ADMIN_ENDPOINTS.toArray(new String[0])).hasRole(Role.ADMIN.name())
+                        .anyRequest().authenticated()
+                )
+                .logout(logout -> logout
+                        .logoutUrl(URLConstant.AUTH_BASE + URLConstant.USER_LOGOUT)
+                        .addLogoutHandler(logoutHandler)
+                        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                );
 
         return http.build();
     }
 
+    @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin(URLConstant.STRIKE);
         config.addAllowedHeader(URLConstant.STRIKE);
         config.addAllowedMethod(URLConstant.STRIKE);
-        source.registerCorsConfiguration("/**", config);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration(URLConstant.DOUBLE_STRIKE, config);
         return source;
     }
 }

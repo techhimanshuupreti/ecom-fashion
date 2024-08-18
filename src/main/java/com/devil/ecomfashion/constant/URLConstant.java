@@ -1,8 +1,11 @@
 package com.devil.ecomfashion.constant;
 
+import java.util.List;
+
 public class URLConstant {
 
     public static final String STRIKE = "*";
+    public static final String DOUBLE_STRIKE = "/**";
 
     //Swagger configuration URL and Whitelist URL
     public static final String V2_API_DOCS = "/v2/api-docs";
@@ -44,7 +47,7 @@ public class URLConstant {
     public static final String PRODUCT_BY_CATEGORY = "/api/v1/products/categories/**";
     public static final String PRODUCT_BY_SUB_CATEGORY = "/api/v1/products/sub-categories/**";
 
-    public static final String[] ENDPOINT_WHITELIST = {
+    public static final List<String> ENDPOINT_WHITELIST = List.of(
             V2_API_DOCS,
             V3_API_DOCS,
             CONFIGURATION_UI,
@@ -55,19 +58,23 @@ public class URLConstant {
             SWAGGER_UI_ALL,
             SWAGGER_UI_HTML,
             WEBJARS,
-            AUTH_ALL,
-//            CATEGORY_BASE,
-//            SUBCATEGORY_BASE,
-//            PRODUCT_BASE,
-//            PRODUCT_BY_CATEGORY,
-//            PRODUCT_BY_SUB_CATEGORY
-    };
+            AUTH_ALL
+    );
 
-    public static final String[] ALL_ENDPOINT_WHITELIST = {
+    public static final List<String> ALL_ENDPOINT_WHITELIST = List.of(
             CATEGORY_BASE,
             SUBCATEGORY_BASE,
             PRODUCT_BASE,
             PRODUCT_BY_CATEGORY,
             PRODUCT_BY_SUB_CATEGORY
-    };
+    );
+
+    public static final List<String> ADMIN_ENDPOINTS = List.of(
+            CATEGORY_BASE,
+            CATEGORY_OPERATIONS,
+            SUBCATEGORY_BASE,
+            SUBCATEGORY_OPERATIONS,
+            PRODUCT_BASE,
+            PRODUCT_OPERATIONS
+    );
 }
