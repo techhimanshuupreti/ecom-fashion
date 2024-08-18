@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.modules.product.service;
 
+import com.devil.ecomfashion.constant.Message;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.product.dto.request.ProductDTO;
 import com.devil.ecomfashion.modules.product.dto.request.UpdateProductDTO;
@@ -62,7 +63,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Product getById(long id) {
         Optional<Product> product = productRepository.findById(id);
-        if (product.isEmpty()) throw new ResourceNotFoundException("product not found");
+        if (product.isEmpty()) throw new ResourceNotFoundException(Message.PRODUCT_NOT_FOUND);
 
         return product.get();
     }

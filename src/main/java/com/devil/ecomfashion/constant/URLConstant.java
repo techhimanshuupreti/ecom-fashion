@@ -32,12 +32,15 @@ public class URLConstant {
 
     // Category URL's
     public static final String CATEGORY_BASE = "/api/v1/categories";
+    public static final String CATEGORY_OPERATIONS = "/api/v1/categories/**";
 
     // Sub Category URL's
     public static final String SUBCATEGORY_BASE = "/api/v1/sub-categories";
+    public static final String SUBCATEGORY_OPERATIONS = "/api/v1/sub-categories/**";
 
     // Product URL's
     public static final String PRODUCT_BASE = "/api/v1/products";
+    public static final String PRODUCT_OPERATIONS = "/api/v1/products/**";
     public static final String PRODUCT_BY_CATEGORY = "/api/v1/products/categories/**";
     public static final String PRODUCT_BY_SUB_CATEGORY = "/api/v1/products/sub-categories/**";
 
@@ -53,6 +56,14 @@ public class URLConstant {
             SWAGGER_UI_HTML,
             WEBJARS,
             AUTH_ALL,
+//            CATEGORY_BASE,
+//            SUBCATEGORY_BASE,
+//            PRODUCT_BASE,
+//            PRODUCT_BY_CATEGORY,
+//            PRODUCT_BY_SUB_CATEGORY
+    };
+
+    public static final String[] ALL_ENDPOINT_WHITELIST = {
             CATEGORY_BASE,
             SUBCATEGORY_BASE,
             PRODUCT_BASE,

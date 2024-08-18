@@ -3,6 +3,7 @@ package com.devil.ecomfashion.controller;
 import com.devil.ecomfashion.constant.Message;
 import com.devil.ecomfashion.exception.ExceptionOccur;
 import com.devil.ecomfashion.exception.AlreadyExistException;
+import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.model.ApiResponseError;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +57,16 @@ public class GlobalController {
         apiResponseModel.setSuccess(false);
         apiResponseModel.setResult(null);
         apiResponseModel.setMessage(Message.DUPLICATE_DATA_EXIST_IN_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponseModel);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        log.info("handleResourceNotFoundException : {}", ex.getMessage());
+        ApiResponse<?> apiResponseModel = new ApiResponse<>();
+        apiResponseModel.setSuccess(false);
+        apiResponseModel.setResult(null);
+        apiResponseModel.setMessage(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponseModel);
     }
 }

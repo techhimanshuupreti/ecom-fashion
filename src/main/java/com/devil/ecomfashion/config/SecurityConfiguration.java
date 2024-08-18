@@ -34,36 +34,40 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(req -> {
-//                    req.requestMatchers(ENDPOINTS_WHITELIST).permitAll();
 
                     req.requestMatchers(URLConstant.ENDPOINT_WHITELIST).permitAll();
-
-
-//                    req.requestMatchers(HttpMethod.GET, URLConstant.CATEGORY_BASE,
-//                                                        URLConstant.SUBCATEGORY_BASE,
-//                                                        URLConstant.PRODUCT_BASE,
-//                                                        URLConstant.PRODUCT_BY_CATEGORY,
-//                                                        URLConstant.PRODUCT_BY_SUB_CATEGORY )
-//                                    .hasAnyRole(Role.ADMIN.name(), Role.USER.name());
+                    req.requestMatchers(HttpMethod.GET,URLConstant.ALL_ENDPOINT_WHITELIST).permitAll();
 
                     req.requestMatchers(HttpMethod.POST, URLConstant.CATEGORY_BASE,
+                                    URLConstant.CATEGORY_OPERATIONS,
                                     URLConstant.SUBCATEGORY_BASE,
-                                    URLConstant.PRODUCT_BASE)
+                                    URLConstant.SUBCATEGORY_OPERATIONS,
+                                    URLConstant.PRODUCT_BASE,
+                                    URLConstant.PRODUCT_OPERATIONS)
                             .hasRole(Role.ADMIN.name());
 
                     req.requestMatchers(HttpMethod.PATCH, URLConstant.CATEGORY_BASE,
+                                    URLConstant.CATEGORY_OPERATIONS,
                                     URLConstant.SUBCATEGORY_BASE,
-                                    URLConstant.PRODUCT_BASE)
+                                    URLConstant.SUBCATEGORY_OPERATIONS,
+                                    URLConstant.PRODUCT_BASE,
+                                    URLConstant.PRODUCT_OPERATIONS)
                             .hasRole(Role.ADMIN.name());
 
                     req.requestMatchers(HttpMethod.DELETE, URLConstant.CATEGORY_BASE,
+                                    URLConstant.CATEGORY_OPERATIONS,
                                     URLConstant.SUBCATEGORY_BASE,
-                                    URLConstant.PRODUCT_BASE)
+                                    URLConstant.SUBCATEGORY_OPERATIONS,
+                                    URLConstant.PRODUCT_BASE,
+                                    URLConstant.PRODUCT_OPERATIONS)
                             .hasRole(Role.ADMIN.name());
 
                     req.requestMatchers(HttpMethod.PUT, URLConstant.CATEGORY_BASE,
+                                    URLConstant.CATEGORY_OPERATIONS,
                                     URLConstant.SUBCATEGORY_BASE,
-                                    URLConstant.PRODUCT_BASE)
+                                    URLConstant.SUBCATEGORY_OPERATIONS,
+                                    URLConstant.PRODUCT_BASE,
+                                    URLConstant.PRODUCT_OPERATIONS)
                             .hasRole(Role.ADMIN.name());
 
                     req.anyRequest().authenticated();

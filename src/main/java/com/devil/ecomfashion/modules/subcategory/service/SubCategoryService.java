@@ -55,7 +55,7 @@ public class SubCategoryService {
     public SubCategory getById(long id) {
         Optional<SubCategory> subCategory = subCatRepository.findById(id);
         if (subCategory.isEmpty()) {
-            throw new NullPointerException(Message.NO_SUB_CATEGORY_FOUND);
+            throw new ResourceNotFoundException(Message.NO_SUB_CATEGORY_FOUND);
         }
         return subCategory.get();
     }
