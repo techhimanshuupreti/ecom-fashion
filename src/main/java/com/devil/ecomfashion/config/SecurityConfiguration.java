@@ -1,6 +1,7 @@
 package com.devil.ecomfashion.config;
 
 import com.devil.ecomfashion.constant.URLConstant;
+import com.devil.ecomfashion.modules.user.constants.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,29 +29,44 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
 
-    private final String[] ENDPOINTS_WHITELIST = {
-            "/api/v1/auth/**",
-            "/v2/api-docs",
-            "/v3/api-docs",
-            "/v3/api-docs/**",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/swagger-ui/**",
-            "/webjars/**",
-//            "/api/v1/categories",
-//            "/api/v1/sub-categories",
-//            "/api/v1/products",
-            "/swagger-ui.html"
-    };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(req -> {
-                    req.requestMatchers(ENDPOINTS_WHITELIST).permitAll()        // Whitelisted endpoints accessible to all
-                            .anyRequest().authenticated();                           // All other requests require authentication
+//                    req.requestMatchers(ENDPOINTS_WHITELIST).permitAll();
+
+                    req.requestMatchers(URLConstant.ENDPOINT_WHITELIST).permitAll();
+
+
+//                    req.requestMatchers(HttpMethod.GET, URLConstant.CATEGORY_BASE,
+//                                                        URLConstant.SUBCATEGORY_BASE,
+//                                                        URLConstant.PRODUCT_BASE,
+//                                                        URLConstant.PRODUCT_BY_CATEGORY,
+//                                                        URLConstant.PRODUCT_BY_SUB_CATEGORY )
+//                                    .hasAnyRole(Role.ADMIN.name(), Role.USER.name());
+
+                    req.requestMatchers(HttpMethod.POST, URLConstant.CATEGORY_BASE,
+                                    URLConstant.SUBCATEGORY_BASE,
+                                    URLConstant.PRODUCT_BASE)
+                            .hasRole(Role.ADMIN.name());
+
+                    req.requestMatchers(HttpMethod.PATCH, URLConstant.CATEGORY_BASE,
+                                    URLConstant.SUBCATEGORY_BASE,
+                                    URLConstant.PRODUCT_BASE)
+                            .hasRole(Role.ADMIN.name());
+
+                    req.requestMatchers(HttpMethod.DELETE, URLConstant.CATEGORY_BASE,
+                                    URLConstant.SUBCATEGORY_BASE,
+                                    URLConstant.PRODUCT_BASE)
+                            .hasRole(Role.ADMIN.name());
+
+                    req.requestMatchers(HttpMethod.PUT, URLConstant.CATEGORY_BASE,
+                                    URLConstant.SUBCATEGORY_BASE,
+                                    URLConstant.PRODUCT_BASE)
+                            .hasRole(Role.ADMIN.name());
+
+                    req.anyRequest().authenticated();
                 })
                 .cors().configurationSource(corsConfigurationSource())
                 .and().csrf().disable()
