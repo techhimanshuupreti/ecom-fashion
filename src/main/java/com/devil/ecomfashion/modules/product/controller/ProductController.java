@@ -8,7 +8,6 @@ import com.devil.ecomfashion.modules.product.dto.request.ProductDTO;
 import com.devil.ecomfashion.modules.product.dto.request.UpdateProductDTO;
 import com.devil.ecomfashion.modules.product.dto.response.PageableProductResponse;
 import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
-import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.service.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -19,8 +18,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(URLConstant.PRODUCT_BASE)
