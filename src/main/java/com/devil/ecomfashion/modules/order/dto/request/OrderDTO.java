@@ -19,6 +19,4 @@ public class OrderDTO {
 
     @NotNull(message = Message.PRODUCT_REQUIRED)
     private Long productId;
-
-
 }

@@ -23,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,32 +40,15 @@ public class CartService {
         Pageable pageable = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt")
                 .descending().and(Sort.by("id").descending()));
 
-        Page<Cart> categoryPage = cartRepository.findByIsDeletedIsFalseAndUserId(user.getId(),pageable);
+        Page<Cart> categoryPage = cartRepository.findByIsDeletedIsFalseAndUserId(user.getId(), pageable);
 
         return CartUtils.convert(categoryPage);
     }
 
     @Transactional
     public CartResponse create(CartRequestDTO cartRequestDTO, User user) {
-
-        Product product = productService.getById(cartRequestDTO.getProductId());
-        if (ObjectUtils.isEmpty(product)) {
-            throw new ResourceNotFoundException(Message.PRODUCT_NOT_FOUND);
-        }
-
-        if(product.getStock()>=cartRequestDTO.getQty()){
-            throw new RequestValidationException(Message.INVALID_PRODUCT_QTY);
-        }
-
-        Cart newCart = new Cart();
-        newCart.setQty(cartRequestDTO.getQty());
-        newCart.setUserId(user.getId());
-        newCart.setProduct(product);
-        newCart.setTotalPrice(product.getPrice() * cartRequestDTO.getQty());
-        newCart.setCreatedAt(new Date());
-        newCart.setUpdatedAt(new Date());
-        newCart = cartRepository.save(newCart);
-        return CartUtils.convert(newCart);
+        Cart cart = createCart(cartRequestDTO, user);
+        return CartUtils.convert(cart);
     }
 
     @Transactional
@@ -88,12 +72,38 @@ public class CartService {
         }
 
 
-        if(cart.get().getProduct().getStock()>=cart.get().getQty()){
+        if (cart.get().getProduct().getStock() >= cart.get().getQty()) {
             throw new RequestValidationException(Message.INVALID_PRODUCT_QTY);
         }
         cart.get().setUpdatedAt(new Date());
         cart.get().setQty(qty);
-        Cart updatedCart =  cartRepository.save(cart.get());
+        Cart updatedCart = cartRepository.save(cart.get());
         return CartUtils.convert(updatedCart);
+    }
+
+    public Cart getByProductId(User user, Long productId) {
+        return cartRepository.getCartsByProductId(productId, user.getId());
+    }
+
+    @Transactional
+    public Cart createCart(CartRequestDTO cartRequestDTO, User user) {
+
+        Product product = productService.getById(cartRequestDTO.getProductId());
+        if (ObjectUtils.isEmpty(product)) {
+            throw new ResourceNotFoundException(Message.PRODUCT_NOT_FOUND);
+        }
+
+        if (product.getStock() >= cartRequestDTO.getQty()) {
+            throw new RequestValidationException(Message.INVALID_PRODUCT_QTY);
+        }
+
+        Cart newCart = new Cart();
+        newCart.setQty(cartRequestDTO.getQty());
+        newCart.setUserId(user.getId());
+        newCart.setProduct(product);
+        newCart.setTotalPrice(product.getPrice() * cartRequestDTO.getQty());
+        newCart.setCreatedAt(new Date());
+        newCart.setUpdatedAt(new Date());
+        return cartRepository.save(newCart);
     }
 }

@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.modules.order.entity;
 
+import com.devil.ecomfashion.modules.cart.entity.Cart;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,14 +32,12 @@ public class Order {
     @Column(nullable = false)
     private Long userId;
 
-    private int qty;
-
     @Column(columnDefinition = "DECIMAL(10,2) DEFAULT '0.00'")
     private Double totalPrice;
 
     private boolean isDeleted;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false)
-    private Product product;
+    private Long paymentId;
+    private Long deliveryId;
+
 }

@@ -61,7 +61,7 @@ public class URLConstant {
             AUTH_ALL
     );
 
-    public static final List<String> ALL_ENDPOINT_WHITELIST = List.of(
+    public static final List<String> ALL_USER_ENDPOINT_WHITELIST = List.of(
             CATEGORY_BASE,
             SUBCATEGORY_BASE,
             PRODUCT_BASE,

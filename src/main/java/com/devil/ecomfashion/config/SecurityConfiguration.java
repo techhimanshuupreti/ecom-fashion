@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(URLConstant.ENDPOINT_WHITELIST.toArray(new String[0])).permitAll()
-                        .requestMatchers(HttpMethod.GET, URLConstant.ALL_ENDPOINT_WHITELIST.toArray(new String[0])).permitAll()
+                        .requestMatchers(HttpMethod.GET, URLConstant.ALL_USER_ENDPOINT_WHITELIST.toArray(new String[0])).permitAll()
                         .requestMatchers(HttpMethod.POST, URLConstant.ADMIN_ENDPOINTS.toArray(new String[0])).hasRole(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.PATCH, URLConstant.ADMIN_ENDPOINTS.toArray(new String[0])).hasRole(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.DELETE, URLConstant.ADMIN_ENDPOINTS.toArray(new String[0])).hasRole(Role.ADMIN.name())
