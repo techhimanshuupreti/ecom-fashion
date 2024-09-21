@@ -6,19 +6,19 @@ public class Message {
     public static final String AUTH_CONTROLLER_TAG = "1. Authentication";
     public static final String AUTH_CONTROLLER_DESCRIPTION = "authentication related api like login, logout,forget,change password";
 
-    public static final String CART_CONTROLLER_TAG ="Carts";
+    public static final String CART_CONTROLLER_TAG ="6. Carts";
     public static final String CART_DESCRIPTION = "Carts related api";
 
-    public static final String CATEGORY_CONTROLLER_TAG = "Category";
+    public static final String CATEGORY_CONTROLLER_TAG = "3. Category";
     public static final String CATEGORY_DESCRIPTION = "Categories related api";
 
-    public static final String SUBCATEGORY_CONTROLLER_TAG = "Sub-Category";
+    public static final String SUBCATEGORY_CONTROLLER_TAG = "4. Sub-Category";
     public static final String SUBCATEGORY_DESCRIPTION = "Sub-categories related api";
 
-    public static final String PRODUCT_CONTROLLER_TAG = "Product";
+    public static final String PRODUCT_CONTROLLER_TAG = "5. Product";
     public static final String PRODUCT_DESCRIPTION = "product related api";
 
-    public static final String USER_CONTROLLER_TAG = "User";
+    public static final String USER_CONTROLLER_TAG = "2. User";
     public static final String USER_DESCRIPTION = "user related api";
 
     // Error messages
