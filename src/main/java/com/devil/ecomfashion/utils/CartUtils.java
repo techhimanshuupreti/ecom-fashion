@@ -1,10 +1,7 @@
 package com.devil.ecomfashion.utils;
 
 import com.devil.ecomfashion.modules.cart.dto.response.CartResponse;
-import com.devil.ecomfashion.modules.cart.dto.response.PageableCartResponse;
 import com.devil.ecomfashion.modules.cart.entity.Cart;
-import com.devil.ecomfashion.modules.user.dto.UserResponse;
-import com.devil.ecomfashion.modules.user.entity.User;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.domain.Page;
 

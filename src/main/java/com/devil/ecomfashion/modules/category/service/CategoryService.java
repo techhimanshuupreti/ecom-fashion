@@ -5,7 +5,6 @@ import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.category.dto.request.CategoryDTO;
 import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
-import com.devil.ecomfashion.modules.category.dto.response.PageableCategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
 import com.devil.ecomfashion.utils.CategoryUtils;

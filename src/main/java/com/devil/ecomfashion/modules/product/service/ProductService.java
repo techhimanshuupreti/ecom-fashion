@@ -4,7 +4,6 @@ import com.devil.ecomfashion.constant.Message;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.product.dto.request.ProductDTO;
 import com.devil.ecomfashion.modules.product.dto.request.UpdateProductDTO;
-import com.devil.ecomfashion.modules.product.dto.response.PageableProductResponse;
 import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.repository.ProductRepository;

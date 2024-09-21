@@ -1,7 +1,5 @@
 package com.devil.ecomfashion.utils;
 
-import com.devil.ecomfashion.modules.cart.dto.response.CartResponse;
-import com.devil.ecomfashion.modules.product.dto.response.PageableProductResponse;
 import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.product.entiry.Product;
 import org.apache.commons.lang3.ObjectUtils;

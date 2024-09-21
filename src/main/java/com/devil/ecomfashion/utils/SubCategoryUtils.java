@@ -1,8 +1,5 @@
 package com.devil.ecomfashion.utils;
 
-import com.devil.ecomfashion.modules.product.dto.response.PageableProductResponse;
-import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
-import com.devil.ecomfashion.modules.subcategory.dto.response.PageableSubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import org.apache.commons.lang3.ObjectUtils;

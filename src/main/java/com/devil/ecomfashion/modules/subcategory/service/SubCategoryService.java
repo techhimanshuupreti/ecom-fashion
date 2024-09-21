@@ -6,7 +6,6 @@ import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
 import com.devil.ecomfashion.modules.subcategory.dto.request.SubCategoryDTO;
-import com.devil.ecomfashion.modules.subcategory.dto.response.PageableSubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import com.devil.ecomfashion.modules.subcategory.repository.SubCategoryRepository;

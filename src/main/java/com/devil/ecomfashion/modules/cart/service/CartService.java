@@ -5,7 +5,6 @@ import com.devil.ecomfashion.exception.RequestValidationException;
 import com.devil.ecomfashion.exception.ResourceNotFoundException;
 import com.devil.ecomfashion.modules.cart.dto.request.CartRequestDTO;
 import com.devil.ecomfashion.modules.cart.dto.response.CartResponse;
-import com.devil.ecomfashion.modules.cart.dto.response.PageableCartResponse;
 import com.devil.ecomfashion.modules.cart.entity.Cart;
 import com.devil.ecomfashion.modules.cart.repository.CartRepository;
 import com.devil.ecomfashion.modules.product.entiry.Product;
@@ -24,7 +23,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service
