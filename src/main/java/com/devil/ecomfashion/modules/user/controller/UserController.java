@@ -16,14 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @CrossOrigin(origins = URLConstant.STRIKE)
 @RestController
 @RequestMapping(URLConstant.USER_BASE)
 @RequiredArgsConstructor
 @Validated
-@Tag(name = Message.USER, description = Message.USER_DESCRIPTION)
+@Tag(name = Message.USER_CONTROLLER_TAG, description = Message.USER_DESCRIPTION)
 public class UserController {
 
     private final UserService userService;

@@ -6,10 +6,7 @@ import com.devil.ecomfashion.constant.URLConstant;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.category.dto.request.CategoryDTO;
 import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
-import com.devil.ecomfashion.modules.category.dto.response.PageableCategoryResponse;
-import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
-import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.utils.PageableResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -18,14 +15,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(URLConstant.CATEGORY_BASE)
 @CrossOrigin(origins = URLConstant.STRIKE)
 @RequiredArgsConstructor
 @Validated
-@Tag(name = Message.CATEGORY, description = Message.CATEGORY_DESCRIPTION)
+@Tag(name = Message.CATEGORY_CONTROLLER_TAG, description = Message.CATEGORY_DESCRIPTION)
 public class CategoryController {
 
     private final CategoryService categoryService;

@@ -6,7 +6,6 @@ import com.devil.ecomfashion.constant.URLConstant;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.product.dto.request.ProductDTO;
 import com.devil.ecomfashion.modules.product.dto.request.UpdateProductDTO;
-import com.devil.ecomfashion.modules.product.dto.response.PageableProductResponse;
 import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.product.service.ProductService;
 import com.devil.ecomfashion.utils.PageableResponse;
@@ -25,7 +24,7 @@ import java.io.IOException;
 @CrossOrigin(origins = URLConstant.STRIKE)
 @RequiredArgsConstructor
 @Validated
-@Tag(name = Message.PRODUCT, description = Message.PRODUCT_DESCRIPTION)
+@Tag(name = Message.PRODUCT_CONTROLLER_TAG, description = Message.PRODUCT_DESCRIPTION)
 public class ProductController {
 
     private final ProductService productService;

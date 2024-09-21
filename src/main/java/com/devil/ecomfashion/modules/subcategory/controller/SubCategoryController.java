@@ -4,11 +4,8 @@ import com.devil.ecomfashion.constant.Constants;
 import com.devil.ecomfashion.constant.Message;
 import com.devil.ecomfashion.constant.URLConstant;
 import com.devil.ecomfashion.model.ApiResponse;
-import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.subcategory.dto.request.SubCategoryDTO;
-import com.devil.ecomfashion.modules.subcategory.dto.response.PageableSubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
-import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import com.devil.ecomfashion.modules.subcategory.service.SubCategoryService;
 import com.devil.ecomfashion.utils.PageableResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,14 +15,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(URLConstant.SUBCATEGORY_BASE)
 @CrossOrigin(origins = URLConstant.STRIKE)
 @RequiredArgsConstructor
 @Validated
-@Tag(name = Message.SUBCATEGORY, description = Message.SUBCATEGORY_DESCRIPTION)
+@Tag(name = Message.SUBCATEGORY_CONTROLLER_TAG, description = Message.SUBCATEGORY_DESCRIPTION)
 public class SubCategoryController {
 
     private final SubCategoryService subCategoryService;

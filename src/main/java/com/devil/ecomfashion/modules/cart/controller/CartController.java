@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Validated
-@Tag(name = Message.CART, description = Message.CART_DESCRIPTION)
+@Tag(name = Message.CART_CONTROLLER_TAG, description = Message.CART_DESCRIPTION)
 @RestController
 @RequestMapping(URLConstant.CART_BASE)
 @CrossOrigin(origins = URLConstant.STRIKE)
