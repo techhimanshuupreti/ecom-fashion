@@ -37,17 +37,11 @@ public class UserUtils {
     }
 
     public static PageableResponse<UserResponse> convert(Page<User> userPage) {
-
-        PageableResponse<UserResponse> userResponsePageableResponse = new PageableResponse<>();
-        if (ObjectUtils.isEmpty(userPage)) {
-            userResponsePageableResponse.setData(new ArrayList<>());
-        }else {
-            userResponsePageableResponse.setCurrentPage(userPage.getTotalPages() == 0 ? 0 : userPage.getNumber() + 1);
-            userResponsePageableResponse.setTotalPages(userPage.getTotalPages());
-            userResponsePageableResponse.setTotalElements(userPage.getNumberOfElements());
-            userResponsePageableResponse.setData(convert(userPage.getContent()));
-        }
-
-        return userResponsePageableResponse;
+        PageableResponse<UserResponse> pageableResponse = new PageableResponse<>();
+        pageableResponse.setCurrentPage(userPage.getTotalPages() == 0 ? 0 : userPage.getNumber() + 1);
+        pageableResponse.setTotalPages(userPage.getTotalPages());
+        pageableResponse.setTotalElements(userPage.getNumberOfElements());
+        pageableResponse.setData(convert(userPage.getContent()));
+        return pageableResponse;
     }
 }

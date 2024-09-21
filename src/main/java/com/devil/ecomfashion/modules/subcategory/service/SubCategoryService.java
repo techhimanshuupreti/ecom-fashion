@@ -10,6 +10,7 @@ import com.devil.ecomfashion.modules.subcategory.dto.response.PageableSubCategor
 import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import com.devil.ecomfashion.modules.subcategory.repository.SubCategoryRepository;
+import com.devil.ecomfashion.utils.PageableResponse;
 import com.devil.ecomfashion.utils.SubCategoryUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -31,7 +32,7 @@ public class SubCategoryService {
     private final CategoryService catService;
 
     @Transactional
-    public PageableSubCategoryResponse find(String name, int pageNo, int pageSize) {
+    public PageableResponse<SubCategoryResponse> find(String name, int pageNo, int pageSize) {
 
         Page<SubCategory> subCategoryPage = null;
         Pageable pageable = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt")

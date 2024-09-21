@@ -1,6 +1,7 @@
 package com.devil.ecomfashion.utils;
 
 import com.devil.ecomfashion.modules.product.dto.response.PageableProductResponse;
+import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.subcategory.dto.response.PageableSubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
@@ -34,18 +35,13 @@ public class SubCategoryUtils {
                 .collect(Collectors.toList());
     }
 
-    public static PageableSubCategoryResponse convert(Page<SubCategory> subCategoryPage) {
+    public static PageableResponse<SubCategoryResponse> convert(Page<SubCategory> subCategoryPage) {
 
-        if (ObjectUtils.isEmpty(subCategoryPage)) {
-            return PageableSubCategoryResponse.builder()
-                    .data(new ArrayList<>())
-                    .build();
-        }
-
-        return PageableSubCategoryResponse.builder()
-                .currentPage(subCategoryPage.getTotalPages() == 0 ? 0 : subCategoryPage.getNumber() + 1)
-                .totalPages(subCategoryPage.getTotalPages())
-                .totalElements(subCategoryPage.getNumberOfElements())
-                .data(convert(subCategoryPage.getContent())).build();
+        PageableResponse<SubCategoryResponse> pageableResponse = new PageableResponse<>();
+        pageableResponse.setCurrentPage(subCategoryPage.getTotalPages() == 0 ? 0 : subCategoryPage.getNumber() + 1);
+        pageableResponse.setTotalPages(subCategoryPage.getTotalPages());
+        pageableResponse.setTotalElements(subCategoryPage.getNumberOfElements());
+        pageableResponse.setData(convert(subCategoryPage.getContent()));
+        return pageableResponse;
     }
 }

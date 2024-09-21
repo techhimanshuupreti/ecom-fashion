@@ -7,9 +7,9 @@ import com.devil.ecomfashion.constant.URLConstant;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.cart.dto.request.CartRequestDTO;
 import com.devil.ecomfashion.modules.cart.dto.response.CartResponse;
-import com.devil.ecomfashion.modules.cart.dto.response.PageableCartResponse;
 import com.devil.ecomfashion.modules.cart.service.CartService;
 import com.devil.ecomfashion.modules.user.entity.User;
+import com.devil.ecomfashion.utils.PageableResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -38,10 +38,10 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<PageableCartResponse>> findAll(@RequestAttribute User user,
-                                                                     @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
-                                                                     @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
-        ApiResponse<PageableCartResponse> apiResponseModel = new ApiResponse<>();
+    public ResponseEntity<ApiResponse<PageableResponse<CartResponse>>> findAll(@RequestAttribute User user,
+                                                                 @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
+                                                                 @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
+        ApiResponse<PageableResponse<CartResponse>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(cartService.findAll(user, pageNo, pageSize));
 

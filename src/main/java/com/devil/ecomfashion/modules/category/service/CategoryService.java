@@ -9,6 +9,7 @@ import com.devil.ecomfashion.modules.category.dto.response.PageableCategoryRespo
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.repository.CategoryRepository;
 import com.devil.ecomfashion.utils.CategoryUtils;
+import com.devil.ecomfashion.utils.PageableResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -31,7 +32,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public PageableCategoryResponse find(String name, int pageNo, int pageSize) {
+    public PageableResponse<CategoryResponse> find(String name, int pageNo, int pageSize) {
 
         Page<Category> categoryPage = null;
         Pageable pageable = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt")

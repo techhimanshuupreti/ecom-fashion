@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.utils;
 
+import com.devil.ecomfashion.modules.cart.dto.response.CartResponse;
 import com.devil.ecomfashion.modules.product.dto.response.PageableProductResponse;
 import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.product.entiry.Product;
@@ -41,17 +42,13 @@ public class ProductUtils {
                 .collect(Collectors.toList());
     }
 
-    public static PageableProductResponse convert(Page<Product> productPage) {
+    public static PageableResponse<ProductResponse> convert(Page<Product> productPage) {
 
-        if (ObjectUtils.isEmpty(productPage)) {
-            return PageableProductResponse.builder()
-                    .data(new ArrayList<>()).build();
-        }
-
-        return PageableProductResponse.builder()
-                .currentPage(productPage.getTotalPages() == 0 ? 0 : productPage.getNumber() + 1)
-                .totalPages(productPage.getTotalPages())
-                .totalElements(productPage.getNumberOfElements())
-                .data(convert(productPage.getContent())).build();
+        PageableResponse<ProductResponse> pageableResponse = new PageableResponse<>();
+        pageableResponse.setCurrentPage(productPage.getTotalPages() == 0 ? 0 : productPage.getNumber() + 1);
+        pageableResponse.setTotalPages(productPage.getTotalPages());
+        pageableResponse.setTotalElements(productPage.getNumberOfElements());
+        pageableResponse.setData(convert(productPage.getContent()));
+        return pageableResponse;
     }
 }

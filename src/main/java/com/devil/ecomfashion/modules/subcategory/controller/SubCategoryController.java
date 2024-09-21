@@ -10,6 +10,7 @@ import com.devil.ecomfashion.modules.subcategory.dto.response.PageableSubCategor
 import com.devil.ecomfashion.modules.subcategory.dto.response.SubCategoryResponse;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import com.devil.ecomfashion.modules.subcategory.service.SubCategoryService;
+import com.devil.ecomfashion.utils.PageableResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,11 +43,11 @@ public class SubCategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<PageableSubCategoryResponse>> find(@RequestParam(required = false) String name,
-                                                                         @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
-                                                                         @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
+    public ResponseEntity<ApiResponse<PageableResponse<SubCategoryResponse>>> find(@RequestParam(required = false) String name,
+                                                              @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
+                                                              @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
 
-        ApiResponse<PageableSubCategoryResponse> apiResponseModel = new ApiResponse<>();
+        ApiResponse<PageableResponse<SubCategoryResponse>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(subCategoryService.find(name, pageNo, pageSize));
 

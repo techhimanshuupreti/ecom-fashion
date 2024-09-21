@@ -9,6 +9,7 @@ import com.devil.ecomfashion.modules.product.dto.request.UpdateProductDTO;
 import com.devil.ecomfashion.modules.product.dto.response.PageableProductResponse;
 import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
 import com.devil.ecomfashion.modules.product.service.ProductService;
+import com.devil.ecomfashion.utils.PageableResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -40,11 +41,11 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<PageableProductResponse>> find(@RequestParam(required = false) String name,
-                                                                     @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
-                                                                     @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
+    public ResponseEntity<ApiResponse<PageableResponse<ProductResponse>>> find(@RequestParam(required = false) String name,
+                                                              @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
+                                                              @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
 
-        ApiResponse<PageableProductResponse> apiResponseModel = new ApiResponse<>();
+        ApiResponse<PageableResponse<ProductResponse>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(productService.find(name, pageNo, pageSize));
 
@@ -82,11 +83,11 @@ public class ProductController {
     }
 
     @GetMapping("/categories/{id}")
-    public ResponseEntity<ApiResponse<PageableProductResponse>> getProductsByCategory(@PathVariable long id,
+    public ResponseEntity<ApiResponse< PageableResponse<ProductResponse>>> getProductsByCategory(@PathVariable long id,
                                                                                       @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
                                                                                       @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
 
-        ApiResponse<PageableProductResponse> apiResponseModel = new ApiResponse<>();
+        ApiResponse< PageableResponse<ProductResponse>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(productService.getProductsByCategory(id, pageNo, pageSize));
 
@@ -94,11 +95,11 @@ public class ProductController {
     }
 
     @GetMapping("/sub-categories/{id}")
-    public ResponseEntity<ApiResponse<PageableProductResponse>> getProductsBySubCategory(@PathVariable long id,
+    public ResponseEntity<ApiResponse< PageableResponse<ProductResponse>>> getProductsBySubCategory(@PathVariable long id,
                                                                                          @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
                                                                                          @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
 
-        ApiResponse<PageableProductResponse> apiResponseModel = new ApiResponse<>();
+        ApiResponse< PageableResponse<ProductResponse>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(productService.getProductsBySubCategory(id, pageNo, pageSize));
 

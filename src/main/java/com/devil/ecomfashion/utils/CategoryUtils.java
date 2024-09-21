@@ -1,5 +1,6 @@
 package com.devil.ecomfashion.utils;
 
+import com.devil.ecomfashion.modules.cart.dto.response.CartResponse;
 import com.devil.ecomfashion.modules.category.dto.response.CategoryResponse;
 import com.devil.ecomfashion.modules.category.dto.response.PageableCategoryResponse;
 import com.devil.ecomfashion.modules.category.entity.Category;
@@ -32,18 +33,13 @@ public class CategoryUtils {
                 .collect(Collectors.toList());
     }
 
-    public static PageableCategoryResponse convert(Page<Category> categoryPage) {
+    public static PageableResponse<CategoryResponse> convert(Page<Category> categoryPage) {
 
-        if (ObjectUtils.isEmpty(categoryPage)) {
-            return PageableCategoryResponse.builder()
-                    .data(new ArrayList<>())
-                    .build();
-        }
-
-        return PageableCategoryResponse.builder()
-                .currentPage(categoryPage.getTotalPages() == 0 ? 0 : categoryPage.getNumber() + 1)
-                .totalPages(categoryPage.getTotalPages())
-                .totalElements(categoryPage.getNumberOfElements())
-                .data(convert(categoryPage.getContent())).build();
+        PageableResponse<CategoryResponse> pageableResponse = new PageableResponse<>();
+        pageableResponse.setCurrentPage(categoryPage.getTotalPages() == 0 ? 0 : categoryPage.getNumber() + 1);
+        pageableResponse.setTotalPages(categoryPage.getTotalPages());
+        pageableResponse.setTotalElements(categoryPage.getNumberOfElements());
+        pageableResponse.setData(convert(categoryPage.getContent()));
+        return pageableResponse;
     }
 }

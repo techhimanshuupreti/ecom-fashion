@@ -12,6 +12,7 @@ import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.service.ProductService;
 import com.devil.ecomfashion.modules.user.entity.User;
 import com.devil.ecomfashion.utils.CartUtils;
+import com.devil.ecomfashion.utils.PageableResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,7 @@ public class CartService {
     private final ProductService productService;
 
     @Transactional
-    public PageableCartResponse findAll(User user, int pageNo, int pageSize) {
+    public PageableResponse<CartResponse> findAll(User user, int pageNo, int pageSize) {
 
         Pageable pageable = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt")
                 .descending().and(Sort.by("id").descending()));

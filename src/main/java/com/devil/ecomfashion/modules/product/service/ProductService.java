@@ -10,6 +10,7 @@ import com.devil.ecomfashion.modules.product.entiry.Product;
 import com.devil.ecomfashion.modules.product.repository.ProductRepository;
 import com.devil.ecomfashion.modules.subcategory.entity.SubCategory;
 import com.devil.ecomfashion.modules.subcategory.service.SubCategoryService;
+import com.devil.ecomfashion.utils.PageableResponse;
 import com.devil.ecomfashion.utils.ProductUtils;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ public class ProductService {
     private final SubCategoryService subCategoryService;
 
     @Transactional(readOnly = true)
-    public PageableProductResponse find(String name, int pageNo, int pageSize) {
+    public PageableResponse<ProductResponse> find(String name, int pageNo, int pageSize) {
         log.info("fetching products with name {}", name);
         Page<Product> productPage = null;
         Pageable pageable = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt")
@@ -93,7 +94,7 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public PageableProductResponse getProductsBySubCategory(Long subCategoryId, int pageNo, int pageSize) {
+    public  PageableResponse<ProductResponse> getProductsBySubCategory(Long subCategoryId, int pageNo, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt").descending());
         SubCategory subCategory = subCategoryService.getById(subCategoryId);
         Page<Product> productPage = productRepository.findAllBySubCategoryIn(Collections.singletonList(subCategory), pageRequest);
@@ -101,14 +102,14 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public PageableProductResponse getProductsBySubCategory(List<SubCategory> subCategories, int pageNo, int pageSize) {
+    public  PageableResponse<ProductResponse> getProductsBySubCategory(List<SubCategory> subCategories, int pageNo, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt").descending());
         Page<Product> productPage = productRepository.findAllBySubCategoryIn(subCategories, pageRequest);
         return ProductUtils.convert(productPage);
     }
 
     @Transactional(readOnly = true)
-    public PageableProductResponse getProductsByCategory(Long id, int pageNo, int pageSize) {
+    public  PageableResponse<ProductResponse> getProductsByCategory(Long id, int pageNo, int pageSize) {
         List<SubCategory> subCategories = subCategoryService.findAllByCategoryId(id);
         return getProductsBySubCategory(subCategories, pageNo, pageSize);
     }

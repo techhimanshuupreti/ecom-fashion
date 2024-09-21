@@ -3,6 +3,8 @@ package com.devil.ecomfashion.utils;
 import com.devil.ecomfashion.modules.cart.dto.response.CartResponse;
 import com.devil.ecomfashion.modules.cart.dto.response.PageableCartResponse;
 import com.devil.ecomfashion.modules.cart.entity.Cart;
+import com.devil.ecomfashion.modules.user.dto.UserResponse;
+import com.devil.ecomfashion.modules.user.entity.User;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.domain.Page;
 
@@ -45,17 +47,13 @@ public class CartUtils {
                 .collect(Collectors.toList());
     }
 
-    public static PageableCartResponse convert(Page<Cart> cartPage) {
+    public static PageableResponse<CartResponse> convert(Page<Cart> cartPage) {
 
-        if (ObjectUtils.isEmpty(cartPage)) {
-            return PageableCartResponse.builder()
-                    .data(new ArrayList<>()).build();
-        }
-
-        return PageableCartResponse.builder()
-                .currentPage(cartPage.getTotalPages() == 0 ? 0 : cartPage.getNumber() + 1)
-                .totalPages(cartPage.getTotalPages())
-                .totalElements(cartPage.getNumberOfElements())
-                .data(convert(cartPage.getContent())).build();
+        PageableResponse<CartResponse> pageableResponse = new PageableResponse<>();
+        pageableResponse.setCurrentPage(cartPage.getTotalPages() == 0 ? 0 : cartPage.getNumber() + 1);
+        pageableResponse.setTotalPages(cartPage.getTotalPages());
+        pageableResponse.setTotalElements(cartPage.getNumberOfElements());
+        pageableResponse.setData(convert(cartPage.getContent()));
+        return pageableResponse;
     }
 }

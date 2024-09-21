@@ -10,6 +10,7 @@ import com.devil.ecomfashion.modules.category.dto.response.PageableCategoryRespo
 import com.devil.ecomfashion.modules.category.entity.Category;
 import com.devil.ecomfashion.modules.category.service.CategoryService;
 import com.devil.ecomfashion.modules.product.dto.response.ProductResponse;
+import com.devil.ecomfashion.utils.PageableResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -40,11 +41,11 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<PageableCategoryResponse>> find(@RequestParam(required = false) String name,
-                                                                      @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
-                                                                      @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
+    public ResponseEntity<ApiResponse<PageableResponse<CategoryResponse>>> find(@RequestParam(required = false) String name,
+                                                              @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
+                                                              @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
 
-        ApiResponse<PageableCategoryResponse> apiResponseModel = new ApiResponse<>();
+        ApiResponse<PageableResponse<CategoryResponse>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
         apiResponseModel.setResult(categoryService.find(name, pageNo, pageSize));
 
