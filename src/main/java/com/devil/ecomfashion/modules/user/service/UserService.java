@@ -5,11 +5,19 @@ import com.devil.ecomfashion.exception.AlreadyExistException;
 import com.devil.ecomfashion.exception.ExceptionOccur;
 import com.devil.ecomfashion.modules.user.constants.Role;
 import com.devil.ecomfashion.modules.user.dto.UserDTO;
+import com.devil.ecomfashion.modules.user.dto.UserResponse;
 import com.devil.ecomfashion.modules.user.entity.User;
 import com.devil.ecomfashion.modules.user.respository.UserRepository;
+import com.devil.ecomfashion.utils.PageableResponse;
+import com.devil.ecomfashion.utils.UserUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,8 +35,16 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public List<User> find() {
-        return userRepository.findAll();
+    public PageableResponse<UserResponse> find(String email, int pageNo, int pageSize) {
+        Page<User> userPage = null;
+        Pageable pageable = PageRequest.of(pageNo >= 1 ? pageNo - 1 : 0, pageSize, Sort.by("createdAt")
+                .descending().and(Sort.by("id").descending()));
+        if (StringUtils.isBlank(email)) {
+            userPage = userRepository.findAll(pageable);
+        } else {
+            userPage = userRepository.findAllByEmail(email,pageable);
+        }
+        return UserUtils.convert(userPage);
     }
 
     public User findOne(Long id) {

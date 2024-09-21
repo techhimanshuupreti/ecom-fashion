@@ -47,4 +47,6 @@ public class Message {
     public static final String PRODUCT_STOCK_REQUIRED = "Product stock is required!";
     public static final String INVALID_PRODUCT_STOCK =  "Product stock is less than equal to 0!";
     public static final String DUPLICATE_DATA_EXIST_IN_REQUEST = "Duplicate data found";
+    public static final String USER = "Users";
+    public static final String USER_DESCRIPTION = "user related api";
 }

@@ -1,11 +1,15 @@
 package com.devil.ecomfashion.modules.user.controller;
 
 
+import com.devil.ecomfashion.constant.Constants;
+import com.devil.ecomfashion.constant.Message;
 import com.devil.ecomfashion.constant.URLConstant;
 import com.devil.ecomfashion.model.ApiResponse;
 import com.devil.ecomfashion.modules.user.dto.UserDTO;
+import com.devil.ecomfashion.modules.user.dto.UserResponse;
 import com.devil.ecomfashion.modules.user.entity.User;
 import com.devil.ecomfashion.modules.user.service.UserService;
+import com.devil.ecomfashion.utils.PageableResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +23,19 @@ import java.util.List;
 @RequestMapping(URLConstant.USER_BASE)
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "User",description = "user related api")
+@Tag(name = Message.USER, description = Message.USER_DESCRIPTION)
 public class UserController {
 
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<User>>> find() {
+    public ResponseEntity<ApiResponse<PageableResponse<UserResponse>>> find(@RequestParam(required = false) String email,
+                                                              @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
+                                                              @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
 
-        ApiResponse<List<User>> apiResponseModel = new ApiResponse<>();
+        ApiResponse<PageableResponse<UserResponse>> apiResponseModel = new ApiResponse<>();
         apiResponseModel.setSuccess(true);
-        apiResponseModel.setResult(userService.find());
+        apiResponseModel.setResult(userService.find(email, pageNo, pageSize));
 
         return apiResponseModel.createResponse();
     }

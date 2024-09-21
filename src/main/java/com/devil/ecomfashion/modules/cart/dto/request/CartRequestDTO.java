@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CartRequestDTO {
 
-    @Min(value = 0, message = Message.QTY_RANGE_REQUIRED)
+    @Min(value = 1, message = Message.QTY_RANGE_REQUIRED)
     private int qty;
 
     @NotNull(message = Message.PRODUCT_REQUIRED)
