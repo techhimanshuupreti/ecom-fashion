@@ -12,7 +12,6 @@ public class EcommerceWepApp {
     public static void main(String[] args) {
 
         ConfigurableApplicationContext context = SpringApplication.run(EcommerceWepApp.class, args);
-
         System.out.println("\n\n" +
                 "    ###########################################################################\n" +
                 "    \uD83D\uDEE1️  Server Started...\n" +
@@ -22,6 +21,5 @@ public class EcommerceWepApp {
                 "    \uD83D\uDEE1️  Swagger URL: http://localhost:" + context.getEnvironment().getProperty("server.port") + "/swagger-ui/index.html." + "\n" +
                 "    ###########################################################################\n" +
                 "\n\n");
-
     }
 }
