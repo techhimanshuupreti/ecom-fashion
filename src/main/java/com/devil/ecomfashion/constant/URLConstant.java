@@ -8,8 +8,9 @@ public class URLConstant {
     public static final String DOUBLE_STRIKE = "/**";
 
     //Swagger configuration URL and Whitelist URL
-    public static final String V2_API_DOCS = "/v2/api-docs";
-    public static final String V3_API_DOCS = "/v3/api-docs";
+//    public static final String V2_API_DOCS = "/v2/api-docs";
+//    public static final String V3_API_DOCS = "/v3/api-docs";
+    public static final String V1_API_DOCS = "/v1/api-docs/**";
     public static final String CONFIGURATION_UI = "/configuration/ui";
     public static final String CONFIGURATION_SECURITY = "/configuration/security";
     public static final String V3_ALL_API_DOCS = "/v3/api-docs/**";
@@ -48,8 +49,9 @@ public class URLConstant {
     public static final String PRODUCT_BY_SUB_CATEGORY = "/api/v1/products/sub-categories/**";
 
     public static final List<String> ENDPOINT_WHITELIST = List.of(
-            V2_API_DOCS,
-            V3_API_DOCS,
+//            V2_API_DOCS,
+            V1_API_DOCS,
+//            V3_API_DOCS,
             CONFIGURATION_UI,
             CONFIGURATION_SECURITY,
             V3_ALL_API_DOCS,
