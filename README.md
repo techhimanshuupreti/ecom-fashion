@@ -1,47 +1,12 @@
-[//]: # (# ecom-fashion)
 
-[//]: # (e-commerce web app)
+# 💻 Tech Stack:
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white) ![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white) ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
+# 📊 GitHub Stats:
+![](https://github-readme-stats.vercel.app/api?username=techhimanshuupreti&theme=dark&hide_border=false&include_all_commits=true&count_private=true)<br/>
+![](https://nirzak-streak-stats.vercel.app/?user=techhimanshuupreti&theme=dark&hide_border=false)<br/>
+![](https://github-readme-stats.vercel.app/api/top-langs/?username=techhimanshuupreti&theme=dark&hide_border=false&include_all_commits=true&count_private=true&layout=compact)
 
-# Spring Boot 3.0 Security with JWT Implementation
-This project demonstrates the implementation of security using Spring Boot 3.0 and JSON Web Tokens (JWT). It includes the following features:
+---
+[![](https://visitcount.itsvg.in/api?id=techhimanshuupreti&icon=0&color=0)](https://visitcount.itsvg.in)
 
-## Features
-* User registration and login with JWT authentication
-* Password encryption using BCrypt
-* Logout mechanism
-* Refresh token
-
-[//]: # (* Role-based authorization with Spring Security)
-
-[//]: # (*  Customized access denied handling)
-
-## Technologies
-* Spring Framework 6.0.7
-* Spring Boot 3.0.5
-* Spring Security 6.0.2
-* Spring Web 6.0.2
-* Spring WebMvc 6.0.7
-* Spring Data JPA 3.0.4
-* JSON Web Tokens (JWT) 0.11.5
-* Apache Tomcat Server (Embedded) 10.1.7
-* Hibernate Core 6.1.7.Final
-* Spring Doc (Open API) 2.1.0
-
-## Getting Started
-To get started with this project, you will need to have the following installed on your local machine:
-
-* JDK 17+
-* Maven 3+
-
-
-To build and run the project, follow these steps:
-
-* Clone the repository: `git clone https://github.com/techhimanshuupreti/ecom-fashion.git`
-* Navigate to the project directory: cd ecom-fashion
-* Add database "jwt_security" to mysql
-* Build the project: mvn clean install
-* Run the project: mvn spring-boot:run
-
--> The application will be available at http://localhost:9000.
-
--> The application swagger will be available at http://localhost:9000/swagger-ui/index.html.
+<!-- Proudly created with GPRM ( https://gprm.itsvg.in ) -->
