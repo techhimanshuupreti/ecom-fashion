@@ -58,4 +58,5 @@ public class Message {
     public static final String PRODUCT_STOCK_REQUIRED = "Product stock is required!";
     public static final String INVALID_PRODUCT_STOCK =  "Product stock is less than equal to 0!";
 
+    public static final String USER_REQUIRED = "User is required!";
 }

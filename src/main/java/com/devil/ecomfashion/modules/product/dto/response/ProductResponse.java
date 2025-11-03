@@ -13,7 +13,7 @@ public class ProductResponse {
 
     private Long id;
     private String name;
-    private Double price = 0.00;
+    private Double price ;
     private Long subCategoryId;
     private String subCategoryName;
     private Long categoryId;

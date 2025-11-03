@@ -14,9 +14,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderDTO {
 
-    @Min(value = 0, message = Message.QTY_RANGE_REQUIRED)
+    @Min(value = 1, message = Message.QTY_RANGE_REQUIRED)
     private int qty;
 
     @NotNull(message = Message.PRODUCT_REQUIRED)
+    @Min(value=1,message = Message.PRODUCT_NOT_FOUND)
     private Long productId;
+
+    @NotNull(message = Message.USER_REQUIRED)
+    @Min(value = 1, message = Message.USER_NOT_FOUND)
+    private Long userId;
 }
